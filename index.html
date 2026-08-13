@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add('js');(function(){try{if(localStorage.getItem('heartopia-lang')==='zh')document.documentElement.classList.add('i18n-pending');}catch(e){}setTimeout(function(){if(!window.I18N)document.documentElement.classList.remove('i18n-pending');},2000);})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="index.meta.title">Heartopia Guide · Beginner Tips &amp; Full Walkthrough</title>
+<meta name="description" data-i18n-content="index.meta.description" content="Heartopia fan guide: beginner tips, progression routes, money-making guides, item database, interactive map and FAQs — all in one place.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="canonical" href="https://heartopia.sbs/">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="images/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#DF7560">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Heartopia.sbs">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" data-i18n-content="index.meta.ogTitle" content="Heartopia Guide · Beginner Tips &amp; Full Walkthrough">
+<meta property="og:description" data-i18n-content="index.meta.ogDescription" content="Heartopia fan guide: beginner tips, progression routes, money-making guides, item database, interactive map and FAQs — all in one place.">
+<meta property="og:url" content="https://heartopia.sbs/">
+<meta property="og:image" content="https://heartopia.sbs/images/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Heartopia.sbs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" data-i18n-content="index.meta.twitterTitle" content="Heartopia Guide · Beginner Tips &amp; Full Walkthrough">
+<meta name="twitter:description" data-i18n-content="index.meta.twitterDescription" content="Heartopia fan guide: beginner tips, progression routes, money-making guides, item database, interactive map and FAQs — all in one place.">
+<meta name="twitter:image" content="https://heartopia.sbs/images/og-image.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Heartopia.sbs","url":"https://heartopia.sbs/","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://heartopia.sbs/?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+</script>
+</head>
+<body>
+
+<nav id="site-nav" class="site-nav"></nav>
+
+<!-- Hero -->
+<header class="page-header page-header-home">
+  <div class="eyebrow">🎮 Heartopia.sbs</div>
+  <h1 data-i18n-html="index.hero.title">Heartopia<strong> Wiki</strong></h1>
+  <p class="hero-desc" data-i18n-html="index.hero.desc">From your first day on the island to max-level graduation, Heartopia.sbs covers the complete journey — <strong>beginner guides, the DG 1→20 progression route, eight databases, money guides, interactive map, event calendar, redeem codes</strong> and <strong>50+ technical troubleshooting guides</strong>. Whether you're a brand-new player, a stuck mid-game player, or a completionist chasing the full collection, you'll find your answers here.</p>
+
+  <div class="hero-search" role="search">
+    <div class="hero-search-box">
+      <span class="hs-icon">🔍</span>
+      <input type="text" id="hero-search-input" data-i18n-placeholder="index.hero.searchPlaceholder" placeholder="Search the whole compendium: Blueberry Jam, Tuna, Mrs Joan, Hercules Beetle…" autocomplete="off" spellcheck="false" aria-label="搜索图鉴">
+      <button type="button" class="hs-go" id="hero-search-go" data-i18n="index.hero.searchButton">Search</button>
+    </div>
+    <div class="hs-suggest" id="hero-search-suggest" hidden></div>
+  </div>
+
+  <div class="data-strip">
+    <div class="data-strip-head">
+      <span class="data-strip-title" data-i18n="index.hero.stripTitle">Full Compendium</span>
+      <span class="data-strip-total" data-i18n="index.hero.stripTotal">471 items</span>
+    </div>
+    <div class="data-strip-items">
+      <a href="database-fish.html" class="data-item" style="--dc:var(--teal)"><span class="di-num">91</span><span class="di-lbl" data-i18n="index.hero.fishLabel">🐟 Fish</span></a>
+      <a href="database-insects.html" class="data-item" style="--dc:var(--green)"><span class="di-num">67</span><span class="di-lbl" data-i18n="index.hero.bugLabel">🦋 Bugs</span></a>
+      <a href="database-birds.html" class="data-item" style="--dc:var(--lavender)"><span class="di-num">69</span><span class="di-lbl" data-i18n="index.hero.birdLabel">🐦 Birds</span></a>
+      <a href="database-recipes.html" class="data-item" style="--dc:var(--coral)"><span class="di-num">96</span><span class="di-lbl" data-i18n="index.hero.recipeLabel">🍳 Recipes</span></a>
+      <a href="database-crops.html" class="data-item" style="--dc:var(--green)"><span class="di-num">28</span><span class="di-lbl" data-i18n="index.hero.cropLabel">🌱 Crops</span></a>
+      <a href="database-npcs.html" class="data-item" style="--dc:var(--gold)"><span class="di-num">20</span><span class="di-lbl">👥 NPC</span></a>
+      <a href="database-achievements.html" class="data-item" style="--dc:var(--coral)"><span class="di-num">70</span><span class="di-lbl" data-i18n="index.hero.achievementLabel">🏆 Achievements</span></a>
+      <a href="database-scores.html" class="data-item" style="--dc:var(--lavender)"><span class="di-num">30</span><span class="di-lbl" data-i18n="index.hero.scoreLabel">🎵 Scores</span></a>
+    </div>
+  </div>
+
+  <div class="hero-trust">
+    <span data-i18n-html="index.hero.trustUpdate">✅ <strong>Constantly updated</strong> · Redeem codes verified 2026-08-12</span>
+    <span data-i18n-html="index.hero.trustChinese">🌐 <strong>Full English</strong> · Beginner-friendly</span>
+    <span data-i18n-html="index.hero.trustVerified">🛠️ <strong>Tested & verified</strong> · Compiled from Reddit / Steam / TapTap / Discord</span>
+  </div>
+
+  <nav class="hero-quick-nav" aria-label="本站快速导航">
+    <a href="#beginner" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navBeginner">🆕 Beginner</a>
+    <a href="#progression" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navProgression">📈 Progression</a>
+    <a href="#database" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navDatabase">📚 Database</a>
+    <a href="#money" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navMoney">💰 Money</a>
+    <a href="#map" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navMap">🗺️ Map</a>
+    <a href="#activities" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navActivities">📅 Events</a>
+    <a href="#redeem" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navRedeem">🎁 Redeem</a>
+    <a href="#faq" class="filter-chip" style="text-decoration:none">🔧 FAQ</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ============================================ -->
+  <!-- 网站导览 · 各大子页快速入口 -->
+  <!-- ============================================ -->
+  <div class="section" id="features" style="padding-top:16px">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="index.features.eyebrow">Site Guide</div>
+      <h2 data-i18n="index.features.heading">One-stop solutions for every Heartopia challenge</h2>
+      <p class="section-sub" data-i18n="index.features.sub">From getting started to full-compendium completion, Heartopia.sbs has every guide you need. Click any card to jump to its topic:</p>
+    </div>
+    <div class="feature-grid-4 reveal">
+      <a href="beginner.html" class="feat-card" style="--fc:var(--green)">
+        <div class="feat-icon"><span>🆕</span></div>
+        <h4 data-i18n="index.features.cardBeginner.title">Beginner Guide</h4>
+        <p data-i18n="index.features.cardBeginner.desc">Day-by-day route for your first 3 days + a 10-minute daily loop</p>
+      </a>
+      <a href="progression.html" class="feat-card" style="--fc:var(--teal)">
+        <div class="feat-icon"><span>📈</span></div>
+        <h4 data-i18n="index.features.cardProgression.title">Progression Route</h4>
+        <p data-i18n="index.features.cardProgression.desc">DG Lv.1→20 unlock table + optimal order for all 7 hobbies</p>
+      </a>
+      <a href="database.html" class="feat-card" style="--fc:var(--teal)">
+        <div class="feat-icon"><span>📚</span></div>
+        <h4 data-i18n="index.features.cardDatabase.title">8 Databases</h4>
+        <p data-i18n="index.features.cardDatabase.desc">471 entries · fish, bugs, birds, recipes, crops, NPCs, achievements, scores</p>
+      </a>
+      <a href="money.html" class="feat-card" style="--fc:var(--coral)">
+        <div class="feat-icon"><span>💰</span></div>
+        <h4 data-i18n="index.features.cardMoney.title">Money Guide</h4>
+        <p data-i18n="index.features.cardMoney.desc">Cooking profit ranking + fishing decision tree + Wishing Stars</p>
+      </a>
+      <a href="map.html" class="feat-card" style="--fc:var(--green)">
+        <div class="feat-icon"><span>🗺️</span></div>
+        <h4 data-i18n="index.features.cardMap.title">Interactive Map</h4>
+        <p data-i18n="index.features.cardMap.desc">100+ markers · search &amp; filter · daily route</p>
+      </a>
+      <a href="activities.html" class="feat-card" style="--fc:var(--coral)">
+        <div class="feat-icon"><span>📅</span></div>
+        <h4 data-i18n="index.features.cardActivities.title">Event Calendar</h4>
+        <p data-i18n="index.features.cardActivities.desc">Daily sea fishing · Snow Season · Exhibition gacha · Dream Bubbles</p>
+      </a>
+      <a href="redeem-code.html" class="feat-card" style="--fc:var(--gold)">
+        <div class="feat-icon"><span>🎁</span></div>
+        <h4 data-i18n="index.features.cardRedeem.title">Redeem Codes</h4>
+        <p data-i18n="index.features.cardRedeem.desc">Latest working codes for CN + Global, one-tap copy</p>
+      </a>
+      <a href="faq.html" class="feat-card" style="--fc:var(--lavender)">
+        <div class="feat-icon"><span>🔧</span></div>
+        <h4 data-i18n="index.features.cardFaq.title">Troubleshooting</h4>
+        <p data-i18n="index.features.cardFaq.desc">50+ common issues: white screen, lag, quest bugs and more</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 01. 新手上路 -->
+  <!-- ============================================ -->
+  <div class="section" id="beginner">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.beginner.eyebrow"><span class="section-idx">01</span>Getting Started</div>
+      <h2 data-i18n="index.beginner.heading">Your First Three Days · Build a Money Loop</h2>
+      <p class="section-sub" data-i18n="index.beginner.sub">The beginner phase has one goal: reach DG Lv.5 and pick the Cooking hobby to build a daily loop of "farming → fishing → cooking → selling". Follow these three steps.</p>
+    </div>
+
+    <div class="core-strip reveal">
+      <span class="core-icon">🎯</span>
+      <p data-i18n-html="index.beginner.core"><strong>The core idea:</strong> push to DG Lv.5 as fast as possible → pick <strong>Cooking</strong> first → build a daily loop. Before that, <strong>don't waste Wishing Stars</strong>, don't fuss over decorating, and store every fish worth ≤100G for cooking.</p>
+    </div>
+
+    <div class="grid-3 reveal">
+      <div class="day-card" style="--day-accent: var(--green)">
+        <span class="day-badge" data-i18n="index.beginner.day1.badge">📅 Day 1 · Explore the Island</span>
+        <span class="day-unlock" data-i18n="index.beginner.day1.unlock">🎣 Unlock Fishing</span>
+        <h3 data-i18n="index.beginner.day1.title">Explore + Villager Tasks</h3>
+        <p data-i18n-html="index.beginner.day1.desc">Tour the town center, suburbs, and fishing village, and mark <strong>Meadow Lake</strong> (daily-respawn Fluorite Mine & Tree Spirit Root). Complete villager tasks to reach DG Lv.2; Vanya will visit and give you a fishing rod.</p>
+        <div class="day-tip" data-i18n="index.beginner.day1.tip">💡 Zero Wishing Star spending · store fish worth ≤100G</div>
+      </div>
+      <div class="day-card" style="--day-accent: var(--gold)">
+        <span class="day-badge" data-i18n="index.beginner.day2.badge">📅 Day 2 · Start Farming</span>
+        <span class="day-unlock" data-i18n="index.beginner.day2.unlock">🌱 Unlock Gardening</span>
+        <h3 data-i18n="index.beginner.day2.title">Plant potatoes and save your first gold</h3>
+        <p data-i18n-html="index.beginner.day2.desc">Find Blanc to unlock Gardening and plant <strong>potatoes</strong> (3× the profit of tomatoes). Plant blueberries before bed and harvest in the morning; hit each fruit tree only once.</p>
+        <div class="day-tip" data-i18n="index.beginner.day2.tip">💡 Potato 35G cost → Fish &amp; Chips worth 310G</div>
+      </div>
+      <div class="day-card" style="--day-accent: var(--coral)">
+        <span class="day-badge" data-i18n="index.beginner.day3.badge">📅 Day 3 · Cooking Takes Off</span>
+        <span class="day-unlock" data-i18n="index.beginner.day3.unlock">🍳 Unlock Cooking</span>
+        <h3 data-i18n="index.beginner.day3.title">Batch-cook with four stoves</h3>
+        <p data-i18n-html="index.beginner.day3.desc">At DG Lv.5 you must <strong>pick Cooking</strong> (Massimo · café). Batch-produce Blueberry Jam and Fish & Chips to push daily income past 5,000G+.</p>
+        <div class="day-tip" data-i18n="index.beginner.day3.tip">💡 4 blueberries (64G) → Blueberry Jam 170G, profit ×3-5</div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+        <h3 style="font-size:1rem;margin:0" data-i18n="index.beginner.weekTitle">📈 First-week daily income ramp</h3>
+        <span style="font-size:0.78rem;color:var(--text-muted)" data-i18n="index.beginner.weekSub">Once stable, daily income ≈ 10,000G</span>
+      </div>
+      <div class="week-ramp">
+        <div class="wk"><span class="wk-val">~1k</span><span class="wk-bar" style="height:12px"></span><span class="wk-label">D1</span></div>
+        <div class="wk"><span class="wk-val">~2.5k</span><span class="wk-bar" style="height:30px"></span><span class="wk-label">D2</span></div>
+        <div class="wk"><span class="wk-val">~5k</span><span class="wk-bar" style="height:60px"></span><span class="wk-label">D3</span></div>
+        <div class="wk"><span class="wk-val">~6k</span><span class="wk-bar" style="height:72px"></span><span class="wk-label">D4</span></div>
+        <div class="wk"><span class="wk-val">~7k</span><span class="wk-bar" style="height:84px"></span><span class="wk-label">D5</span></div>
+        <div class="wk"><span class="wk-val">~8k</span><span class="wk-bar" style="height:96px"></span><span class="wk-label">D6</span></div>
+        <div class="wk"><span class="wk-val">~10k</span><span class="wk-bar hot" style="height:120px"></span><span class="wk-label">D7</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;text-align:right">
+      <a href="beginner.html" class="btn btn-outline btn-sm" data-i18n="index.beginner.cta">View the full beginner guide ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 02. 进阶流程 -->
+  <!-- ============================================ -->
+  <div class="section" id="progression">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.progression.eyebrow"><span class="section-idx">02</span>Progression Route</div>
+      <h2 data-i18n="index.progression.heading">DG 1→20 Growth Roadmap</h2>
+      <p class="section-sub" data-i18n="index.progression.sub">The DG level is the game's time-gating core — every level unlocks something new. Check the key milestones first, then the four phases and core systems.</p>
+    </div>
+
+    <div class="milestones reveal">
+      <a href="progression.html#dg-table" class="milestone" style="--ms-accent: var(--teal)" data-i18n-html="index.progression.milestone.fishing"><span class="ms-lv">Lv.2</span>🎣 Fishing</a>
+      <a href="progression.html#dg-table" class="milestone" style="--ms-accent: var(--green)" data-i18n-html="index.progression.milestone.gardening"><span class="ms-lv">Lv.3</span>🌱 Gardening</a>
+      <a href="progression.html#dg-table" class="milestone" style="--ms-accent: var(--coral)" data-i18n-html="index.progression.milestone.cooking"><span class="ms-lv">Lv.5</span>🍳 Cooking</a>
+      <a href="progression.html#hobbies" class="milestone" style="--ms-accent: var(--teal)" data-i18n-html="index.progression.milestone.bugcatching"><span class="ms-lv">Lv.8</span>🦋 Bug Catching</a>
+      <a href="progression.html#hobbies" class="milestone" style="--ms-accent: var(--lavender)" data-i18n-html="index.progression.milestone.birdwatching"><span class="ms-lv">Lv.11</span>🔭 Birdwatching</a>
+      <a href="progression.html#pets" class="milestone" style="--ms-accent: var(--gold)" data-i18n-html="index.progression.milestone.cat"><span class="ms-lv">Lv.12</span>🐱 Cat</a>
+      <a href="progression.html#pets" class="milestone" style="--ms-accent: var(--gold)" data-i18n-html="index.progression.milestone.dog"><span class="ms-lv">Lv.14</span>🐕 Dog</a>
+      <a href="progression.html#house" class="milestone" style="--ms-accent: var(--coral)" data-i18n-html="index.progression.milestone.advancedbuilding"><span class="ms-lv">Lv.15</span>🏗️ Advanced Building</a>
+      <a href="progression.html#dg-table" class="milestone" style="--ms-accent: var(--lavender)"><span class="ms-lv">Lv.16</span>💤 Dream</a>
+      <a href="progression.html#summary" class="milestone" style="--ms-accent: var(--coral)" data-i18n-html="index.progression.milestone.maxlevel"><span class="ms-lv">Lv.20</span>👑 Max Level</a>
+    </div>
+
+    <div class="phase-grid reveal">
+      <a href="progression.html#dg-table" class="phase-card" style="--pc: var(--coral)">
+        <div class="phase-head">
+          <span class="phase-icon">🌱</span>
+          <div><span class="phase-range">Lv.1–5</span><h3 data-i18n="index.progression.phase1.title">Beginner Phase</h3></div>
+        </div>
+        <p data-i18n="index.progression.phase1.desc">Unlock Fishing, Gardening, and Cooking to build a money loop.</p>
+        <ul class="phase-list">
+          <li data-i18n-html="index.progression.phase1.item1"><strong>Lv.2</strong> Fishing</li>
+          <li data-i18n-html="index.progression.phase1.item2"><strong>Lv.3</strong> Gardening</li>
+          <li data-i18n-html="index.progression.phase1.item3"><strong>Lv.5</strong> Cooking (key)</li>
+        </ul>
+      </a>
+      <a href="progression.html#hobbies" class="phase-card" style="--pc: var(--gold)">
+        <div class="phase-head">
+          <span class="phase-icon">⚡</span>
+          <div><span class="phase-range">Lv.5–12</span><h3 data-i18n="index.progression.phase2.title">Growth Phase</h3></div>
+        </div>
+        <p data-i18n="index.progression.phase2.desc">Add Bug Catching and Birdwatching, stockpile wheat, and unlock co-op building and cats.</p>
+        <ul class="phase-list">
+          <li data-i18n-html="index.progression.phase2.item1"><strong>Lv.8</strong> Bug Catching + co-op building</li>
+          <li data-i18n-html="index.progression.phase2.item2"><strong>Lv.11</strong> Birdwatching</li>
+          <li data-i18n-html="index.progression.phase2.item3"><strong>Lv.12</strong> Cat</li>
+        </ul>
+      </a>
+      <a href="progression.html#pets" class="phase-card" style="--pc: var(--teal)">
+        <div class="phase-head">
+          <span class="phase-icon">🎯</span>
+          <div><span class="phase-range">Lv.12–16</span><h3 data-i18n="index.progression.phase3.title">Mastery Phase</h3></div>
+        </div>
+        <p data-i18n="index.progression.phase3.desc">Dogs, advanced building mode, and the Dream system unlock in sequence.</p>
+        <ul class="phase-list">
+          <li data-i18n-html="index.progression.phase3.item1"><strong>Lv.14</strong> Dog</li>
+          <li data-i18n-html="index.progression.phase3.item2"><strong>Lv.15</strong> Advanced Building</li>
+          <li><strong>Lv.16</strong> Dream</li>
+        </ul>
+      </a>
+      <a href="progression.html#summary" class="phase-card" style="--pc: var(--lavender)">
+        <div class="phase-head">
+          <span class="phase-icon">👑</span>
+          <div><span class="phase-range">Lv.16–20</span><h3 data-i18n="index.progression.phase4.title">Completion Phase</h3></div>
+        </div>
+        <p data-i18n="index.progression.phase4.desc">Full collection, home-score maxing, and graduation into free play.</p>
+        <ul class="phase-list">
+          <li data-i18n-html="index.progression.phase4.item1"><strong>Lv.17</strong> Warehouse +50</li>
+          <li data-i18n-html="index.progression.phase4.item2"><strong>Lv.19</strong> Warehouse +50</li>
+          <li data-i18n-html="index.progression.phase4.item3"><strong>Lv.20</strong> Max Level</li>
+        </ul>
+      </a>
+    </div>
+
+    <div class="sys-grid reveal">
+      <a href="progression.html#hobbies" class="sys-card" style="--sys-accent: var(--teal)">
+        <span class="sys-icon">🎯</span>
+        <div><h4 data-i18n="index.progression.sys.hobbies.title">7 Hobbies</h4><p data-i18n-html="index.progression.sys.hobbies.desc">Fishing → Gardening → Cooking → Bug Catching → Birdwatching → Cat → Dog, with the <strong>optimal unlock order</strong> and decision logic.</p></div>
+      </a>
+      <a href="progression.html#backpack" class="sys-card" style="--sys-accent: var(--gold)">
+        <span class="sys-icon">🎒</span>
+        <div><h4 data-i18n="index.progression.sys.backpack.title">Backpack Expansion</h4><p data-i18n-html="index.progression.sys.backpack.desc">The first 5 expansions cost only <strong>10 Wishing Stars</strong> (normally 25). Find Ka Ching for +50 backpack +250 warehouse.</p></div>
+      </a>
+      <a href="progression.html#house" class="sys-card" style="--sys-accent: var(--coral)">
+        <span class="sys-icon">🏠</span>
+        <div><h4 data-i18n="index.progression.sys.house.title">House Building</h4><p data-i18n-html="index.progression.sys.house.desc">Lv.4 basic blueprint → <strong>Lv.15 advanced building</strong> (batch placement, roof resizing) — that's the real time to decorate.</p></div>
+      </a>
+      <a href="progression.html#pets" class="sys-card" style="--sys-accent: var(--lavender)">
+        <span class="sys-icon">🐱</span>
+        <div><h4 data-i18n="index.progression.sys.pets.title">Pet System</h4><p data-i18n-html="index.progression.sys.pets.desc">Lv.12 Cat (prerequisite) → Lv.14 Dog, <strong>cats and dogs can be kept together</strong>.</p></div>
+      </a>
+    </div>
+
+    <div style="margin-top:16px;text-align:right">
+      <a href="progression.html" class="btn btn-outline btn-sm" data-i18n="index.progression.cta">View the full progression route ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 03. 数据库 -->
+  <!-- ============================================ -->
+  <div class="section" id="database">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.database.eyebrow"><span class="section-idx">03</span>Item Database</div>
+      <h2 data-i18n="index.database.heading">Eight Databases · 471 Entries</h2>
+      <p class="section-sub" data-i18n="index.database.sub">Fish / Insects / Birds / Recipes / Crops / NPCs / Achievements / Scores — rarity, location, time, price and unlock conditions at a glance.</p>
+    </div>
+
+    <div class="core-strip reveal">
+      <span class="core-icon">📚</span>
+      <p data-i18n-html="index.database.core"><strong>How to use:</strong> every database supports <strong>keyword search + category filter + rarity tiers</strong>, with price, location, active hours and unlock conditions at a glance.</p>
+    </div>
+
+    <div class="db-grid reveal">
+      <a href="database-fish.html" class="db-card" style="--accent: var(--teal);--accent-light:var(--teal-light);--accent-dark:var(--teal-dark)">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🎣</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.fish.title">Fish Encyclopedia</h3><span class="db-card-count" data-i18n="index.database.fish.count">91 species</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.fish.desc">Freshwater · sea fish · legendary fish — covering 15+ fishing spots, with season, weather, time, rarity and price all listed</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.fish.tag1">🏆 Legendary Koi · Rainbow Fish</span>
+            <span class="db-card-tag" data-i18n="index.database.fish.tag2">💰 Top price 5,000G</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.fish.highlight">🌟 Rarity ★1~★5 tiers · cooking tips included</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-insects.html" class="db-card" style="--accent: var(--green);--accent-light:var(--green-light);--accent-dark:#3D6B3F">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🦋</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.insects.title">Insect Encyclopedia</h3><span class="db-card-count" data-i18n="index.database.insects.count">67 species</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.insects.desc">Butterflies · beetles · damselflies · moths — quick lookup of weather and time windows, with rare species marked</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.insects.tag1">🪲 Hercules Beetle · Blue Morpho</span>
+            <span class="db-card-tag" data-i18n="index.database.insects.tag2">🌿 Bait-event exclusives</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.insects.highlight">🌟 Rarity ★1~★4 tiers · all-day appearance chart</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-birds.html" class="db-card" style="--accent: var(--lavender);--accent-light:var(--lavender-light);--accent-dark:#6B5E9E">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🐦</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.birds.title">Bird Encyclopedia</h3><span class="db-card-count" data-i18n="index.database.birds.count">69 species</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.birds.desc">Forest birds · waterfowl · raptors — unlocked by Birdwatching Lv.1~9, indexed by location and weather</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.birds.tag1">🦅 Raptors · Waterfowl · Forest birds</span>
+            <span class="db-card-tag" data-i18n="index.database.birds.tag2">📊 Birdwatching Lv.1-9</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.birds.highlight">🔭 The higher your birdwatching level, the more likely rare birds appear</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-recipes.html" class="db-card" style="--accent: var(--gold);--accent-light:var(--gold-light);--accent-dark:#9A7018">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🍳</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.recipes.title">Recipe Collection</h3><span class="db-card-count" data-i18n="index.database.recipes.count">96 recipes</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.recipes.desc">Recipes · ingredients · energy · price · profit all listed</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.recipes.tag1">🦀 Steamed King Crab 1,100G</span>
+            <span class="db-card-tag" data-i18n="index.database.recipes.tag2">🍝 Black Truffle Cream Pasta 900G</span>
+            <span class="db-card-tag" data-i18n="index.database.recipes.tag3">🍰 Cheesecake 400G</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.recipes.highlight">📈 Five categories · unlock by level · sorted by profit margin</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-crops.html" class="db-card" style="--accent: var(--green);--accent-light:var(--green-light);--accent-dark:#3D6B3F">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🌱</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.crops.title">Crop Data</h3><span class="db-card-count" data-i18n="index.database.crops.count">28 species</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.crops.desc">Growth time · season fit · profit efficiency — planting-priority ranking to plan your farm</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.crops.tag1">⏱ Growth-time comparison</span>
+            <span class="db-card-tag" data-i18n="index.database.crops.tag2">📊 Profit/hour analysis</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.crops.highlight">🌡 Season-compatibility chart · Highest / High / Normal priority marked</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-npcs.html" class="db-card" style="--accent: var(--coral);--accent-light:var(--coral-light);--accent-dark:var(--coral-dark)">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">👥</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.npcs.title">NPC Encyclopedia</h3><span class="db-card-count" data-i18n="index.database.npcs.count">20 NPCs</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.npcs.desc">Residents · mentors · merchants — detailed locations, daily schedules, unlock conditions and favorite gifts all listed</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.npcs.tag1">🎣 Vanya · Fishing Mentor</span>
+            <span class="db-card-tag" data-i18n="index.database.npcs.tag2">🎁 Gift preference quick look</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.npcs.highlight">📍 Schedules · unlock conditions · character roles</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-achievements.html" class="db-card" style="--accent: var(--gold);--accent-light:var(--gold-light);--accent-dark:#9A7018">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🏆</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.achievements.title">Achievement List</h3><span class="db-card-count" data-i18n="index.database.achievements.count">70 achievements</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.achievements.desc">Adventure · collection · social · building — track unlock conditions, rewards and completion tips for every achievement</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.achievements.tag1">🎯 Fishing · Gardening · Cooking · Bug catching</span>
+            <span class="db-card-tag" data-i18n="index.database.achievements.tag2">🎁 Titles · Wishing Star rewards</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.achievements.highlight">🏅 Covers 14 categories · difficulty ratings and completion tips</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+
+      <a href="database-scores.html" class="db-card" style="--accent: var(--lavender);--accent-light:var(--lavender-light);--accent-dark:#6B5E9E">
+        <div class="db-card-top">
+          <div class="db-card-thumb"><span class="db-card-thumb-pattern"></span><span class="db-card-thumb-emoji">🎵</span></div>
+          <div class="db-card-head"><h3 class="db-card-title" data-i18n="index.database.scores.title">Score Collection</h3><span class="db-card-count" data-i18n="index.database.scores.count">30 scores</span></div>
+        </div>
+        <div class="db-card-body">
+          <p class="db-card-desc" data-i18n="index.database.scores.desc">OST · season-exclusive · event-exclusive — a reference guide to instruments and difficulty ratings</p>
+          <div class="db-card-tags">
+            <span class="db-card-tag" data-i18n="index.database.scores.tag1">🎸 Multi-instrument performance</span>
+            <span class="db-card-tag" data-i18n="index.database.scores.tag2">⭐ Clear difficulty tiers</span>
+          </div>
+          <div class="db-card-highlight" data-i18n="index.database.scores.highlight">🍂 Seasonal scores · don't miss event-exclusive pieces</div>
+          <span class="db-card-cta" data-i18n-html="index.database.viewDatabase">View database <span class="db-card-arrow">→</span></span>
+        </div>
+      </a>
+    </div>
+    <div style="margin-top:8px;text-align:right">
+      <a href="database.html" class="btn btn-outline btn-sm" data-i18n="index.database.cta">📚 Enter the database · search + filter + full compendium ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 04. 赚钱攻略 -->
+  <!-- ============================================ -->
+  <div class="section" id="money">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.money.eyebrow"><span class="section-idx">04</span>Money Guide</div>
+      <h2 data-i18n="index.money.heading">Cooking Profit ×2-7 · From Newbie to Late Game</h2>
+      <p class="section-sub" data-i18n="index.money.sub">Remember three golden rules, then watch the "top recipe net-profit chart" below to bank 8,000-15,000G a day.</p>
+    </div>
+
+    <div class="core-strip core-strip--gold reveal">
+      <span class="core-icon">💰</span>
+      <p data-i18n-html="index.money.core"><strong>Three golden rules:</strong> ❶ fish > 100G sell directly, ≤100G cook them &nbsp; ❷ fruit into jam, vegetables into dishes, <strong>never sell raw ingredients</strong> &nbsp; ❸ wheat is your economic lifeline — plant it whenever you can.</p>
+    </div>
+
+    <div class="card reveal" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px">
+        <h3 style="font-size:1.25rem;margin:0" data-i18n-html="index.money.chartTitle">🏆 Top recipe net-profit chart <span style="font-size:0.85rem;color:var(--text-muted);font-weight:400">(base price − ingredient cost)</span></h3>
+        <span style="font-size:0.82rem;color:var(--text-muted)" data-i18n="index.money.chartSub">Best daily batch picks: Fish &amp; Chips ROI 313% · Vegetable Stew ROI 456%</span>
+      </div>
+      <div class="profit-bars">
+        <div class="pb-row">
+          <span class="pb-name" data-i18n="index.money.dish1.name">Black Truffle Cream Pasta</span>
+          <span class="pb-mats" data-i18n="index.money.dish1.mats">Black Truffle×1 · Wheat×2 · Cream×1</span>
+          <span class="pb-val" style="--pb-c:var(--coral)">+630</span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-name" data-i18n="index.money.dish2.name">Steamed King Crab</span>
+          <span class="pb-mats" data-i18n="index.money.dish2.mats">King Crab×1 · Lemon×1 · Herb×1 · Butter×1</span>
+          <span class="pb-val" style="--pb-c:var(--gold)">+445</span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-name" data-i18n="index.money.dish3.name">Black Truffle Mushroom Pie</span>
+          <span class="pb-mats" data-i18n="index.money.dish3.mats">Black Truffle×1 · Mushroom×2 · Wheat×2</span>
+          <span class="pb-val" style="--pb-c:var(--gold)">+395</span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-name" data-i18n="index.money.dish4.name">Seafood Risotto</span>
+          <span class="pb-mats" data-i18n="index.money.dish4.mats">Any fish×2 · Tomato×1 · Wheat×2</span>
+          <span class="pb-val" style="--pb-c:var(--teal)">+318</span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-name" data-i18n="index.money.dish5.name">Cheesecake</span>
+          <span class="pb-mats" data-i18n="index.money.dish5.mats">Cheese×2 · Wheat×1 · Egg×1</span>
+          <span class="pb-val" style="--pb-c:var(--teal)">+290</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="card card-sm" style="border-left:3px solid var(--green)">
+        <h4 style="font-size:1rem" data-i18n="index.money.tip1.title">⭐ Best Newbie Start</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.money.tip1.desc"><strong>Blueberry Jam</strong> (64→170, net +106) + <strong>Fried Carp</strong> (80→350, net +250). Easy materials, low level requirement.</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--gold)">
+        <h4 style="font-size:1rem" data-i18n="index.money.tip2.title">📈 Highest ROI</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.money.tip2.desc"><strong>Vegetable Stew</strong> 456% · <strong>Fish & Chips</strong> 313% · <strong>Cheesecake</strong> 264%, your daily batch go-tos.</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--coral)">
+        <h4 style="font-size:1rem" data-i18n="index.money.tip3.title">💵 Daily Tasks</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.money.tip3.desc">5 villager tasks ≈ <strong>7,000G/day</strong> + Wishing Stars + Contribution Medals — never skip them.</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--lavender)">
+        <h4 style="font-size:1rem" data-i18n="index.money.tip4.title">⚠️ Avoid These Pitfalls</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.money.tip4.desc">Strawberries/grapes <strong>sell better raw</strong> — making jam is barely profitable. High-star fish (>100G) should be sold directly, not cooked.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;text-align:right">
+      <a href="money.html" class="btn btn-outline btn-sm" data-i18n="index.money.cta">📊 Full money guide + recipe profit details ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 05. 地图 -->
+  <!-- ============================================ -->
+  <div class="section" id="map">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.map.eyebrow"><span class="section-idx">05</span>Map Atlas</div>
+      <h2 data-i18n="index.map.heading">100+ Markers · Interactive Map</h2>
+      <p class="section-sub" data-i18n="index.map.sub">Powered by Leaflet — NPCs, resources, fishing spots, shops, insects and birds all marked, with real-time search, category filters and a daily route.</p>
+    </div>
+
+    <div class="map-preview reveal">
+      <a href="map.html" class="map-preview-img">
+        <img src="images/heartopia-map-real.webp" alt="Heartopia 互动地图预览" loading="lazy">
+        <span class="map-preview-overlay" data-i18n="index.map.overlay">🗺️ Open the interactive map →</span>
+      </a>
+      <div class="map-preview-body">
+        <div>
+          <h3 data-i18n="index.map.title">Complete Categories · One-Tap Locate</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;line-height:1.6" data-i18n="index.map.desc">Click any category or search a name directly — the map highlights the matching markers in real time, and you can long-press to add custom markers.</p>
+        </div>
+        <div class="milestones" style="margin-bottom:0">
+          <a href="map.html" class="milestone" style="--ms-accent: var(--coral)">👥 NPC</a>
+          <a href="map.html" class="milestone" style="--ms-accent: var(--green)" data-i18n="index.map.chip.resource">🪨 Resources</a>
+          <a href="map.html" class="milestone" style="--ms-accent: var(--teal)" data-i18n="index.map.chip.fishing">🎣 Fishing Spots</a>
+          <a href="map.html" class="milestone" style="--ms-accent: var(--gold)" data-i18n="index.map.chip.shop">🏪 Shops</a>
+          <a href="map.html" class="milestone" style="--ms-accent: var(--green)" data-i18n="index.map.chip.insect">🦋 Insects</a>
+          <a href="map.html" class="milestone" style="--ms-accent: var(--lavender)" data-i18n="index.map.chip.bird">🐦 Birds</a>
+        </div>
+        <div>
+          <h4 style="font-size:0.85rem;margin-bottom:8px" data-i18n="index.map.routeTitle">🚴 15-Minute Route</h4>
+          <div class="route-steps">
+            <span class="route-step" data-i18n="index.map.route.home">🏠 Home</span><span class="route-arrow">→</span>
+            <span class="route-step" data-i18n="index.map.route.meteor">🪨 Meadow Lake</span><span class="route-arrow">→</span>
+            <span class="route-step" data-i18n="index.map.route.town">🏘️ Town</span><span class="route-arrow">→</span>
+            <span class="route-step" data-i18n="index.map.route.village">🎣 Fishing Village</span><span class="route-arrow">→</span>
+            <span class="route-step" data-i18n="index.map.route.backhome">🏠 Back Home</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="card card-sm" style="border-left:3px solid var(--coral)">
+        <h4 data-i18n="index.map.npc1.title">🎣 Vanya · Fishing Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc1.desc">Visits you / auto-triggers at Lv.2</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--green)">
+        <h4 data-i18n="index.map.npc2.title">🌱 Blanc · Gardening Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc2.desc">Near town center / Lv.3</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--gold)">
+        <h4 data-i18n="index.map.npc3.title">🍳 Massimo · Cooking Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc3.desc">Café / Lv.5</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--teal)">
+        <h4 data-i18n="index.map.npc4.title">🦋 Naniwa · Bug-Catching Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc4.desc">Town center / Lv.5/8/11</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--lavender)">
+        <h4 data-i18n="index.map.npc5.title">🐱 Mrs Joan · Pet Adoption</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc5.desc">Adoption center / Lv.12</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--coral)">
+        <h4 data-i18n="index.map.npc6.title">💰 Albert Jr. · Wandering Merchant</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc6.desc">Wanders the whole map / always available</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--green)">
+        <h4 data-i18n="index.map.npc7.title">🪨 Fluorite Mine + 🌳 Tree Spirit Root</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc7.desc">Meadow Lake · refreshes once daily</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--gold)">
+        <h4 data-i18n="index.map.npc8.title">📌 Custom Marker</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc8.desc">Long-press to add a marker · saved locally</p>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <a href="map.html" class="btn btn-outline btn-sm" data-i18n="index.map.cta">🗺️ Full map · NPCs + resource spots + fishing spots + route ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 06. 活动日历 -->
+  <!-- ============================================ -->
+  <div class="section" id="activities">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.activities.eyebrow"><span class="section-idx">06</span>Event Calendar</div>
+      <h2 data-i18n="index.activities.heading">Limited-Time &amp; Daily Events</h2>
+      <p class="section-sub" data-i18n="index.activities.sub">Never miss a limited reward: daily sea-fishing times, seasonal event re-runs and gacha pull strategy.</p>
+    </div>
+
+    <div class="core-strip reveal">
+      <span class="core-icon">📅</span>
+      <p data-i18n-html="index.activities.core"><strong>Daily must-dos:</strong> Sea Fishing Tournament at <strong>12:00 & 21:00</strong> — attend both &nbsp;·&nbsp; 5 villager commissions ≈ <strong>7,000G/day</strong> &nbsp;·&nbsp; Exhibition Tickets <strong>carry over across pools</strong> — save them for what you want.</p>
+    </div>
+
+    <div class="card reveal" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+        <h3 style="font-size:1rem;margin:0" data-i18n="index.activities.timelineTitle">🕐 Daily Activity Timeline</h3>
+        <span style="font-size:0.78rem;color:var(--text-muted)" data-i18n="index.activities.timelineSub">Schedule by time for maximum reward</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="index.activities.t1.title">🌅 After Waking Up</h4><p data-i18n="index.activities.t1.desc">Harvest blueberries, water crops, and check the pet shop's daily breeds (3 cats + 3 dogs).</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="index.activities.t2.title">📋 All Day</h4><p data-i18n-html="index.activities.t2.desc">Complete the <strong>5 villager commissions</strong> (the main DG XP source + Wishing Stars).</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><h4>🎣 12:00</h4><p data-i18n="index.activities.t3.desc">First Sea Fishing Tournament · arrive at the beach within 10 minutes to join.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><h4>🎣 21:00</h4><p data-i18n="index.activities.t4.desc">Second Sea Fishing Tournament · the second wave of the day, don't miss it.</p></div>
+        <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="index.activities.t5.title">🫧 Every Saturday</h4><p data-i18n="index.activities.t5.desc">15 Dream Bubbles refresh · find Bailey Jr. and play the white piano to trigger them, hiding exclusive furniture.</p></div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="card card-sm" style="border-left:3px solid var(--teal)">
+        <h4 style="font-size:1rem" data-i18n="index.activities.card1.title">❄️ Snow Season · Re-run</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.activities.card1.desc">Unlocks the <strong>Penguin Stove</strong>, the only source of iced coffee / iced latte. Frosting is capped at 50 per day — always buy the full amount.</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--coral)">
+        <h4 style="font-size:1rem" data-i18n="index.activities.card2.title">🌸 Flower Festival · Spring</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.activities.card2.desc">Best time for hybrid breeding — a friend's watering is required. Chrysanthemum path: red + white → pink → peach → green → <strong>Lunar 5★</strong>.</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--gold)">
+        <h4 style="font-size:1rem" data-i18n="index.activities.card3.title">🎟️ Exhibition Gacha</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="index.activities.card3.desc">Tickets <strong>carry over across pools</strong> — save them for the item you want; duplicates can be exchanged for specific items.</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid var(--lavender)">
+        <h4 style="font-size:1rem" data-i18n="index.activities.card4.title">🏆 Fishing Tournament</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n="index.activities.card4.desc">Compete for biggest/rarest; rare fish spawn more often during the event. Stock up on bait and showcase high-star fish to climb the ranks.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;text-align:right">
+      <a href="activities.html" class="btn btn-outline btn-sm" data-i18n="index.activities.cta">📅 Full event calendar · Snow Season guide ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 07. 兑换码 -->
+  <!-- ============================================ -->
+  <div class="section" id="redeem">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.redeem.eyebrow"><span class="section-idx">07</span>Redeem Codes</div>
+      <h2 data-i18n="index.redeem.heading">Latest Working Codes · One-Tap Copy</h2>
+      <p class="section-sub" data-i18n="index.redeem.sub">The latest redeem codes for both global and CN servers — Moonlight Crystals, Wishing Stars and rare materials in one tap. Click a code to copy:</p>
+    </div>
+
+    <div class="core-strip core-strip--gold reveal">
+      <span class="core-icon">🎁</span>
+      <p data-i18n-html="index.redeem.core"><strong>Data verified 2026-08-12:</strong> the half-anniversary code was marked to expire 7.31, but in August multiple players still <strong>redeemed it successfully</strong> — try it first. Each code works once per account and is case-sensitive.</p>
+    </div>
+
+    <div class="code-pills reveal">
+      <a href="redeem-code.html" class="code-pill" data-code="Cherish180">
+        <div class="code-pill-top">
+          <span class="code-pill-code">Cherish180</span>
+          <span class="code-pill-copy" data-i18n="index.redeem.copy">📋 Copy</span>
+        </div>
+        <span class="code-pill-reward" data-i18n="index.redeem.pill1.reward">40 Moonlight Crystals + 20 Wishing Stars + 3 Rare Wood + Flawless Fluorite + Repair Kit + 20,000 Gold</span>
+        <span class="code-pill-note" data-i18n="index.redeem.pill1.note">🔥 Half-Anniversary · high value</span>
+      </a>
+      <a href="redeem-code.html" class="code-pill" data-code="180daysjoy">
+        <div class="code-pill-top">
+          <span class="code-pill-code">180daysjoy</span>
+          <span class="code-pill-copy" data-i18n="index.redeem.copy">📋 Copy</span>
+        </div>
+        <span class="code-pill-reward" data-i18n="index.redeem.pill2.reward">100 Moonlight Crystals</span>
+        <span class="code-pill-note" data-i18n="index.redeem.pill2.note">🔥 Half-Anniversary</span>
+      </a>
+      <a href="redeem-code.html" class="code-pill" data-code="callofwhales0709">
+        <div class="code-pill-top">
+          <span class="code-pill-code">callofwhales0709</span>
+          <span class="code-pill-copy" data-i18n="index.redeem.copy">📋 Copy</span>
+        </div>
+        <span class="code-pill-reward" data-i18n="index.redeem.pill3.reward">100 Moonlight Crystals</span>
+        <span class="code-pill-note" data-i18n="index.redeem.pill3.note">🐳 Whale-Seeking Season</span>
+      </a>
+      <a href="redeem-code.html" class="code-pill" data-code="dadstrong4ever">
+        <div class="code-pill-top">
+          <span class="code-pill-code">dadstrong4ever</span>
+          <span class="code-pill-copy" data-i18n="index.redeem.copy">📋 Copy</span>
+        </div>
+        <span class="code-pill-reward" data-i18n="index.redeem.pill4.reward">10 Apples + 10 Fertilizer + 5 Wishing Stars</span>
+        <span class="code-pill-note" data-i18n="index.redeem.pill4.note">🆕 Newest</span>
+      </a>
+    </div>
+
+    <div class="card reveal">
+      <div class="redeem-steps">
+        <div class="redeem-step"><span class="rs-num">1</span><h4 data-i18n="index.redeem.step1.title">Copy the Code</h4><p data-i18n="index.redeem.step1.desc">Tap once to copy — no manual typing needed</p></div>
+        <div class="redeem-step"><span class="rs-num">2</span><h4 data-i18n="index.redeem.step2.title">Redeem In-Game</h4><p data-i18n="index.redeem.step2.desc">Watch menu → Settings → Redeem Code, paste and confirm</p></div>
+        <div class="redeem-step"><span class="rs-num">3</span><h4 data-i18n="index.redeem.step3.title">Claim Rewards</h4><p data-i18n="index.redeem.step3.desc">Collect from your in-game mailbox; note the CN/Global server</p></div>
+      </div>
+      <div style="margin-top:12px">
+        <a href="redeem-code.html" class="btn btn-primary btn-sm" data-i18n="index.redeem.cta">🎁 View all redeem codes · CN + Global ▸</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 08. 常见问题 -->
+  <!-- ============================================ -->
+  <div class="section" id="faq">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n-html="index.faq.eyebrow"><span class="section-idx">08</span>FAQ</div>
+      <h2 data-i18n="index.faq.heading">50+ Common Questions Answered</h2>
+      <p class="section-sub" data-i18n="index.faq.sub">Technical issues · quest blockers · system mechanics · pet social · event exclusives — start with these most-asked questions:</p>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table>
+        <thead><tr><th data-i18n="index.faq.thQuestion">Question</th><th data-i18n="index.faq.thAnswer">One-line answer</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="index.faq.q1">🖥️ White screen on launch?</td><td data-i18n="index.faq.a1">Verify files → disable overlays → add -dx11 → update drivers</td></tr>
+          <tr><td data-i18n="index.faq.q2">🎮 Character auto-runs and won't stop?</td><td data-i18n-html="index.faq.a2"><strong>Unplug all gamepads/controllers</strong> to fix it</td></tr>
+          <tr><td data-i18n="index.faq.q3">☕ Can't make iced coffee?</td><td data-i18n-html="index.faq.a3">You need the <strong>Penguin Stove</strong> (winter event); a normal stove can't do it</td></tr>
+          <tr><td data-i18n="index.faq.q4">🧩 What materials for Annie's puzzle?</td><td data-i18n-html="index.faq.a4">10 <strong>Meat</strong> from Massimo — not fish jerky</td></tr>
+          <tr><td data-i18n="index.faq.q5">🌧️ Watering task not counting?</td><td data-i18n="index.faq.a5">On rainy/snowy days the soil is already wet — water dry soil or help a neighbor</td></tr>
+          <tr><td data-i18n="index.faq.q6">🐟 Cook or sell high-star fish?</td><td data-i18n="index.faq.a6">Sell directly if over 100G, cook if under 100</td></tr>
+          <tr><td data-i18n="index.faq.q7">💤 When does Dream unlock?</td><td data-i18n="index.faq.a7">DG Lv.16, find Annie; if she doesn't appear, re-log</td></tr>
+          <tr><td data-i18n="index.faq.q8">🐱 How do I get a dog?</td><td data-i18n="index.faq.a8">Finish the basic cat-care tutorial first, unlock at DG Lv.12</td></tr>
+          <tr><td data-i18n="index.faq.q9">🔗 How to play with friends?</td><td data-i18n="index.faq.a9">DG Lv.4 unlocks the Friendship Handbook; add friends via UID</td></tr>
+          <tr><td data-i18n="index.faq.q10">⏰ "Incorrect device time" error?</td><td data-i18n="index.faq.a10">Turn on "Set Automatically" for system time, then restart the game and device</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:8px">
+      <a href="faq.html" class="btn btn-outline btn-sm" data-i18n="index.faq.cta">🐛 All 50+ common questions ▸</a>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- 结尾 CTA -->
+  <!-- ============================================ -->
+  <div class="cta-band reveal">
+    <h2 data-i18n="index.cta.heading">Ready to start your Heartopia journey?</h2>
+    <p data-i18n="index.cta.desc">From your very first cast on day one to max-level full-collection completion — every step is ready for you.</p>
+    <a href="beginner.html" class="btn btn-white" data-i18n="index.cta.button">🚀 Start with the beginner guide ▸</a>
+  </div>
+
+</div>
+
+<footer id="site-footer" class="site-footer"></footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js"></script>
+<script src="data/fish.js"></script>
+<script src="data/insects.js"></script>
+<script src="data/birds.js"></script>
+<script src="data/recipes.js"></script>
+<script src="data/crops.js"></script>
+<script src="data/npcs.js"></script>
+<script src="data/achievements.js"></script>
+<script src="data/scores.js"></script>
+<script src="js/database.js"></script>
+<script src="js/search.js"></script>
+<script>
+(function () {
+  'use strict';
+  function copyText(t) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(t);
+    }
+    return new Promise(function (resolve) {
+      var ta = document.createElement('textarea');
+      ta.value = t;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      resolve();
+    });
+  }
+  document.querySelectorAll('.code-pill').forEach(function (pill) {
+    pill.addEventListener('click', function (e) {
+      var code = pill.getAttribute('data-code');
+      if (!code) return;
+      e.preventDefault();
+      copyText(code).then(function () {
+        var label = pill.querySelector('.code-pill-copy');
+        if (!label) return;
+        var original = label.textContent;
+        label.textContent = window.I18N.t('index.redeem.copied');
+        label.classList.add('copied');
+        setTimeout(function () {
+          label.textContent = original;
+          label.classList.remove('copied');
+        }, 1800);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

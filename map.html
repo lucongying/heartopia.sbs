@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add('js');(function(){try{if(localStorage.getItem('heartopia-lang')==='zh')document.documentElement.classList.add('i18n-pending');}catch(e){}setTimeout(function(){if(!window.I18N)document.documentElement.classList.remove('i18n-pending');},2000);})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="map.metaTitle">Heartopia Interactive Map · 100+ Markers · Search, Filter, Run Routes</title>
+<meta name="description" content="Heartopia full-featured interactive map: powered by Leaflet, 100+ markers, live search, category filters, daily run route — NPCs, resources, fishing spots, shops, insects and birds all marked." data-i18n-content="map.metaDesc">
+<link rel="stylesheet" href="css/style.css">
+<link rel="canonical" href="https://heartopia.sbs/map.html">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="images/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#DF7560">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Heartopia.sbs">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Heartopia Interactive Map · 100+ Markers · Search, Filter, Run Routes" data-i18n-content="map.metaTitle">
+<meta property="og:description" content="Heartopia full-featured interactive map: powered by Leaflet, 100+ markers, live search, category filters, daily run route — NPCs, resources, fishing spots, shops, insects and birds all marked." data-i18n-content="map.metaDesc">
+<meta property="og:url" content="https://heartopia.sbs/map.html">
+<meta property="og:image" content="https://heartopia.sbs/images/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Heartopia.sbs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Heartopia Interactive Map · 100+ Markers · Search, Filter, Run Routes" data-i18n-content="map.metaTitle">
+<meta name="twitter:description" content="Heartopia full-featured interactive map: powered by Leaflet, 100+ markers, live search, category filters, daily run route — NPCs, resources, fishing spots, shops, insects and birds all marked." data-i18n-content="map.metaDesc">
+<meta name="twitter:image" content="https://heartopia.sbs/images/og-image.png">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+/* ============================================================
+   Map Page — Leaflet Overrides & Layout
+   ============================================================ */
+
+/* -- Page shell — framed atlas box that contains both sidebar and map -- */
+.map-page {
+  max-width: 1280px; width: calc(100% - 32px);
+  height: calc(100vh - 56px - 32px - 115px); max-height: 880px;
+  min-height: 560px;
+  /* Flex layout: sidebar | map, side by side inside a single frame */
+  display: flex; flex-direction: row;
+  position: relative; /* anchor for the popup bubble */
+	  z-index: 0;         /* stay below sticky nav (z-index:100) */
+  overflow: hidden;   /* clip everything to the frame */
+  margin: 16px auto;
+  /* The frame itself */
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 20px rgba(61,50,45,0.08), 0 0 0 6px var(--surface);
+}
+.wrap-map { max-width: none; padding: 0; }
+/* Compact page header — eyebrow above title, matching other subpages */
+.page-header {
+  display: block;
+  padding: 16px 0 8px;
+}
+.page-header .eyebrow { margin-bottom: 12px; }
+/* Footer — contained below the frame, not fixed overlay */
+.site-footer {
+  position: static;
+  text-align: center; padding: 10px 24px; margin: 0;
+  border-top: 1px solid var(--border);
+  background: transparent;
+  font-size: 0.7rem;
+}
+
+/* -- Sidebar — flex child inside the frame, no longer absolutely positioned -- */
+.map-sidebar {
+  flex: 0 0 264px;       /* fixed width, never shrink */
+  width: 264px; min-width: 264px; max-width: 264px;
+  background: rgba(236,243,240,0.94); /* light sea-glass — contrasts with warm page bg */ backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-right: 1px solid var(--border); /* divider between sidebar and map */
+  display: flex; flex-direction: column; z-index: 500;
+  overflow: hidden;
+  /* No outer border-radius — the frame handles that; match left side */
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+.sidebar-header {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  flex-shrink: 0;
+}
+.sidebar-header h3 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+
+/* Sidebar search */
+.sidebar-search {
+  padding: 8px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.sidebar-search .search-wrap {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px;
+  padding: 6px 12px; transition: border-color var(--ease);
+}
+.sidebar-search .search-wrap:focus-within { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
+.sidebar-search input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--font-body); font-size: 0.82rem; color: var(--text);
+  min-width: 0;
+}
+.sidebar-search input::placeholder { color: var(--text-dim); font-size: 0.75rem; }
+.sidebar-search .search-icon { color: var(--text-dim); font-size: 0.85rem; flex-shrink: 0; }
+.search-clear { display: none; cursor: pointer; color: var(--text-dim); font-size: 0.8rem; padding: 2px 4px; border-radius: 50%; border: none; background: none; }
+.search-clear:hover { color: var(--coral); }
+.search-clear.visible { display: block; }
+
+/* Search results dropdown */
+.search-results {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--card); border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow-lg); z-index: 60; max-height: 320px; overflow-y: auto;
+  margin-top: 2px;
+}
+.search-results.show { display: block; }
+.search-result-group {
+  padding: 5px 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+.search-result-item {
+  padding: 7px 12px; cursor: pointer; font-size: 0.8rem;
+  display: flex; align-items: center; gap: 8px;
+  transition: background var(--ease); border-bottom: 1px solid transparent;
+}
+.search-result-item:hover { background: var(--coral-light); }
+.search-result-item .sri-icon { font-size: 1rem; flex-shrink: 0; }
+.search-result-item .sri-name { flex: 1; font-weight: 500; }
+.search-result-item .sri-cat { font-size: 0.68rem; color: var(--text-dim); }
+
+/* Sidebar category list */
+.sidebar-cats {
+  flex: 1; overflow-y: auto; padding: 8px 0;
+  -ms-overflow-style: none; scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.sidebar-cats::-webkit-scrollbar { width: 4px; }
+.sidebar-cats::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.cat-section { margin-bottom: 0; }
+.cat-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; cursor: pointer; user-select: none;
+  transition: background var(--ease); font-weight: 600; font-size: 0.92rem;
+  border-left: 3px solid transparent;
+}
+.cat-header:hover { background: #FAF9F7; }
+.cat-header .cat-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.cat-header .cat-name { flex: 1; }
+.cat-header .cat-count {
+  font-size: 0.75rem; font-weight: 700; color: var(--text-dim);
+  background: var(--surface); padding: 2px 8px; border-radius: 10px;
+}
+.cat-header .cat-arrow { font-size: 0.6rem; color: var(--text-dim); transition: transform 0.25s; }
+.cat-header .cat-toggle {
+  font-size: 0.85rem; cursor: pointer; padding: 2px 4px; opacity: 0.6;
+  transition: opacity var(--ease); flex-shrink: 0;
+}
+.cat-header .cat-toggle:hover { opacity: 1; }
+.cat-section.collapsed .cat-arrow { transform: rotate(-90deg); }
+.cat-section.collapsed .cat-items { display: none; }
+.cat-section.hidden-all { opacity: 0.4; }
+
+.cat-items { padding: 0 0 2px 0; }
+.cat-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px 5px 28px; cursor: pointer; font-size: 0.88rem;
+  transition: background var(--ease); color: var(--text-muted);
+  border-left: 3px solid transparent;
+}
+.cat-item:hover { background: #FAF9F7; color: var(--text); }
+.cat-item.active { background: var(--coral-light); color: var(--coral); border-left-color: var(--coral); font-weight: 600; }
+.cat-item .ci-emoji { font-size: 0.85rem; flex-shrink: 0; width: 20px; text-align: center; }
+.cat-item .ci-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Resource sub-filters */
+.subfilter-row { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 12px 4px 28px; }
+.subfilter-chip {
+  font-size: 0.68rem; padding: 3px 10px; border-radius: 12px;
+  border: 1.2px solid var(--border); cursor: pointer; user-select: none;
+  background: var(--card); color: var(--text-muted); transition: all var(--ease);
+}
+.subfilter-chip:hover { border-color: var(--green); color: var(--green); }
+.subfilter-chip.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* -- Map container — flex child fills remaining space beside the sidebar -- */
+.map-container {
+  flex: 1 1 auto;          /* fill remaining space */
+  min-width: 0;            /* allow flex shrink below content size */
+  position: relative;      /* anchor for internal absolute elements (zoom, buttons, forms) */
+  background: #C5DDE8; overflow: hidden;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0; /* match right side of the frame */
+}
+.map-container .leaflet-container { background: #C5DDE8; }
+
+/* Leaflet overrides */
+.leaflet-control-attribution { display: none !important; }
+.leaflet-tooltip {
+  font-family: var(--font-body); font-size: 0.75rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; border: none;
+  background: var(--text); color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.leaflet-tooltip::before { border-top-color: var(--text) !important; }
+
+/* Marker animation */
+@keyframes markerBounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  50% { transform: translateY(0); }
+}
+.marker-highlight { animation: markerBounce 0.5s ease; z-index: 1000 !important; }
+
+/* -- Zoom controls -- */
+.map-zoom-ctrl {
+  position: absolute; right: 14px; top: 14px; z-index: 1000;
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--card); border-radius: 12px; border: 1px solid var(--border);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.map-zoom-ctrl button {
+  width: 36px; height: 36px; border: none; background: none;
+  cursor: pointer; font-size: 1.2rem; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--ease);
+}
+.map-zoom-ctrl button:hover { background: var(--coral-light); color: var(--coral); }
+.map-zoom-ctrl button:active { background: var(--coral); color: #fff; }
+.map-zoom-ctrl .zoom-divider { height: 1px; background: var(--border); }
+.map-zoom-ctrl .zoom-level {
+  font-size: 0.65rem; font-weight: 700; color: var(--text-dim);
+  text-align: center; padding: 4px 0; letter-spacing: 0.03em;
+}
+
+/* -- Floating map buttons -- */
+.map-float-btn {
+  position: absolute; z-index: 1000;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--card);
+  cursor: pointer; font-size: 1rem; display: flex; align-items: center;
+  justify-content: center; box-shadow: var(--shadow);
+  transition: all var(--ease); color: var(--text);
+}
+.map-float-btn:hover { border-color: var(--coral); color: var(--coral); background: var(--coral-light); }
+.map-float-btn.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+.map-btn-route { right: 14px; top: 120px; }
+.map-btn-locate { right: 14px; top: 166px; }
+/* -- Map Popup Bubble (replaces slide-in info panel) -- */
+.map-popup-bubble {
+  position: absolute; z-index: 600;
+  background: var(--text); border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  width: 300px; max-width: calc(100vw - 28px);
+  max-height: 380px;
+  pointer-events: none;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: flex; flex-direction: column;
+  color: #fff;
+}
+.popup-body {
+  padding: 10px 14px 14px;
+  overflow-y: auto; flex: 1; min-height: 0;
+  -ms-overflow-style: none; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;
+  font-size: 0.8rem; line-height: 1.55;
+  border-radius: 0 0 8px 8px;
+}
+.popup-body::-webkit-scrollbar { width: 4px; }
+.popup-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 4px; }
+.map-popup-bubble.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* Arrow — matches Leaflet tooltip triangle style */
+.map-popup-bubble .popup-arrow {
+  position: absolute; left: 50%; margin-left: -7px;
+  width: 0; height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  transition: all 0.2s ease;
+}
+.map-popup-bubble .popup-arrow.arrow-down {
+  bottom: -7px;
+  border-top: 7px solid var(--text);
+}
+.map-popup-bubble .popup-arrow.arrow-up {
+  top: -7px;
+  border-bottom: 7px solid var(--text);
+}
+.popup-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  position: sticky; top: 0; background: var(--text); z-index: 1;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.85rem; font-weight: 700;
+}
+.popup-header h3 { font-size: 0.88rem; display: flex; align-items: center; gap: 6px; color: #fff; }
+.popup-close {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3); background: none;
+  font-size: 0.8rem; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; color: rgba(255,255,255,0.7); transition: all var(--ease);
+  flex-shrink: 0;
+}
+.popup-close:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
+.popup-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.popup-desc { font-size: 0.82rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+.popup-creatures { margin-top: 10px; }
+.popup-creatures h4 { font-size: 0.76rem; font-weight: 700; margin-bottom: 6px; color: rgba(255,255,255,0.9); }
+.popup-creature-table { width: 100%; font-size: 0.72rem; border-collapse: collapse; }
+.popup-creature-table th { font-size: 0.65rem; padding: 3px 6px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.55); background: transparent; }
+.popup-creature-table td { padding: 3px 6px; border-bottom: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+.popup-creature-table tr:last-child td { border-bottom: none; }
+.popup-creature-table tr:hover td { background: rgba(255,255,255,0.08); }
+.popup-detail-box { margin-top: 10px; font-size: 0.78rem; padding: 8px 12px; background: rgba(255,255,255,0.08); border-radius: 6px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+
+/* -- Custom marker form -- */
+.custom-marker-form {
+  position: absolute; z-index: 1001; background: var(--card);
+  border-radius: var(--radius); border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg); padding: 14px; width: 240px;
+  display: none;
+}
+.custom-marker-form.show { display: block; }
+.custom-marker-form input {
+  width: 100%; padding: 7px 10px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-family: var(--font-body); font-size: 0.8rem;
+  margin-bottom: 8px; outline: none;
+}
+.custom-marker-form input:focus { border-color: var(--coral); }
+.custom-marker-form .emoji-grid {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;
+}
+.custom-marker-form .emoji-grid button {
+  width: 30px; height: 30px; border: 1.5px solid var(--border);
+  border-radius: 8px; background: var(--surface); cursor: pointer;
+  font-size: 1rem; transition: all var(--ease);
+}
+.custom-marker-form .emoji-grid button:hover { border-color: var(--coral); background: var(--coral-light); }
+.custom-marker-form .emoji-grid button.selected { border-color: var(--coral); background: var(--coral); }
+.custom-marker-form .form-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+/* -- Route highlight -- */
+.route-active .leaflet-interactive.route-poly { stroke-width: 4 !important; }
+
+/* -- Loading -- */
+.map-loading {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; background: #C5DDE8; z-index: 10;
+  font-family: var(--font-display); color: var(--text-muted); font-size: 1rem;
+}
+.map-loading.hidden { display: none; }
+.map-loading .pulse { animation: markerPulse 1.5s ease-in-out infinite; font-size: 2rem; }
+
+/* -- Mobile bottom bar -- */
+.map-mobile-bar {
+  display: none; position: absolute; bottom: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--card); border-top: 1px solid var(--border);
+  padding: 8px 12px; gap: 6px; align-items: center;
+}
+.map-mobile-bar button {
+  flex: 1; font-size: 0.72rem; font-weight: 600; padding: 8px 6px;
+  border-radius: 18px; border: 1.5px solid var(--border);
+  background: var(--card); color: var(--text-muted); cursor: pointer;
+  transition: all var(--ease); white-space: nowrap;
+}
+.map-mobile-bar button.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+
+/* -- Sidebar backdrop (removed — sidebar always visible) -- */
+
+/* -- Responsive -- */
+@media (max-width: 860px) {
+  .map-page {
+    width: calc(100% - 16px); height: calc(100vh - 56px - 16px - 115px);
+    max-height: none; margin: 8px auto;
+    box-shadow: 0 2px 12px rgba(61,50,45,0.06), 0 0 0 4px var(--surface);
+  }
+  .map-sidebar {
+    flex: 0 0 220px; width: 220px; min-width: 220px; max-width: 220px;
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  }
+  .map-popup-bubble { width: 280px; max-height: 320px; }
+  .map-mobile-bar { display: flex; }
+  .map-zoom-ctrl { right: 8px; top: 8px; }
+  .map-btn-route { right: 8px; top: 110px; }
+  .map-btn-locate { right: 8px; top: 156px; }
+  .map-float-btn { width: 34px; height: 34px; font-size: 0.9rem; }
+  /* Footer inline on mobile */
+  .site-footer { padding: 6px 12px; font-size: 0.65rem; }
+}
+
+@media (max-width: 540px) {
+  .map-page {
+    width: calc(100% - 8px); height: calc(100vh - 56px - 8px - 115px);
+    margin: 4px auto; min-height: 480px;
+    flex-direction: column; /* stack sidebar above map */
+  }
+  .map-sidebar {
+    flex: 0 0 auto; width: 100%; min-width: 100%; max-width: 100%;
+    max-height: 45%; /* sidebar takes at most 45% of the frame height */
+    border-right: none; border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .map-container {
+    flex: 1 1 auto; min-height: 0;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+  .map-zoom-ctrl button { width: 32px; height: 32px; font-size: 1rem; }
+  .map-popup-bubble { width: calc(100vw - 16px); left: 8px !important; right: 8px !important; }
+}
+
+/* ============================================================
+   Map Info Section — explorer's logbook spread
+   A curated introduction to the interactive map: what it covers,
+   how to use it, and the palette of markers that bring it to life.
+   ============================================================ */
+
+/* -- Section shell: wider breathing room, separated from the map frame -- */
+.map-info-section {
+  max-width: 1280px; width: calc(100% - 32px);
+  margin: 36px auto 0;
+  padding: 40px 0 10px;
+  position: relative;
+}
+/* Decorative horizon line — a gradient strip echoing the map marker palette */
+.map-info-section::before {
+  content: '';
+  display: block; width: 200px; height: 4px; margin: 0 auto 32px;
+  border-radius: 2px;
+  background: linear-gradient(90deg,
+    var(--coral) 0%, var(--coral) 11%,
+    var(--green) 11%, var(--green) 22%,
+    var(--teal) 22%, var(--teal) 33%,
+    var(--gold) 33%, var(--gold) 44%,
+    var(--lavender) 44%, var(--lavender) 55%,
+    #7BA89E 55%, #7BA89E 66%,
+    #C9956B 66%, #C9956B 77%,
+    #8C9898 77%, #8C9898 88%,
+    #C75E4A 88%, #C75E4A 100%
+  );
+}
+
+.map-info-section .section-hd { text-align: center; margin-bottom: 14px; }
+.map-info-section .section-hd .eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.map-info-section .section-hd h2 { font-size: 1.55rem; }
+
+/* -- Intro paragraph — set as a single well-spaced statement -- */
+.map-info-intro {
+  max-width: 620px; margin: 0 auto 38px; text-align: center;
+  font-size: 0.95rem; line-height: 1.8; color: var(--text-muted);
+}
+.map-info-intro strong { color: var(--text); font-weight: 650; }
+
+/* ============================================================
+   Feature entries — 2×2 logbook spread
+   Each card pairs a numbered color badge with descriptive text.
+   The four badge colors are drawn from the map marker palette,
+   so the features feel like they belong to the map itself.
+   ============================================================ */
+.map-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.map-feature-card {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 22px 20px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.map-feature-card:hover {
+  box-shadow: 0 6px 24px rgba(61,50,45,0.10);
+  transform: translateY(-2px);
+}
+
+/* The numbered badge — each card gets its own accent color */
+.map-feature-badge {
+  flex-shrink: 0;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+}
+.map-feature-card:hover .map-feature-badge { transform: scale(1.08); }
+.map-feature-badge.coral  { background: var(--coral); }
+.map-feature-badge.teal   { background: var(--teal); }
+.map-feature-badge.green  { background: var(--green); }
+.map-feature-badge.gold   { background: var(--gold); }
+
+.map-feature-text { min-width: 0; }
+.map-feature-text h4 {
+  font-size: 0.92rem; font-weight: 700; margin: 0 0 4px;
+  color: var(--text); line-height: 1.3;
+}
+.map-feature-text p {
+  font-size: 0.78rem; color: var(--text-muted);
+  line-height: 1.6; margin: 0;
+}
+
+/* ============================================================
+   Category color key — a painter's swatch strip
+   Each marker category rendered as a larger color chip with its
+   label, so readers can decode the map at a glance.
+   ============================================================ */
+.map-category-legend {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 20px; row-gap: 14px;
+  padding: 22px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.map-category-legend .legend-chip {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 7px; min-width: 52px;
+}
+.map-category-legend .legend-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.10);
+}
+.map-category-legend .legend-label {
+  font-size: 0.68rem; color: var(--text-muted);
+  white-space: nowrap; text-align: center;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   Stats banner — dashboard ribbon below the legend
+   ============================================================ */
+.map-stats {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  align-items: baseline; gap: 0;
+  margin-top: 24px;
+}
+.map-stat {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 20px;
+}
+/* Vertical divider between stat columns */
+.map-stat + .map-stat {
+  border-left: 1px solid var(--border);
+}
+.map-stat .stat-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem; font-weight: 750;
+  color: var(--coral);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.map-stat .stat-label {
+  font-size: 0.7rem; color: var(--text-dim);
+  letter-spacing: 0.04em; margin-top: 2px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 860px) {
+  .map-features { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .map-feature-card { padding: 16px 14px; gap: 12px; }
+  .map-feature-badge { width: 42px; height: 42px; font-size: 1.1rem; }
+  .map-info-section { width: calc(100% - 16px); margin-top: 24px; padding-top: 28px; }
+  .map-info-section::before { width: 160px; margin-bottom: 24px; }
+  .map-info-section .section-hd h2 { font-size: 1.3rem; }
+  .map-info-intro { font-size: 0.88rem; margin-bottom: 28px; }
+  .map-category-legend { gap: 14px; row-gap: 10px; padding: 16px 14px; }
+  .map-stat { padding: 0 14px; }
+}
+@media (max-width: 540px) {
+  .map-features { grid-template-columns: 1fr; gap: 10px; }
+  .map-feature-card { padding: 14px 12px; gap: 12px; }
+  .map-feature-badge { width: 40px; height: 40px; font-size: 1rem; }
+  .map-info-section { width: calc(100% - 12px); margin-top: 16px; padding-top: 20px; }
+  .map-info-section::before { width: 120px; height: 3px; margin-bottom: 20px; }
+  .map-info-intro { font-size: 0.82rem; margin-bottom: 24px; }
+  .map-category-legend { gap: 10px; row-gap: 8px; padding: 12px 10px; }
+  .map-category-legend .legend-dot { width: 14px; height: 14px; }
+  .map-category-legend .legend-label { font-size: 0.62rem; }
+  .map-stats { gap: 0; }
+  .map-stat { padding: 0 10px; }
+  .map-stat .stat-num { font-size: 1.25rem; }
+  .map-stat .stat-label { font-size: 0.64rem; }
+}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Heartopia.sbs","url":"https://heartopia.sbs/","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://heartopia.sbs/?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://heartopia.sbs/"},{"@type":"ListItem","position":2,"name":"Interactive Map","item":"https://heartopia.sbs/map.html"}]}
+</script>
+</head>
+<body>
+
+<nav id="site-nav" class="site-nav"></nav>
+
+<header class="page-header">
+  <div class="eyebrow" data-i18n="map.eyebrow">Interactive Map</div>
+  <h1 data-i18n-html="map.heading">Heartopia<strong style="color:var(--teal)">Map</strong></h1>
+</header>
+
+<div class="map-page">
+  <!-- Sidebar — always visible -->
+  <aside class="map-sidebar" id="map-sidebar">
+    <div class="sidebar-header">
+      <h3 data-i18n="map.sidebarTitle">🗺️ Map Navigation</h3>
+    </div>
+    <div class="sidebar-search" style="position:relative">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="map-search" placeholder="Search markers… NPCs, locations, resources, fish…" data-i18n-placeholder="map.searchPlaceholder" autocomplete="off">
+        <button class="search-clear" id="search-clear" title="Clear" data-i18n-title="map.searchClear">✕</button>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <div class="sidebar-cats" id="sidebar-cats">
+      <!-- Populated by JS -->
+    </div>
+  </aside>
+
+  <!-- Map -->
+  <div class="map-container" id="map-container">
+    <div class="map-loading" id="map-loading" data-i18n-html="map.loading"><span class="pulse">🗺️</span>&nbsp; Loading map…</div>
+
+    <!-- Zoom controls -->
+    <div class="map-zoom-ctrl" id="zoom-ctrl">
+      <button id="zoom-in" title="Zoom in" data-i18n-title="map.zoomIn">+</button>
+      <div class="zoom-divider"></div>
+      <div class="zoom-level" id="zoom-level">1×</div>
+      <div class="zoom-divider"></div>
+      <button id="zoom-out" title="Zoom out" data-i18n-title="map.zoomOut">−</button>
+    </div>
+
+    <!-- Floating buttons -->
+    <button class="map-float-btn map-btn-route" id="btn-route" title="Route" data-i18n-title="map.btnRoute">🚶</button>
+    <button class="map-float-btn map-btn-locate" id="btn-locate" title="Back to full map" data-i18n-title="map.btnLocate">🏠</button>
+
+    <!-- Mobile bottom bar -->
+    <div class="map-mobile-bar" id="mobile-bar">
+      <button id="mbtn-search" data-i18n="map.mbtnSearch">🔍 Search</button>
+      <button id="mbtn-filter" data-i18n="map.mbtnFilter">📋 Filter</button>
+      <button id="mbtn-route" data-i18n="map.mbtnRoute">🚶 Route</button>
+    </div>
+
+    <!-- Custom marker form -->
+    <div class="custom-marker-form" id="custom-form">
+      <div class="emoji-grid" id="emoji-grid"></div>
+      <input type="text" id="custom-name" placeholder="Marker name…" data-i18n-placeholder="map.customNamePlaceholder" maxlength="30">
+      <div class="form-actions">
+        <button class="btn btn-ghost btn-sm" id="custom-cancel" data-i18n="map.customCancel">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="custom-save" data-i18n="map.customSave">Save</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Map Popup Bubble — direct child of map-page so it stacks above sidebar -->
+  <div class="map-popup-bubble" id="map-popup">
+    <div class="popup-arrow" id="popup-arrow"></div>
+    <div class="popup-header">
+      <h3 id="popup-title"></h3>
+      <button class="popup-close" id="popup-close" aria-label="Close" data-i18n-aria-label="map.popupClose">✕</button>
+    </div>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- 地图介绍与功能 — 探索者日志 -->
+<!-- ============================================================ -->
+<div class="map-info-section">
+  <div class="section-hd">
+    <div class="eyebrow" data-i18n="map.infoEyebrow">Map Intro &amp; Features</div>
+    <h2 data-i18n-html="map.infoHeading">Island<strong style="color:var(--teal)"> Exploration Guide</strong></h2>
+  </div>
+
+  <p class="map-info-intro" data-i18n-html="map.infoIntro">A full-featured interactive Heartopia map built on <strong>Leaflet.js</strong>, with <strong>100+</strong> accurate markers across <strong>9 categories</strong>: NPCs, resources, fishing spots, shops, insects, birds, animals, landmarks and bus stops. Whether you're a beginner running routes or a completionist filling every encyclopedia, this one map has the whole island covered.</p>
+
+  <!-- 核心功能 -->
+  <div class="map-features">
+    <div class="map-feature-card">
+      <div class="map-feature-badge coral">🔍</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature1.title">Live Search</h4>
+        <p data-i18n="map.feature1.desc">Type to instantly match every marker name, description and category — find anything in a flash.</p>
+      </div>
+    </div>
+    <div class="map-feature-card">
+      <div class="map-feature-badge teal">🏷️</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature2.title">Category Filters</h4>
+        <p data-i18n="map.feature2.desc">Toggle 9 categories independently; resources also filter by berry, fruit, mushroom, ore and wood subtypes.</p>
+      </div>
+    </div>
+    <div class="map-feature-card">
+      <div class="map-feature-badge green">🚶</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature3.title">Run Route</h4>
+        <p data-i18n="map.feature3.desc">Built-in daily route: Home → Meadow Lake → Central Plaza → Fishing Village → Home. One tap for efficient gathering.</p>
+      </div>
+    </div>
+    <div class="map-feature-card">
+      <div class="map-feature-badge gold">📌</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature4.title">Custom Markers</h4>
+        <p data-i18n="map.feature4.desc">Right-click anywhere to add personal markers — 20 icons to choose from, saved to your browser's local storage.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分类颜色图例 -->
+  <div class="map-category-legend">
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#DF7560"></div>
+      <span class="legend-label" data-i18n="map.legend.npc">NPCs</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#6E9E70"></div>
+      <span class="legend-label" data-i18n="map.legend.resource">Resources</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#3E737A"></div>
+      <span class="legend-label" data-i18n="map.legend.fishing">Fishing</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#E9B040"></div>
+      <span class="legend-label" data-i18n="map.legend.shop">Shops</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#9B8EC4"></div>
+      <span class="legend-label" data-i18n="map.legend.insect">Insects</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#7BA89E"></div>
+      <span class="legend-label" data-i18n="map.legend.bird">Birds</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#C9956B"></div>
+      <span class="legend-label" data-i18n="map.legend.animal">Animals</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#8C9898"></div>
+      <span class="legend-label" data-i18n="map.legend.location">Landmarks</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#C75E4A"></div>
+      <span class="legend-label" data-i18n="map.legend.bus">Bus Stops</span>
+    </div>
+  </div>
+
+  <!-- 数据统计 -->
+  <div class="map-stats">
+    <div class="map-stat">
+      <div class="stat-num">100+</div>
+      <div class="stat-label" data-i18n="map.stat.markers">Markers</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label" data-i18n="map.stat.categories">Categories</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">80+</div>
+      <div class="stat-label" data-i18n="map.stat.fish">Fish species</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">60+</div>
+      <div class="stat-label" data-i18n="map.stat.insects">Insect species</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">70+</div>
+      <div class="stat-label" data-i18n="map.stat.birds">Bird species</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">8</div>
+      <div class="stat-label" data-i18n="map.stat.bus">Bus stops</div>
+    </div>
+  </div>
+</div>
+
+<footer id="site-footer" class="site-footer"></footer>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js"></script>
+<!-- Inline map marker data so the map works even without a web server -->
+<script>
+var INLINE_MAP_MARKERS = [{"id":"vanya","category":"npc","name":"Vanya","emoji":"🎣","x":549,"y":-456,"desc":"钓鱼导师。DG Lv.2 自动登门送钓鱼竿。从此解锁钓鱼爱好，开始在任何水域钓鱼。","detail":"解锁条件：DG Lv.2（自动触发）","schedule":"全天","unlockDg":2},{"id":"blanc","category":"npc","name":"Blanc","emoji":"🌱","x":560,"y":-528,"desc":"园艺导师。DG Lv.3 后找他对话解锁园艺。建议立即购买土豆种子——土豆收益是番茄的3倍，新手期最佳作物。","detail":"解锁条件：DG Lv.3 · 位置：garden-street附近","schedule":"全天","unlockDg":3},{"id":"massimo","category":"npc","name":"Massimo","emoji":"🍳","x":493,"y":-446,"desc":"烹饪导师，位于咖啡馆。DG Lv.5 获得爱好扩展券后强烈推荐首选烹饪——能把钓鱼+种田产出转化为2-5倍利润。","detail":"解锁条件：DG Lv.5 + 爱好扩展券 · 位置：咖啡馆","schedule":"全天","unlockDg":5},{"id":"naniwa","category":"npc","name":"Naniwa","emoji":"🦋","x":582,"y":-502,"desc":"捕虫导师。售卖充气昆虫诱捕器和捕虫网。也是16块拼图梦（Dream升级材料）的购买地点。","detail":"解锁条件：DG Lv.5/8/11 · 位置：城镇中心","schedule":"全天","unlockDg":5},{"id":"bailey-j","category":"npc","name":"Bailey J","emoji":"🔭","x":526,"y":-498,"desc":"观鸟导师。观鸟升级技巧：重复拍摄同一只鸟也能累积进度，不需要满地图追新品种。","detail":"解锁条件：DG Lv.5/8/11 · 位置：城镇中心","schedule":"全天","unlockDg":5},{"id":"mrs-joan","category":"npc","name":"琼夫人","emoji":"🐱","x":519,"y":-502,"desc":"宠物领养中心负责人。DG Lv.12 解锁养猫。注意：养狗需要先完成猫护理基础教程，这是硬性前置条件。","detail":"解锁条件：DG Lv.12 · 位置：宠物领养中心","schedule":"全天","unlockDg":12},{"id":"albert-jr","category":"npc","name":"Albert Jr.","emoji":"💰","x":635,"y":-532,"desc":"流浪商人，全地图随机游走，没有固定位置。出售物品价格比商店高，按住物品可批量出售。每天跑图时留意他的位置。","detail":"始终可用 · 全地图随机游走","schedule":"随机游走","unlockDg":0},{"id":"ka-ching","category":"npc","name":"Ka Ching","emoji":"🎒","x":418,"y":-412,"desc":"背包/仓库扩容NPC。前5次扩容仅需10许愿星（原价25），绝对优先买满折扣次数。DG等级2/7/13/17/19还送免费扩容。","detail":"始终可用 · 位置：郊区","schedule":"全天","unlockDg":0},{"id":"annie","category":"npc","name":"Annie","emoji":"💤","x":499,"y":-500,"desc":"Dream功能解锁人。DG Lv.16 后找她触发。如果没出现，重登游戏即可。最快升级方式：捕虫商店买16块拼图梦。","detail":"解锁条件：DG Lv.16 · 位置：城镇中心","schedule":"全天","unlockDg":16},{"id":"dorothee","category":"npc","name":"Dorothy","emoji":"👗","x":488,"y":-469,"desc":"每日食物任务发布者 + 服装商店店主。位于服装店，始终可用。","detail":"始终可用 · 位置：服装店","schedule":"全天","unlockDg":0},{"id":"bob","category":"npc","name":"Bob","emoji":"🏪","x":501,"y":-471,"desc":"商店NPC。位于中心商店街。","detail":"商店 · 位置：中心商店街","schedule":"全天","unlockDg":0},{"id":"atara","category":"npc","name":"Atara","emoji":"📋","x":499,"y":-526,"desc":"活动/周常任务NPC。完成周常任务获取额外奖励。","detail":"活动NPC","schedule":"全天","unlockDg":0},{"id":"collector","category":"npc","name":"收藏家","emoji":"🗃️","x":493,"y":-478,"desc":"收集品兑换NPC。用收集到的物品兑换奖励。","detail":"收集兑换","schedule":"全天","unlockDg":0},{"id":"andrew","category":"npc","name":"Andrew","emoji":"🔧","x":591,"y":-399,"desc":"特殊NPC。位于城镇东侧。","detail":"特殊","schedule":"全天","unlockDg":0},{"id":"eric","category":"npc","name":"Eric","emoji":"👤","x":522,"y":-259,"desc":"位于温泉山附近。","detail":"温泉山区域","schedule":"全天","unlockDg":0},{"id":"will","category":"npc","name":"Will","emoji":"👤","x":419,"y":-807,"desc":"位于花田区域附近。","detail":"花田区域","schedule":"全天","unlockDg":0},{"id":"patti","category":"npc","name":"Patti","emoji":"👤","x":809,"y":-355,"desc":"位于森林岛附近。","detail":"森林岛区域","schedule":"全天","unlockDg":0},{"id":"vernie","category":"npc","name":"Vernie","emoji":"👤","x":225,"y":-653,"desc":"位于紫罗兰海滩附近。","detail":"海滩区域","schedule":"全天","unlockDg":0},{"id":"bill","category":"npc","name":"Bill","emoji":"🎣","x":446,"y":-735,"desc":"活动相关NPC，位于渔村附近。","detail":"活动NPC","schedule":"全天","unlockDg":0},{"id":"doris","category":"npc","name":"Doris","emoji":"👤","x":414,"y":-509,"desc":"特殊NPC，位于艺术街附近。","detail":"特殊","schedule":"全天","unlockDg":0},{"id":"fluorite-mine","category":"resource","subcategory":"stone","name":"萤石矿","emoji":"🪨","x":235,"y":-536,"desc":"每日刷新一次，产出萤石（建筑材料）。位于Meadow湖附近。","detail":"刷新：每日 · Meadow湖附近","season":"全年"},{"id":"bigtree-spot","category":"resource","subcategory":"tree","name":"大树采集点","emoji":"🌳","x":424,"y":-612,"desc":"每日刷新的大树资源。可用于获取木材和特殊材料。","detail":"刷新：每日 · 各大区域分布","season":"全年"},{"id":"stone-spot1","category":"resource","subcategory":"stone","name":"矿石点","emoji":"⛏️","x":316,"y":-615,"desc":"可采集石头和矿物。每日刷新。用于建筑和制作。","detail":"每日刷新","season":"全年"},{"id":"stone-spot2","category":"resource","subcategory":"stone","name":"矿石点","emoji":"⛏️","x":367,"y":-254,"desc":"可采集石头和矿物。遗迹附近。","detail":"每日刷新","season":"全年"},{"id":"stone-spot3","category":"resource","subcategory":"stone","name":"矿石点","emoji":"⛏️","x":697,"y":-443,"desc":"可采集石头和矿物。森林区域。","detail":"每日刷新","season":"全年"},{"id":"mushroom-forest1","category":"resource","subcategory":"mushroom","name":"蘑菇采集点","emoji":"🍄","x":796,"y":-615,"desc":"森林区域蘑菇群。秋季产量最高。免费食材，烤蘑菇零成本赚钱。每天跑图时顺路采集。","detail":"最佳季节：秋季 · 森林区域","season":"秋"},{"id":"mushroom-forest2","category":"resource","subcategory":"mushroom","name":"蘑菇采集点","emoji":"🍄","x":776,"y":-543,"desc":"森林深处蘑菇群。秋季产量最高。","detail":"最佳季节：秋季 · 森林深处","season":"秋"},{"id":"mushroom-shore","category":"resource","subcategory":"mushroom","name":"蘑菇采集点","emoji":"🍄","x":542,"y":-690,"desc":"水边蘑菇点。雨后出现概率更高。","detail":"最佳季节：秋季 · 水边","season":"秋"},{"id":"berry1","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":330,"y":-680,"desc":"全地图散落分布。免费水果，4颗做果酱=170金币。每天跑一圈全部采集。","detail":"全地图散落 · 4颗→果酱170金币","season":"全年"},{"id":"berry2","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":254,"y":-571,"desc":"花田附近的浆果丛，做任务路上就能顺路采集。","detail":"花田周边","season":"全年"},{"id":"berry3","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":242,"y":-503,"desc":"城镇附近的浆果丛，做任务路上就能顺路采集。","detail":"城镇周边","season":"全年"},{"id":"berry4","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":222,"y":-453,"desc":"郊区的浆果丛，刷新频率高。","detail":"郊区","season":"全年"},{"id":"berry5","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":247,"y":-395,"desc":"对岸的浆果丛，容易被忽略但刷新量可观。","detail":"河对岸","season":"全年"},{"id":"orchard1","category":"resource","subcategory":"fruit","name":"果树群","emoji":"🍎","x":677,"y":-505,"desc":"森林边缘的果树群。每棵树敲一下摘果→2分钟后刷新。注意：第一击必掉水果，之后两击只出木材。","detail":"位置：森林边缘 · 2分钟刷新","season":"全年"},{"id":"orchard2","category":"resource","subcategory":"fruit","name":"果树群","emoji":"🍊","x":676,"y":-592,"desc":"森林南缘的果树。每棵树敲一下摘果。","detail":"位置：森林南缘 · 2分钟刷新","season":"全年"},{"id":"orchard3","category":"resource","subcategory":"fruit","name":"果树","emoji":"🍋","x":744,"y":-458,"desc":"路边的柠檬树。柠檬是多种食谱的配料。","detail":"位置：路边 · 2分钟刷新","season":"全年"},{"id":"orchard4","category":"resource","subcategory":"fruit","name":"果树群","emoji":"🍑","x":623,"y":-629,"desc":"森林湖附近的野果树。","detail":"位置：森林湖附近","season":"全年"},{"id":"bubble1","category":"resource","subcategory":"other","name":"金色泡泡","emoji":"✨","x":500,"y":-500,"desc":"全地图随机出现。内含能量、材料、服装等多种奖励。路过一定要捡，免费获取稀有物品的重要来源。","detail":"全地图随机刷新"},{"id":"bubble2","category":"resource","subcategory":"other","name":"金色泡泡","emoji":"✨","x":700,"y":-600,"desc":"全地图随机出现。内含能量、材料、服装等多种奖励。路过一定要捡。","detail":"全地图随机刷新"},{"id":"bubble3","category":"resource","subcategory":"other","name":"金色泡泡","emoji":"✨","x":350,"y":-400,"desc":"全地图随机出现。内含能量、材料、服装等多种奖励。路过一定要捡。","detail":"全地图随机刷新"},{"id":"meadow-lake-fish","category":"fishing","name":"Meadow湖","emoji":"🏞️","x":232,"y":-536,"desc":"Meadow湖钓点。蝴蝶锦鲤、胡瓜鱼、金鱼出没。全年全天可钓。新手最方便的日常钓点。","detail":"鱼种：蝴蝶锦鲤·胡瓜鱼·金鱼","fishIds":["虹鳟鱼","胡瓜鱼","蝴蝶锦鲤","欧鲶","欧鲌","食用蛙","圆鳍雅罗鱼"]},{"id":"forest-lake-fish","category":"fishing","name":"森林湖","emoji":"🌲","x":748,"y":-598,"desc":"森林湖钓点。鲈鱼、小龙虾、红点鲑出没。同时也是蘑菇的采集地。","detail":"鱼种：鲈鱼·小龙虾·红点鲑","fishIds":["北极红点鲑","大口黑鲈","大珍珠蚌","丁鱥","蓝鳌虾","泥太阳鱼","欧洲鳌虾"]},{"id":"suburb-lake-fish","category":"fishing","name":"郊区湖","emoji":"🏘️","x":481,"y":-608,"desc":"郊区湖钓点。鲫鱼、鲷鱼、白鱼出没。靠近农地，方便日常采集后来钓鱼。","detail":"鱼种：鲫鱼·鲷鱼·白鱼","fishIds":["白斑狗鱼","地中海鳉鱼","河蚌","河蟹","红眼鱼","茴鱼","鲫鱼","欧洲泥鳉","施氏鱥","条鳅"]},{"id":"hot-spring-lake-fish","category":"fishing","name":"温泉山湖","emoji":"♨️","x":537,"y":-265,"desc":"温泉山湖钓点。蓝鳃太阳鱼、杜父鱼出没。位置较远但鱼种独特。","detail":"鱼种：蓝鳃太阳鱼·杜父鱼","fishIds":["白鱼","斑杜父鱼","蝌蚪","蓝鳃太阳鱼","梅花鲈","太阳鱼"]},{"id":"volcano-lake-fish","category":"fishing","name":"火山湖","emoji":"🌋","x":394,"y":-176,"desc":"火山湖钓点。特色鱼类出没，完成图鉴必去。","detail":"火山湖·特色鱼类","fishIds":[]},{"id":"aurora-river-fish","category":"fishing","name":"极光河","emoji":"🌌","x":319,"y":-337,"desc":"极光河段钓点。","detail":"河流钓点","fishIds":[]},{"id":"shallow-river-fish","category":"fishing","name":"浅滩河","emoji":"🏖️","x":652,"y":-344,"desc":"浅滩河段。鲃鱼出没。","detail":"鱼种：鲃鱼","fishIds":["鲃鱼","三刺鱼"]},{"id":"quiet-river-fish","category":"fishing","name":"静谧河","emoji":"🍃","x":368,"y":-669,"desc":"静谧河段。江鱈、鲑鱼出没。沿着河道边走边钓，效率很高。","detail":"鱼种：江鱈·鲑鱼","fishIds":["狗鲑","江鱈","鳉鱼"]},{"id":"giant-tree-river-fish","category":"fishing","name":"巨树河","emoji":"🌳","x":627,"y":-674,"desc":"巨树河段。多瑙哲罗鱼出没。","detail":"鱼种：多瑙哲罗鱼","fishIds":["多瑙哲罗鱼","红腹食人鱼","花鳅","梭鲈"]},{"id":"fisherman-dock-fish","category":"fishing","name":"渔村码头","emoji":"⛵","x":506,"y":-692,"desc":"渔村码头海钓点。全年全天可钓鲑鱼、沙丁鱼。靠近渔具店方便补给，是日常海钓首选地。","detail":"鱼种：鲑鱼·沙丁鱼·多种海鱼","fishIds":["海鲈鱼","鲣鱼","兔子鱼"]},{"id":"east-dock-fish","category":"fishing","name":"东码头","emoji":"🚢","x":602,"y":-736,"desc":"东码头海钓点。多种海鱼出没。","detail":"海钓点","fishIds":["翻车鱼","鲂鱼","黑线鳕","寄居蟹","普通虾","虾虎鱼"]},{"id":"whale-sea-fish","category":"fishing","name":"鲸鱼海","emoji":"🐋","x":92,"y":-534,"desc":"鲸鱼海钓点。鲭鱼、大西洋鲑鱼出没。","detail":"鱼种：鲭鱼·大西洋鲑鱼","fishIds":["大西洋鲑鱼","大西洋鲭鱼","帝王蟹","海马","竹荚鱼"]},{"id":"ancient-sea-fish","category":"fishing","name":"古海","emoji":"🏛️","x":497,"y":-68,"desc":"古代海域钓点。","detail":"海钓点","fishIds":["海刺鱼","欧鲽","欧洲鳗鱼","小丑鱼"]},{"id":"calm-sea-fish","category":"fishing","name":"静海","emoji":"🌊","x":478,"y":-783,"desc":"平静海域钓点。","detail":"海钓点","fishIds":[]},{"id":"sea-fishing","category":"fishing","name":"远洋活动区","emoji":"🎣","x":600,"y":-780,"desc":"海上钓鱼活动专用区域。出产金枪鱼（夏季）、帝王蟹（冬季）、月鱼（夜间）。注意：同周多次参加费用递增。","detail":"限定：活动周内 · 金枪鱼·帝王蟹·月鱼","fishIds":["鮟鱇鱼","大菱鲆","护士鲨","皇带鱼","黄金帝王蟹","欧洲飞鱿","普通章鱼","条纹绯鲤","月鱼"]},{"id":"clothes-shop","category":"shop","name":"Dorothy服装店","emoji":"👚","x":487,"y":-472,"desc":"城镇中心。每日服装库存刷新。Dorothy也是每日食物任务发布者。","detail":"位置：城镇中心 · Dorothy"},{"id":"furniture-shop","category":"shop","name":"家具市场","emoji":"🏠","x":503,"y":-474,"desc":"2000+可交互组件。按主题分类：现代、田园、海洋、童话。DG等级决定解锁种类。DG Lv.15解锁高级建造模式。","detail":"2000+组件 · DG等级决定解锁种类"},{"id":"pets-shop","category":"shop","name":"宠物商店","emoji":"🐾","x":521,"y":-496,"desc":"宠物相关物品。靠近宠物领养中心。","detail":"位置：宠物领养中心附近"},{"id":"bookstore-shop","category":"shop","name":"书店","emoji":"📚","x":467,"y":-440,"desc":"售卖蓝图、配方书。部分稀有蓝图需要特定DG等级解锁。","detail":"位置：城镇中心 · 蓝图·配方书"},{"id":"central-shops","category":"shop","name":"中心商店街","emoji":"🏪","x":495,"y":-472,"desc":"城镇中心主街。服饰店、家具店、杂货店聚集于此。库存每日刷新，每天必逛。","detail":"位置：城镇中心主街 · 库存每日刷新"},{"id":"massimo-cafe","category":"shop","name":"Massimo咖啡馆","emoji":"☕","x":493,"y":-446,"desc":"售卖烹饪材料：肉、奶酪、奶油、黄油。冬季限定：企鹅炉灶（做冰饮必备！普通炉灶做不了冰咖啡）。","detail":"位置：城镇中心 · 企鹅炉灶（冬季限定）"},{"id":"bug-shop","category":"shop","name":"捕虫商店","emoji":"🦋","x":580,"y":-502,"desc":"找Naniwa购买。充气昆虫诱捕器、捕虫网。16块拼图梦（Dream升级材料）也在这里买。","detail":"NPC：Naniwa · 诱捕器·捕虫网·拼图梦"},{"id":"fish-shop","category":"shop","name":"渔具店","emoji":"🎣","x":510,"y":-690,"desc":"渔村区域。售卖鱼饵、修理工具。海上钓鱼活动期间有限定物品出售。","detail":"位置：渔村区域"},{"id":"gilded","category":"shop","name":"镀金橡果展览","emoji":"🎪","x":510,"y":-490,"desc":"扭蛋/抽卡系统。展览票券可跨池保留，不要立刻花掉！攒起来等心仪物品轮换到池子里再集中抽。精密乐器、稀有家具来源。","detail":"票券可跨池保留 · 稀有家具·精密乐器"},{"id":"central-plaza","category":"location","name":"中央广场","emoji":"🏘️","x":492,"y":-538,"desc":"岛屿的核心区域。商店街、咖啡馆、广场都集中在这里。大多数NPC都在此活动。","detail":"核心区域 · NPC密集"},{"id":"oak-forest","category":"location","name":"灵橡松林","emoji":"🌲","x":805,"y":-531,"desc":"东部森林区域。昆虫、蘑菇、木材的主要来源。也是捕虫和观鸟的主要区域。","detail":"森林区域 · 昆虫·蘑菇·木材"},{"id":"fisherman-village","category":"location","name":"渔村","emoji":"⚓","x":506,"y":-692,"desc":"南部渔村。有渔具店和码头。海钓首选地，全年全天可钓。","detail":"渔具店 · 码头 · 海钓"},{"id":"flower-fields","category":"location","name":"花田","emoji":"🌷","x":185,"y":-649,"desc":"西北部的花田区域。花卉种类丰富，昆虫和观鸟好去处。","detail":"花田 · 昆虫·花卉"},{"id":"hot-spring-mountain","category":"location","name":"温泉山","emoji":"♨️","x":501,"y":-223,"desc":"东北部的温泉山区。山湖在此。视野开阔，可以看到整个岛屿。","detail":"温泉山 · 山湖钓点"},{"id":"whale-mountain","category":"location","name":"鲸鱼山","emoji":"🐋","x":184,"y":-440,"desc":"北部山区。","detail":"山区"},{"id":"rocky-cliff","category":"location","name":"岩石崖","emoji":"🪨","x":627,"y":-228,"desc":"东部海岸的悬崖区域。风景独特。","detail":"海岸悬崖"},{"id":"the-pier","category":"location","name":"码头","emoji":"⚓","x":402,"y":-690,"desc":"西部码头。","detail":"码头区域"},{"id":"lighthouse","category":"location","name":"灯塔","emoji":"🔦","x":387,"y":-780,"desc":"西南海岸灯塔。风景优美，适合拍照。","detail":"灯塔 · 地标"},{"id":"suburbs","category":"location","name":"郊区","emoji":"🌾","x":406,"y":-587,"desc":"西部郊区区域。可以种植作物。Ka Ching的背包扩容店在此。","detail":"郊区 · 农业区"},{"id":"forest-island","category":"location","name":"森林岛","emoji":"🏝️","x":933,"y":-338,"desc":"东部的离岛森林区域。","detail":"离岛 · 森林"},{"id":"violet-beach","category":"location","name":"紫罗兰海滩","emoji":"🏖️","x":208,"y":-725,"desc":"海滩区域。","detail":"海滩"},{"id":"arts-street","category":"location","name":"艺术街","emoji":"🎨","x":429,"y":-494,"desc":"艺术街区。","detail":"艺术街"},{"id":"garden-street","category":"location","name":"花园街","emoji":"🌻","x":558,"y":-510,"desc":"花园街区。Blanc在此附近。昆虫和鸟类常出没。","detail":"花园街 · Blanc"},{"id":"townsfolk-street","category":"location","name":"居民街","emoji":"🏠","x":513,"y":-438,"desc":"居民街区。多位NPC的住所。","detail":"居民区"},{"id":"diving-board","category":"location","name":"潜水板","emoji":"🤿","x":783,"y":-691,"desc":"跳水点。熊猫附近。","detail":"跳水点"},{"id":"east-dock","category":"location","name":"东码头","emoji":"🚢","x":602,"y":-736,"desc":"东侧大码头。海钓和出海活动起点。","detail":"东码头 · 海钓"},{"id":"player-home","category":"location","name":"玩家家园","emoji":"🏡","x":510,"y":-510,"desc":"你的家园！种田、烹饪、建造都在这里。跑图的起点和终点。","detail":"种田·烹饪·建造·起始点"},{"id":"windmill-flower","category":"location","name":"风车花田","emoji":"🌾","x":600,"y":-600,"desc":"风车和花田景观区。","detail":"风车·花田"},{"id":"bus-central","category":"bus","name":"巴士站·中央广场","emoji":"🚌","x":481,"y":-497,"desc":"中央广场巴士站。可快速传送到其他巴士站。","detail":"传送点"},{"id":"bus-fisherman","category":"bus","name":"巴士站·渔村","emoji":"🚌","x":479,"y":-654,"desc":"渔村巴士站。方便从城镇快速到达渔村。","detail":"传送点"},{"id":"bus-suburbs","category":"bus","name":"巴士站·郊区","emoji":"🚌","x":340,"y":-533,"desc":"西部郊区巴士站。靠近农地。","detail":"传送点"},{"id":"bus-flower","category":"bus","name":"巴士站·花田","emoji":"🚌","x":218,"y":-532,"desc":"花田巴士站。","detail":"传送点"},{"id":"bus-forest","category":"bus","name":"巴士站·森林","emoji":"🚌","x":798,"y":-500,"desc":"森林巴士站。靠近灵橡松林入口。","detail":"传送点"},{"id":"bus-hotspring","category":"bus","name":"巴士站·温泉山","emoji":"🚌","x":512,"y":-222,"desc":"温泉山巴士站。去山湖钓鱼的起点。","detail":"传送点"},{"id":"bus-north","category":"bus","name":"巴士站·北郊","emoji":"🚌","x":480,"y":-373,"desc":"北郊巴士站。","detail":"传送点"},{"id":"bus-suburb-village","category":"bus","name":"巴士站·郊区村","emoji":"🚌","x":639,"y":-519,"desc":"郊区村巴士站。","detail":"传送点"},{"id":"animal-bunny","category":"animal","name":"野兔","emoji":"🐰","x":340,"y":-533,"desc":"郊区和农地附近出没。清晨和傍晚最活跃。","detail":"郊区·农地 · 晨昏"},{"id":"animal-fox","category":"animal","name":"狐狸","emoji":"🦊","x":185,"y":-649,"desc":"花田附近出没。稀有野生动物。","detail":"花田 · 稀有"},{"id":"animal-deer","category":"animal","name":"小鹿","emoji":"🦌","x":805,"y":-531,"desc":"森林深处偶尔出现。动作敏捷，靠近时会跑开。","detail":"森林深处 · 稀有"},{"id":"animal-panda","category":"animal","name":"熊猫","emoji":"🐼","x":783,"y":-691,"desc":"森林岛附近出没。可投喂竹子互动。","detail":"森林岛区域"},{"id":"animal-capybara","category":"animal","name":"水豚","emoji":"🦫","x":291,"y":-184,"desc":"遗迹区域附近出没。","detail":"遗迹区域"},{"id":"animal-sea-otter","category":"animal","name":"海獭","emoji":"🦦","x":512,"y":-737,"desc":"渔村附近水域出没。","detail":"渔村水域"},{"id":"animal-ferret","category":"animal","name":"雪貂","emoji":"🦡","x":277,"y":-354,"desc":"特定区域出没。稀有。","detail":"稀有"},{"id":"animal-llama","category":"animal","name":"羊驼","emoji":"🦙","x":208,"y":-725,"desc":"紫罗兰海滩附近出没。","detail":"海滩区域"},{"y":-500,"id":"bird-event","x":500,"category":"bird","birdIds":[],"season":"活动期间","name":"活动限定观鸟","desc":"百巢活动等特殊事件中出现的稀有鸟类（孔雀、金刚鹦鹉等）。","detail":"活动限定 · 不可常规观测","emoji":"🎪"},{"y":-650,"id":"bird-waterside","x":370,"category":"bird","birdIds":["斑头秋沙鸭","赤颈鸭","大红鹳","绿头鸭","王绒鸭","小红鹳"],"season":"全年","name":"水边观鸟区","desc":"河流、湖泊、水边的水鸟，包括鸭类、火烈鸟等。","detail":"观鸟等级需求：1-5 · 鸭类和涉禽为主","emoji":"💧"},{"y":-640,"id":"bird-flower","x":190,"category":"bird","birdIds":["苍头燕雀","橙腹果鸠","粉颈绿鸠","黄嘴朱顶雀","蓝山雀","美洲火烈鸟"],"season":"全年","name":"花田观鸟区","desc":"花田地区的丰富鸟类，包括火烈鸟、果鸠等。","detail":"观鸟等级需求：1-9 · 种类最丰富的区域之一","emoji":"🌷"},{"y":-700,"id":"bird-village","x":500,"category":"bird","birdIds":["斑皇鸠","桂红地鸠","黄腹鹟","欧亚䴓","普氏鸦雀","双斑草雀"],"season":"全年","name":"渔村观鸟区","desc":"渔村、灯塔、码头的海鸟和水边鸟类。","detail":"观鸟等级需求：1-6","emoji":"⚓"},{"y":-750,"id":"bird-ocean","x":550,"category":"bird","birdIds":["奥氏鸥","白燕鸥","帝鸬鹚","红脸鸬鹚"],"season":"全年","name":"远洋观鸟区","desc":"远洋和海岛区域的稀有海鸟，包括鸬鹚、燕鸥等。","detail":"观鸟等级需求：3-9 · 稀有海鸟","emoji":"🌊"},{"y":-530,"id":"bird-forest-oak","x":800,"category":"bird","birdIds":["白腰朱顶雀","北美黑啄木鸟","红腹灰雀","红脚隼","鹪鹩","金色园丁鸟","巨果鸠","摄政园丁鸟","铜蓝鹟"],"season":"全年","name":"灵橡松林观鸟区","desc":"灵橡松林核心区域的鸟类，包括啄木鸟、园丁鸟等。","detail":"观鸟等级需求：1-7","emoji":"🌲"},{"y":-180,"id":"bird-crater","x":400,"category":"bird","birdIds":["白头硬尾鸭","黄喉蜂虎","锡嘴雀"],"season":"全年","name":"火山口湖观鸟区","desc":"火山口湖和遗迹地区的高地鸟类。","detail":"观鸟等级需求：5-6","emoji":"🌋"},{"y":-590,"id":"bird-windmill","x":590,"category":"bird","birdIds":["粉红鸽","灰蓝山雀"],"season":"全年","name":"风车花田观鸟区","desc":"风车花田及鲸鱼山附近的特有鸟类。","detail":"观鸟等级需求：1-7","emoji":"🌾"},{"y":-580,"id":"bird-suburbs","x":400,"category":"bird","birdIds":["斑胸草雀","赤麻鸭","东方蓝鸲","粉头果鸠","黄眼鸽","灰冠红雀","林䳭伯劳","绿头唐纳雀","欧亚红腹灰雀","天堂唐纳雀"],"season":"全年","name":"郊区观鸟区","desc":"郊区和农地区域鸟类，包括蓝鸲、朱顶雀等。种类最多的观鸟区域。","detail":"观鸟等级需求：2-9 · 种类最丰富的区域","emoji":"🌻"},{"y":-520,"id":"bird-home","x":500,"category":"bird","birdIds":["灰斑鸠","灰头斑鸠","金黄鹂","欧鸽","欧亚灰斑鸠","欧亚鸲(知更鸟)","珠颈斑鸠"],"season":"全年","name":"家园/中心区观鸟","desc":"家园和中央广场附近的常见鸟类。新手最容易观测的区域。","detail":"观鸟等级需求：1-3","emoji":"🏡"},{"y":-350,"id":"bird-forest-island","x":900,"category":"bird","birdIds":["松雀"],"season":"全年","name":"森林岛观鸟区","desc":"森林岛的独有鸟类。","detail":"观鸟等级需求：4","emoji":"🏝️"},{"y":-740,"id":"bird-coast","x":250,"category":"bird","birdIds":["白鹡鸰","褐燕鸥","黑头鸥","燕鸥"],"season":"全年","name":"海岸观鸟区","desc":"海滩、海边的海鸟，包括鸥类、燕鸥等。","detail":"观鸟等级需求：2-7","emoji":"🏖️"},{"y":-230,"id":"bird-onsen","x":510,"category":"bird","birdIds":["大山雀","非洲橄榄鸽","欧亚雕鸮","文须雀","游隼","长耳鸮"],"season":"全年","name":"温泉山观鸟区","desc":"温泉山地区的鸟类，包括山雀、鹰鸮等。","detail":"观鸟等级需求：1-7 · 多种山雀和猛禽","emoji":"♨️"},{"y":-510,"id":"bird-forest-deer","x":780,"category":"bird","birdIds":["红隼","红隼(赤隼)"],"season":"全年","name":"鹿塔观鸟区","desc":"森林鹿塔附近的猛禽和特有鸟类。","detail":"观鸟等级需求：5-8 · 可见红隼等猛禽","emoji":"🦌"},{"y":-650,"id":"bird-forest-jump","x":783,"category":"bird","birdIds":["欧鸬鹚","银喉山雀"],"season":"全年","name":"跳跃谜题观鸟区","desc":"森林跳跃谜题/跳水板附近的鸟类。","detail":"观鸟等级需求：3-4","emoji":"🪜"},{"y":-580,"id":"insect-windmill","x":600,"category":"insect","insectIds":["孔雀蛱蝶","珍珠蝶"],"name":"风车花田捕虫区","desc":"风车花田，珍珠蝶、孔雀蛱蝶、展足木蜂出没。","detail":"捕捉等级需求：4-8","emoji":"🌾"},{"y":-340,"id":"insect-forest-island","x":930,"category":"insect","insectIds":["高山天牛"],"name":"森林岛捕虫区","desc":"森林岛的高山天牛。仅彩虹天气出现。","detail":"捕捉等级需求：5 · 仅彩虹天气","emoji":"🏝️"},{"y":-520,"id":"insect-forest-oak","x":800,"category":"insect","insectIds":["蜂形天牛","金锹甲","西班牙月蛾"],"name":"灵橡松林捕虫区","desc":"灵橡松林核心区域，闪蝶、锹甲、凤蝶等稀有品种出没。","detail":"捕捉等级需求：2-8 · 蝴蝶和甲虫为主","emoji":"🌲"},{"y":-500,"id":"insect-forest-deer","x":790,"category":"insect","insectIds":["蓑蛾","瓦鲁纳杜鹃蜂","异色瓢虫"],"name":"鹿塔捕虫区","desc":"森林鹿塔附近，异色瓢虫、蓑蛾、杜鹃蜂等出没。","detail":"捕捉等级需求：3-7","emoji":"🦌"},{"y":-700,"id":"insect-village","x":500,"category":"insect","insectIds":["豹纹蛱蝶","角甲虫","蓝盾蝽","蚂蚁","天蓝木蜂","西伯利亚蝗虫"],"name":"渔村捕虫区","desc":"渔村及周边，菜粉蝶、蚂蚁、角甲虫、豹纹蛱蝶等。","detail":"捕捉等级需求：1-7","emoji":"⚓"},{"y":-660,"id":"insect-forest-jump","x":790,"category":"insect","insectIds":["金宝石金龟","锹形虫"],"name":"跳跃谜题捕虫区","desc":"森林跳跃谜题区域，金宝石金龟、锹形虫出没。","detail":"捕捉等级需求：4-5","emoji":"🪜"},{"y":-640,"id":"insect-flower","x":190,"category":"insect","insectIds":["毕加索蝽","芦笋甲虫","熊蜂","优雅花金龟","展足木蜂","螽斯","紫皇蛱蝶"],"name":"花田捕虫区","desc":"花田地区，熊蜂、芦笋甲虫、花金龟等多种昆虫。","detail":"捕捉等级需求：1-8 · 蝴蝶和蜜蜂为主","emoji":"🌷"},{"y":-515,"id":"insect-home","x":510,"category":"insect","insectIds":["橙尖粉蝶","红颈鸟翼蝶","欧洲红蝽","普通蓝灰蝶","紫晶花金龟"],"name":"家园/岩石捕虫","desc":"家园和岩石附近的常见昆虫。","detail":"捕捉等级需求：1-3","emoji":"🏡"},{"y":-500,"id":"insect-bait","x":500,"category":"insect","insectIds":["阿波罗绢蝶","白巫蛾","彩虹锹甲","粉色螽斯","栗虎蝶","苏氏闪蝶","邮差蝶"],"name":"诱饵活动捕虫","desc":"诱饵活动和充气诱捕器中出现的特殊昆虫（阿波罗绢蝶、彩虹锹甲等）。","detail":"活动/诱饵限定 · 稀有品种","emoji":"🪤"},{"y":-500,"id":"insect-unknown","x":500,"category":"insect","insectIds":["海伦娜闪蝶","日落闪蝶"],"name":"稀有/未知来源","desc":"来源未知的稀有昆虫。可能需要在特定条件下遇到。","detail":"出现条件未知 · 探索发现","emoji":"❓"},{"y":-580,"id":"insect-suburbs","x":400,"category":"insect","insectIds":["大斑翅蝗","彗星蛾","绿鸟翼蝶","小月蛾"],"name":"郊区捕虫区","desc":"郊区和农地，粉蝶、瓢虫、月蛾、鸟翼蝶等。","detail":"捕捉等级需求：1-8","emoji":"🌻"},{"y":-230,"id":"insect-onsen","x":510,"category":"insect","insectIds":["赤色沼泽蜻","地中海螳螂","黄缘蛱蝶","火色甲虫","金蝗虫","绿虎甲"],"name":"温泉山捕虫区","desc":"温泉山地区，螳螂、虎甲、金蝗虫、绿虎甲等出没。","detail":"捕捉等级需求：3-7 · 螳螂和甲虫为主","emoji":"♨️"},{"y":-380,"id":"insect-waterside","x":550,"category":"insect","insectIds":["丽色蟌","普通白尾蜻","四斑蜻蜓"],"name":"水边捕虫区","desc":"水边和河边，蜻蜓、豆娘、蟌等水边昆虫。","detail":"捕捉等级需求：2-5 · 蜻蜓为主","emoji":"💧"},{"y":-190,"id":"insect-ruins","x":300,"category":"insect","insectIds":["大刀螳","牛头甲虫","四星瓢虫","银宝石金龟"],"name":"遗迹捕虫区","desc":"火山口湖和遗迹的高地昆虫。","detail":"捕捉等级需求：5-8 · 稀有甲虫","emoji":"🏛️"},{"y":-530,"id":"rosy-river-fish","x":530,"category":"fishing","fishIds":["鲤鱼","淡水鳚","施氏鲈"],"name":"Rosy河","desc":"Rosy河钓点。鲤鱼、淡水鳚、施氏鲈出没。","detail":"鱼种：鲤鱼·淡水鳚·施氏鲈","emoji":"🌊"},{"y":-700,"id":"zephyr-sea-fish","x":700,"category":"fishing","fishIds":["带鱼","黑斑鲷","大西洋侏儒章鱼","欧洲龙虾","海鲷","大西洋鲭鱼"],"name":"Zephyr海","desc":"Zephyr海钓点。海鲷、龙虾、带鱼等多种海鱼出没。","detail":"鱼种：海鲷·带鱼·龙虾·章鱼","emoji":"🌅"},{"y":-700,"id":"east-sea-fish","x":650,"category":"fishing","fishIds":["虾虎鱼","普通虾","黑线鳕","翻车鱼","寄居蟹","鲂鱼"],"name":"东海","desc":"东海钓点。虾虎鱼、虾、黑线鳕、翻车鱼等出没。","detail":"鱼种：虾虎鱼·普通虾·黑线鳕·翻车鱼","emoji":"🌄"},{"y":-431,"id":"upper-forest-lake-fish","x":774,"category":"fishing","fishIds":[],"name":"上森林湖","desc":"上森林湖钓点。位于森林深处的高地湖泊。","detail":"森林高地湖泊钓点","emoji":"🏞️"},{"y":-800,"id":"ocean-fishing","x":600,"category":"fishing","fishIds":["兔子鱼","沙丁鱼","海鲈鱼","鲣鱼"],"name":"远洋活动区","desc":"远洋钓鱼点。兔子鱼、沙丁鱼、海鲈鱼、鲣鱼出没。海上钓鱼活动区域。","detail":"鱼种：兔子鱼·沙丁鱼·海鲈鱼·鲣鱼","emoji":"🚢"},{"id":"the-ruins","y":-184,"desc":"古老遗迹区域。水豚、火山湖在此附近。考古探索和观鸟的好去处。","emoji":"🏛️","category":"location","name":"遗迹","x":291,"detail":"遗迹 · 水豚·火山湖"},{"id":"east-pontoon","y":-670,"desc":"东部浮桥。连接河流两岸的重要通道。","emoji":"🌉","category":"location","name":"东浮桥","x":450,"detail":"浮桥 · 河道交通"},{"id":"upper-forest-lake-loc","y":-431,"desc":"森林深处的高地湖泊。环境幽静，适合钓鱼和观鸟。","emoji":"🏞️","category":"location","name":"上森林湖","x":774,"detail":"森林高地 · 湖泊"},{"id":"ancient-sea","y":-68,"desc":"古代海域。地图北端的海域，小丑鱼、欧洲鳗鱼等出没。","emoji":"🏛️","category":"location","name":"古海","x":497,"detail":"北部海域 · 古海钓点"},{"id":"whale-sea","y":-534,"desc":"西部的鲸鱼海。海马、帝王蟹、竹荚鱼等出没。","emoji":"🐋","category":"location","name":"鲸鱼海","x":92,"detail":"西部海域 · 鲸鱼海钓点"},{"id":"rosy-river","y":-530,"desc":"Rosy河段。流经城镇中心附近，鲤鱼和淡水鳚的主要栖息地。","emoji":"🌸","category":"location","name":"Rosy河","x":530,"detail":"河流 · Rosy河钓点"}];
+
+var INLINE_BIRD_DATA = [{"weather":"Sunny, Rain, Rainbow","name":"奥氏鸥","time":"Night, Dawn, Day, Dusk","nameEn":"audouinsGull","birdwatchLevel":3,"location":"Whale Sea (seaside \u0026 beaches)"},{"weather":"Sunny, Rain, Rainbow","name":"白鹡鸰","time":"Night, Dawn, Day, Dusk","nameEn":"whiteWagtail","birdwatchLevel":4,"location":"Purple Light Beach"},{"weather":"Rain, Rainbow","name":"白头硬尾鸭","time":"Night, Dawn, Day, Dusk","nameEn":"whiteHeadedDuck","birdwatchLevel":9,"location":"Onsen Mountain Lake"},{"weather":"Sunny, Rain, Rainbow","name":"白燕鸥","time":"Night, Dawn, Day, Dusk","nameEn":"whiteTern","birdwatchLevel":6,"location":"East Sea"},{"weather":"Sunny, Rain, Rainbow","name":"白腰朱顶雀","time":"Night, Dawn, Day, Dusk","nameEn":"redpoll","birdwatchLevel":7,"location":"Forest (Spirit Oak Pine Forest)"},{"weather":"Sunny, Rain, Rainbow","name":"斑皇鸠","time":"Night, Dawn, Day, Dusk","nameEn":"piedImperialPigeon","birdwatchLevel":1,"location":"Fishing Village"},{"weather":"Sunny, Rain, Rainbow","name":"斑头秋沙鸭","time":"Night, Dawn, Day, Dusk","nameEn":"smew","birdwatchLevel":4,"location":"Forest Lake"},{"weather":"Sunny, Rain, Rainbow","name":"斑胸草雀","time":"Night, Dawn, Day, Dusk","nameEn":"zebraFinch","birdwatchLevel":3,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"北美黑啄木鸟","time":"Night, Dawn, Day, Dusk","nameEn":"pileatedWoodpecker","birdwatchLevel":5,"location":"Forest"},{"weather":"Sunny, Rain, Rainbow","name":"苍头燕雀","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianChaffinch","birdwatchLevel":2,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"橙腹果鸠","time":"Night, Dawn, Day, Dusk","nameEn":"orangeBelliedFruitDove","birdwatchLevel":5,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"赤颈鸭","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianWigeon","birdwatchLevel":2,"location":"River"},{"weather":"Sunny, Rain, Rainbow","name":"赤麻鸭","time":"Night, Dawn, Day, Dusk","nameEn":"ruddyShelduck","birdwatchLevel":3,"location":"Suburban Lake"},{"weather":"Sunny, Rain, Rainbow","name":"大红鹳","time":"Night, Dawn, Day, Dusk","nameEn":"greaterFlamingo","birdwatchLevel":1,"location":"Waterside"},{"weather":"Sunny, Rain, Rainbow","name":"大山雀","time":"Night, Dawn, Day, Dusk","nameEn":"greatTit","birdwatchLevel":2,"location":"Onsen Mountain"},{"weather":"Sunny, Rain, Rainbow","name":"帝鸬鹚","time":"Night, Dawn, Day, Dusk","nameEn":"imperialShag","birdwatchLevel":9,"location":"East Sea/Zephyr Sea"},{"weather":"Rain, Rainbow","name":"东方蓝鸲","time":"Night, Dawn, Day, Dusk","nameEn":"easternBluebird","birdwatchLevel":7,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"非洲橄榄鸽","time":"Night, Dawn, Day, Dusk","nameEn":"africanOlivePigeon","birdwatchLevel":5,"location":"Onsen Mountain (Onsen)"},{"weather":"Sunny, Rain, Rainbow","name":"粉红鸽","time":"Night, Dawn, Day, Dusk","nameEn":"pinkPigeon","birdwatchLevel":7,"location":"Flower Field (Whale Mountain)"},{"weather":"Sunny, Rain, Rainbow","name":"粉颈绿鸠","time":"Night, Dawn, Day, Dusk","nameEn":"pinkNeckedGreenPigeon","birdwatchLevel":1,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"粉头果鸠","time":"Night, Dawn, Day, Dusk","nameEn":"jambuFruitDove","birdwatchLevel":7,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"桂红地鸠","time":"Night, Dawn, Day, Dusk","nameEn":"cinnamonGroundDove","birdwatchLevel":6,"location":"Fishing Village (East Pier)"},{"weather":"Sunny, Rain, Rainbow","name":"褐燕鸥","time":"Night, Dawn, Day, Dusk","nameEn":"brownNoddy","birdwatchLevel":5,"location":"Old Ocean Seaside"},{"weather":"Sunny, Rain, Rainbow","name":"黑头鸥","time":"Night, Dawn, Day, Dusk","nameEn":"blackHeadedGull","birdwatchLevel":2,"location":"Seaside"},{"weather":"Sunny, Rain, Rainbow","name":"红腹灰雀","time":"Night, Dawn, Day, Dusk","nameEn":"redBelliedBullfinch","birdwatchLevel":4,"location":"Forest (Spirit Oak)"},{"weather":"Sunny, Rainbow","name":"红脚隼","time":"Night, Dawn, Day, Dusk","nameEn":"redFootedFalcon","birdwatchLevel":6,"location":"Forest"},{"weather":"Sunny, Rain, Rainbow","name":"红脸鸬鹚","time":"Night, Dawn, Day, Dusk","nameEn":"redFacedCormorant","birdwatchLevel":6,"location":"Old Sea/Whale Sea"},{"weather":"Sunny, Rainbow","name":"红隼","time":"Night, Dawn, Day, Dusk","nameEn":"commonKestrel","birdwatchLevel":7,"location":"Forest (Deer Tower)"},{"weather":"Sunny, Rainbow","name":"红隼(赤隼)","time":"Night, Dawn, Day, Dusk","nameEn":"redFalcon","birdwatchLevel":8,"location":"Forest (Deer Tower)"},{"weather":"Sunny, Rain, Rainbow","name":"黄腹鹟","time":"Night, Dawn, Day, Dusk","nameEn":"yellowBelliedFlycatcher","birdwatchLevel":5,"location":"Fishing Village (Wharf)"},{"weather":"Rain, Rainbow","name":"黄喉蜂虎","time":"Night, Dawn, Day, Dusk","nameEn":"europeanBeeEater","birdwatchLevel":5,"location":"Onsen Mountain Lake Shore"},{"weather":"Sunny, Rain, Rainbow","name":"黄眼鸽","time":"Night, Dawn, Day, Dusk","nameEn":"yellowEyedPigeon","birdwatchLevel":5,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"黄嘴朱顶雀","time":"Night, Dawn, Day, Dusk","nameEn":"twite","birdwatchLevel":4,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"灰斑鸠","time":"Night, Dawn, Day, Dusk","nameEn":"collaredDove","birdwatchLevel":1,"location":"Home"},{"weather":"Sunny, Rain, Rainbow","name":"灰冠红雀","time":"Night, Dawn, Day, Dusk","nameEn":"greyCrestedCardinal","birdwatchLevel":4,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"灰蓝山雀","time":"Night, Dawn, Day, Dusk","nameEn":"azureTit","birdwatchLevel":7,"location":"Flower Field (Windmill Flower Field)"},{"weather":"Sunny, Rain, Rainbow","name":"灰头斑鸠","time":"Night, Dawn, Day, Dusk","nameEn":"greyHeadedDove","birdwatchLevel":2,"location":"Home"},{"weather":"Sunny, Rain, Rainbow","name":"鹪鹩","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianWren","birdwatchLevel":1,"location":"Forest"},{"weather":"Sunny, Rain, Rainbow","name":"金黄鹂","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianGoldenOriole","birdwatchLevel":3,"location":"Home"},{"weather":"Sunny, Rain, Rainbow","name":"金色园丁鸟","time":"Night, Dawn, Day, Dusk","nameEn":"goldenBowerbird","birdwatchLevel":5,"location":"Forest (Spirit Oak Pine Forest)"},{"weather":"Sunny, Rain, Rainbow","name":"巨果鸠","time":"Night, Dawn, Day, Dusk","nameEn":"wongaPigeon","birdwatchLevel":1,"location":"Forest"},{"weather":"Sunny, Rain, Rainbow","name":"蓝山雀","time":"Night, Dawn, Day, Dusk","nameEn":"blueTit","birdwatchLevel":3,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"林䳭伯劳","time":"Night, Dawn, Day, Dusk","nameEn":"woodchatShrike","birdwatchLevel":2,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"绿头唐纳雀","time":"Night, Dawn, Day, Dusk","nameEn":"greenHeadedTanager","birdwatchLevel":5,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"绿头鸭","time":"Night, Dawn, Day, Dusk","nameEn":"mallard","birdwatchLevel":1,"location":"Lake"},{"weather":"Rainbow","name":"美洲火烈鸟","time":"All Day","nameEn":"americanFlamingo","birdwatchLevel":9,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"欧鸽","time":"Night, Dawn, Day, Dusk","nameEn":"stockDove","birdwatchLevel":2,"location":"Central Area"},{"weather":"Sunny, Rain, Rainbow","name":"欧鸬鹚","time":"Night, Dawn, Day, Dusk","nameEn":"europeanShag","birdwatchLevel":3,"location":"Below Forest Island/around lighthouse"},{"weather":"Sunny, Rain, Rainbow","name":"欧亚雕鸮","time":"Night","nameEn":"eurasianEagleOwl","birdwatchLevel":6,"location":"Onsen Mountain"},{"weather":"Sunny, Rain, Rainbow","name":"欧亚红腹灰雀","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianBullfinch","birdwatchLevel":2,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"欧亚灰斑鸠","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianCollaredDove","birdwatchLevel":1,"location":"Home"},{"weather":"Sunny, Rain, Rainbow","name":"欧亚鸲(知更鸟)","time":"Night, Dawn, Day, Dusk","nameEn":"europeanRobin","birdwatchLevel":1,"location":"Central Area"},{"weather":"Sunny, Rain, Rainbow","name":"欧亚䴓","time":"Night, Dawn, Day, Dusk","nameEn":"eurasianNuthatch","birdwatchLevel":2,"location":"Fishing Village"},{"weather":"Sunny, Rainbow","name":"普氏鸦雀","time":"Night, Dawn, Day, Dusk","nameEn":"przevalskisParrotbill","birdwatchLevel":4,"location":"Fishing Village Square"},{"weather":"Sunny, Rain, Rainbow","name":"摄政园丁鸟","time":"Night, Dawn, Day, Dusk","nameEn":"regentBowerbird","birdwatchLevel":4,"location":"Forest (Spirit Oak Pine Forest)"},{"weather":"Sunny, Rain, Rainbow","name":"双斑草雀","time":"Night, Dawn, Day, Dusk","nameEn":"doubleBarredFinch","birdwatchLevel":3,"location":"Fishing Village (Lighthouse)"},{"weather":"Sunny, Rain, Rainbow","name":"松雀","time":"Night, Dawn, Day, Dusk","nameEn":"pineGrosbeak","birdwatchLevel":4,"location":"Forest Island"},{"weather":"All Weather","name":"天堂唐纳雀","time":"All Day","nameEn":"paradiseTanager","birdwatchLevel":9,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"铜蓝鹟","time":"Night, Dawn, Day, Dusk","nameEn":"verditerFlycatcher","birdwatchLevel":4,"location":"Forest"},{"weather":"Sunny, Rain, Rainbow","name":"王绒鸭","time":"Night, Dawn, Day, Dusk","nameEn":"kingEider","birdwatchLevel":3,"location":"River"},{"weather":"Sunny, Rain, Rainbow","name":"文须雀","time":"Night, Dawn, Day, Dusk","nameEn":"beardedReedling","birdwatchLevel":1,"location":"Onsen Mountain"},{"weather":"Sunny, Rain, Rainbow","name":"锡嘴雀","time":"All Day","nameEn":"hawfinch","birdwatchLevel":6,"location":"Onsen Mountain (Crater Lake)"},{"weather":"Rain, Rainbow","name":"小红鹳","time":"Night, Dawn, Day, Dusk","nameEn":"lesserFlamingo","birdwatchLevel":5,"location":"Forest Lake Shore"},{"weather":"Rainbow","name":"燕鸥","time":"Night, Dawn, Day, Dusk","nameEn":"tern","birdwatchLevel":7,"location":"East Side Seaside"},{"weather":"Sunny, Rain, Rainbow","name":"银喉山雀","time":"Night, Dawn, Day, Dusk","nameEn":"silverThroatedTit","birdwatchLevel":3,"location":"Forest (Jump Puzzle)"},{"weather":"Sunny, Rain, Rainbow","name":"银喉长尾山雀","time":"Night, Dawn, Day, Dusk","nameEn":"longTailedTit","birdwatchLevel":1,"location":"On Blanc\\\u0027s Head"},{"weather":"Rain, Rainbow","name":"游隼","time":"Night, Dawn, Day, Dusk","nameEn":"peregrineFalcon","birdwatchLevel":7,"location":"Onsen Mountain (Onsen)"},{"weather":"Sunny, Rainbow","name":"长耳鸮","time":"Night, Dawn, Day, Dusk","nameEn":"longEaredOwl","birdwatchLevel":6,"location":"Onsen Mountain (Stone Cliff)"},{"weather":"Sunny, Rain, Rainbow","name":"珠颈斑鸠","time":"Night, Dawn, Day, Dusk","nameEn":"spottedDove","birdwatchLevel":1,"location":"Central Area"}];
+
+var INLINE_FISH_DATA = [{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"anglerfish","name":"鮟鱇鱼","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonBarbel","name":"鲃鱼","location":"Shallow River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"northernPike","name":"白斑狗鱼","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonWhitefish","name":"白鱼","location":"Onsen Mountain Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"mottledSculpin","name":"斑杜父鱼","location":"Onsen Mountain Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"arcticChar","name":"北极红点鲑","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"彩虹天气","note":"仅彩虹天气出现","season":"春","nameEn":"Rainbow Fish","name":"彩虹鱼","location":"星光海","sellPrice":5000,"rarity":5,"cookAdvice":"直接出售"},{"time":"夜间","weather":"任意","note":"极稀有","season":"全年","nameEn":"Legendary Koi","name":"传奇锦鲤","location":"秘密池塘","sellPrice":2000,"rarity":5,"cookAdvice":"直接出售"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"largemouthBass","name":"大口黑鲈","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"turbot","name":"大菱鲆","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"atlanticSalmon","name":"大西洋鲑鱼","location":"Whale Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"atlanticMackerel","name":"大西洋鲭鱼","location":"Whale Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"atlanticPygmyOctopus","name":"大西洋侏儒章鱼","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"largePearlMussel","name":"大珍珠蚌","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"beltfish","name":"带鱼","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"freshwaterBlenny","name":"淡水鳚","location":"Rosy River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"mediterraneanKillifish","name":"地中海鳉鱼","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"kingCrab","name":"帝王蟹","location":"Whale Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"清蒸帝王蟹材料","season":"冬","nameEn":"King Crab","name":"帝王蟹","location":"海洋","sellPrice":600,"rarity":4,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"tench","name":"丁鱥","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"orientalShrimp","name":"东方虾","location":"River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"huchen","name":"多瑙哲罗鱼","location":"Giantwood River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"oceanSunfish","name":"翻车鱼","location":"East Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"tubGurnard","name":"鲂鱼","location":"East Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"chumSalmon","name":"狗鲑","location":"Tranquil River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"","season":"春、秋","nameEn":"Salmon","name":"鲑鱼","location":"河流、渔村","sellPrice":120,"rarity":2,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"seaStickleback","name":"海刺鱼","location":"Old Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"seabream","name":"海鲷","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"seaBass","name":"海鲈鱼","location":"Ocean","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"seahorse","name":"海马","location":"Whale Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"mussel","name":"河蚌","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanPerch","name":"河鲈","location":"River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"白天","weather":"任意","note":"","season":"夏","nameEn":"Pufferfish","name":"河豚","location":"海洋","sellPrice":450,"rarity":4,"cookAdvice":"直接出售"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"riverCrab","name":"河蟹","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"blackspotSeabream","name":"黑斑鲷","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"haddock","name":"黑线鳕","location":"East Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"redBelliedPiranha","name":"红腹食人鱼","location":"Giantwood River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonRudd","name":"红眼鱼","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"trout","name":"虹鳟鱼","location":"Meadow Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanSmelt","name":"胡瓜鱼","location":"Meadow Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"butterflyKoi","name":"蝴蝶锦鲤","location":"Meadow Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"nursehound","name":"护士鲨","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"spinedLoach","name":"花鳅","location":"Giantwood River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"giantOarfish","name":"皇带鱼","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"goldenKingCrab","name":"黄金帝王蟹","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"grayling","name":"茴鱼","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"hermitCrab","name":"寄居蟹","location":"East Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"crucianCarp","name":"鲫鱼","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"炸鲫鱼 80→350 金币","season":"全年","nameEn":"Crucian Carp","name":"鲫鱼","location":"河流","sellPrice":80,"rarity":1,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"skipjackTuna","name":"鲣鱼","location":"Ocean","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"burbot","name":"江鱈","location":"Tranquil River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"minnow","name":"鳉鱼","location":"Tranquil River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"","season":"夏","nameEn":"Tuna","name":"金枪鱼","location":"海洋","sellPrice":300,"rarity":3,"cookAdvice":"直接出售"},{"time":"全天","weather":"任意","note":"","season":"全年","nameEn":"Goldfish","name":"金鱼","location":"池塘、河流","sellPrice":50,"rarity":1,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"tadpole","name":"蝌蚪","location":"Onsen Mountain Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"blueEroCrayfish","name":"蓝鳌虾","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"bluefinTuna","name":"蓝鳍金枪鱼","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"bluegill","name":"蓝鳃太阳鱼","location":"Onsen Mountain Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"","season":"全年","nameEn":"Carp","name":"鲤鱼","location":"池塘","sellPrice":65,"rarity":1,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonCarp","name":"鲤鱼","location":"Rosy River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"","season":"全年","nameEn":"Bass","name":"鲈鱼","location":"河流、海洋","sellPrice":55,"rarity":1,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"tilapia","name":"罗非鱼","location":"River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"夜间","weather":"雨","note":"","season":"秋","nameEn":"Eel","name":"鳗鱼","location":"河流","sellPrice":280,"rarity":3,"cookAdvice":"直接出售"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"ruffe","name":"梅花鲈","location":"Onsen Mountain Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"mudSunfish","name":"泥太阳鱼","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"夜间","weather":"雨","note":"","season":"全年","nameEn":"Catfish","name":"鲶鱼","location":"池塘","sellPrice":110,"rarity":2,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonBleak","name":"欧鲌","location":"Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanPlaice","name":"欧鲽","location":"Old Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"welsCatfish","name":"欧鲶","location":"Meadow Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanCrayfish","name":"欧洲鳌虾","location":"Forest Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanFlyingSquid","name":"欧洲飞鱿","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanLobster","name":"欧洲龙虾","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanEel","name":"欧洲鳗鱼","location":"Old Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"europeanMudminnow","name":"欧洲泥鳉","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonShrimp","name":"普通虾","location":"East Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonOctopus","name":"普通章鱼","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"threeSpinedStickleback","name":"三刺鱼","location":"Shallow River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"白天","weather":"任意","note":"","season":"全年","nameEn":"Sardine","name":"沙丁鱼","location":"海洋","sellPrice":40,"rarity":1,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"schneider","name":"施氏鱥","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"streber","name":"施氏鲈","location":"Rosy River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"edibleFrog","name":"食用蛙","location":"Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"zander","name":"梭鲈","location":"Giantwood River","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"pumpkinseed","name":"太阳鱼","location":"Onsen Mountain Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"stoneLoach","name":"条鳅","location":"Suburban Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"stripedRedMullet","name":"条纹绯鲤","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"rabbitFish","name":"兔子鱼","location":"Ocean","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"falseScad","name":"伪竹荚鱼","location":"Zephyr Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"goby","name":"虾虎鱼","location":"East Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"clownfish","name":"小丑鱼","location":"Old Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"全天","weather":"任意","note":"小龙虾刺身材料","season":"夏","nameEn":"Crayfish","name":"小龙虾","location":"河流","sellPrice":45,"rarity":1,"cookAdvice":"烹饪"},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"commonChub","name":"圆鳍雅罗鱼","location":"Lake","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"moonfish","name":"月鱼","location":"Sea Fishing","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"未知","weather":"未知","note":"","season":"未知","nameEn":"horseMackerel","name":"竹荚鱼","location":"Whale Sea","sellPrice":0,"rarity":1,"cookAdvice":""},{"time":"白天","weather":"任意","note":"高价值，不建议烹饪","season":"春","nameEn":"Rainbow Trout","name":"鳟鱼","location":"山湖","sellPrice":250,"rarity":3,"cookAdvice":"直接出售"}];
+
+var INLINE_INSECT_DATA = [{"weather":"Sunny, Rain, Rainbow","name":"阿波罗绢蝶","time":"All Day","sellPrice":0,"nameEn":"apollo","rarity":1,"location":"Bait Event"},{"weather":"Sunny, Rainbow","name":"白巫蛾","time":"All Day","sellPrice":0,"nameEn":"whiteWitch","rarity":1,"location":"Bait Event"},{"weather":"Rain, Rainbow","name":"豹纹蛱蝶","time":"Night, Dawn, Dusk","sellPrice":0,"nameEn":"beautifulLeopard","rarity":1,"location":"Fishing Village (Wharf)"},{"weather":"Sunny, Rainbow","name":"毕加索蝽","time":"Night, Dusk","sellPrice":0,"nameEn":"picassoBug","rarity":1,"location":"Flower Field (Purple Light Beach)"},{"weather":"Sunny, Rain, Rainbow","name":"彩虹锹甲","time":"All Day","sellPrice":0,"nameEn":"rainbowStagBeetle","rarity":1,"location":"Bait Event (Ruins)"},{"weather":"任意","name":"菜粉蝶","time":"全天","sellPrice":25,"nameEn":"Cabbage White","rarity":1,"location":"渔村"},{"weather":"任意","name":"蝉","time":"白天","sellPrice":55,"nameEn":"Cicada","rarity":2,"location":"森林"},{"weather":"Sunny, Rain, Rainbow","name":"橙尖粉蝶","time":"All Day","sellPrice":0,"nameEn":"orangeTip","rarity":1,"location":"Central Area"},{"weather":"Rainbow","name":"赤色沼泽蜻","time":"Night, Day, Dusk","sellPrice":0,"nameEn":"crimsonMarshGlider","rarity":1,"location":"Onsen Mountain"},{"weather":"Sunny, Rainbow","name":"大斑翅蝗","time":"Dusk, Night","sellPrice":0,"nameEn":"largeBandedGrasshopper","rarity":1,"location":"Suburbs"},{"weather":"Sunny, Rainbow","name":"大刀螳","time":"All Day","sellPrice":0,"nameEn":"giantAsianMantis","rarity":1,"location":"Onsen Mountain (Ruins)"},{"weather":"任意","name":"大红蜻蛉","time":"全天","sellPrice":30,"nameEn":"Large Red Damselfly","rarity":1,"location":"水边（河流、池塘）"},{"weather":"Sunny, Rainbow","name":"地中海螳螂","time":"Day, Dusk, Night","sellPrice":0,"nameEn":"mediterraneanMantis","rarity":1,"location":"Onsen Mountain (Stone Cliff)"},{"weather":"任意","name":"独角仙","time":"夜间","sellPrice":400,"nameEn":"Hercules Beetle","rarity":4,"location":"森林"},{"weather":"Sunny, Rain, Rainbow","name":"粉色螽斯","time":"All Day","sellPrice":0,"nameEn":"pinkKatydid","rarity":1,"location":"Bait Event"},{"weather":"Sunny, Rain, Rainbow","name":"蜂形天牛","time":"All Day","sellPrice":0,"nameEn":"waspBeetle","rarity":1,"location":"Forest"},{"weather":"Rainbow","name":"高山天牛","time":"All Day","sellPrice":0,"nameEn":"alpineLonghornBeetle","rarity":1,"location":"Forest Island"},{"weather":"任意","name":"鬼面天蛾","time":"夜间","sellPrice":150,"nameEn":"Death\u0027s-head Hawkmoth","rarity":3,"location":"森林"},{"weather":"Unknown","name":"海伦娜闪蝶","time":"Unknown","sellPrice":0,"nameEn":"morphoHelena","rarity":1,"location":"Unknown"},{"weather":"Sunny, Rain, Rainbow","name":"红颈鸟翼蝶","time":"Night, Dawn, Dusk","sellPrice":0,"nameEn":"rajahBrookesBirdwing","rarity":1,"location":"Home"},{"weather":"Sunny, Rainbow","name":"黄缘蛱蝶","time":"Night, Dawn, Day","sellPrice":0,"nameEn":"mourningCloak","rarity":1,"location":"Onsen Mountain (Onsen)"},{"weather":"Sunny, Rainbow","name":"彗星蛾","time":"Dusk, Night","sellPrice":0,"nameEn":"cometMoth","rarity":1,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"火色甲虫","time":"All Day","sellPrice":0,"nameEn":"fireColoredBeetle","rarity":1,"location":"Onsen Mountain (Onsen)"},{"weather":"Sunny, Rainbow","name":"角甲虫","time":"Night, Dusk","sellPrice":0,"nameEn":"hornedBeetle","rarity":1,"location":"Fishing Village (East Pier)"},{"weather":"Sunny, Rainbow","name":"金宝石金龟","time":"Day, Dusk","sellPrice":0,"nameEn":"goldenJewelScarab","rarity":1,"location":"Forest (Jump Puzzle)"},{"weather":"Sunny, Rain, Rainbow","name":"金蝗虫","time":"All Day","sellPrice":0,"nameEn":"goldGrasshopper","rarity":1,"location":"Onsen Mountain"},{"weather":"Rain, Rainbow","name":"金锹甲","time":"Night, Dusk","sellPrice":0,"nameEn":"goldenStagBeetle","rarity":1,"location":"Forest (Spirit Oak)"},{"weather":"任意","name":"旧世界凤蝶","time":"白天","sellPrice":80,"nameEn":"Old World Swallowtail","rarity":2,"location":"森林（灵橡松林）"},{"weather":"Sunny, Rain, Rainbow","name":"孔雀蛱蝶","time":"All Day","sellPrice":0,"nameEn":"peacockButterfly","rarity":1,"location":"Flower Field (Windmill)"},{"weather":"Sunny, Rain, Rainbow","name":"蓝盾蝽","time":"Dawn, Day","sellPrice":0,"nameEn":"blueShieldbug","rarity":1,"location":"Fishing Village (Lighthouse)"},{"weather":"晴","name":"蓝色闪蝶","time":"白天","sellPrice":300,"nameEn":"Blue Morpho","rarity":4,"location":"森林"},{"weather":"Rain, Rainbow","name":"丽色蟌","time":"All Day","sellPrice":0,"nameEn":"beautifulDemoiselle","rarity":1,"location":"Forest Lake Shore"},{"weather":"Sunny, Rain, Rainbow","name":"栗虎蝶","time":"All Day","sellPrice":0,"nameEn":"chestnutTiger","rarity":1,"location":"Bait Event"},{"weather":"Sunny, Rain, Rainbow","name":"芦笋甲虫","time":"All Day","sellPrice":0,"nameEn":"asparagusBeetle","rarity":1,"location":"Flower Field"},{"weather":"Sunny, Rain, Rainbow","name":"绿虎甲","time":"All Day","sellPrice":0,"nameEn":"greenTigerBeetle","rarity":1,"location":"Onsen Mountain"},{"weather":"Sunny, Rain, Rainbow","name":"绿鸟翼蝶","time":"Dawn, Day, Dusk","sellPrice":0,"nameEn":"greenBirdwing","rarity":1,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"蚂蚁","time":"All Day","sellPrice":0,"nameEn":"ant","rarity":1,"location":"Fishing Village (Square)"},{"weather":"晴","name":"蜜蜂","time":"白天","sellPrice":35,"nameEn":"Honeybee","rarity":1,"location":"花园、花丛"},{"weather":"Sunny, Rain, Rainbow","name":"牛头甲虫","time":"Night, Dawn, Day","sellPrice":0,"nameEn":"minotaurBeetle","rarity":1,"location":"Onsen Mountain (Ruins)"},{"weather":"Sunny, Rain, Rainbow","name":"欧洲红蝽","time":"All Day","sellPrice":0,"nameEn":"europeanFirebug","rarity":1,"location":"Home (Rocks)"},{"weather":"Rain, Rainbow","name":"普通白尾蜻","time":"All Day","sellPrice":0,"nameEn":"commonWhitetail","rarity":1,"location":"River Bank"},{"weather":"任意","name":"普通粉蝶","time":"全天","sellPrice":25,"nameEn":"Common Brimstone","rarity":1,"location":"郊区"},{"weather":"Sunny, Rain, Rainbow","name":"普通蓝灰蝶","time":"All Day","sellPrice":0,"nameEn":"commonBlueButterfly","rarity":1,"location":"Central Area"},{"weather":"任意","name":"七星瓢虫","time":"白天","sellPrice":20,"nameEn":"Ladybug","rarity":1,"location":"花园、草地"},{"weather":"Rain, Rainbow","name":"锹形虫","time":"Dawn, Day, Dusk","sellPrice":0,"nameEn":"stagBeetle","rarity":1,"location":"Forest (Jump Puzzle)"},{"weather":"Unknown","name":"日落闪蝶","time":"Unknown","sellPrice":0,"nameEn":"sunsetMorpho","rarity":1,"location":"Unknown"},{"weather":"Rain, Rainbow","name":"四斑蜻蜓","time":"All Day","sellPrice":0,"nameEn":"fourSpottedSkimmer","rarity":1,"location":"Suburban Lakeshore"},{"weather":"Rain, Rainbow","name":"四星瓢虫","time":"All Day","sellPrice":0,"nameEn":"fourSpottedLadybug","rarity":1,"location":"Onsen Mountain (Crater Lake)"},{"weather":"Sunny, Rain, Rainbow","name":"苏氏闪蝶","time":"All Day","sellPrice":0,"nameEn":"sulkowskysMorpho","rarity":1,"location":"Inflatable Attractor"},{"weather":"Sunny, Rainbow","name":"蓑蛾","time":"Night, Dusk","sellPrice":0,"nameEn":"bagwormMoth","rarity":1,"location":"Forest (Deer Tower)"},{"weather":"任意","name":"螳螂","time":"白天","sellPrice":70,"nameEn":"Mantis","rarity":2,"location":"花园"},{"weather":"Rainbow","name":"天蓝木蜂","time":"Night, Dusk","sellPrice":0,"nameEn":"ceruleanCarpenter","rarity":1,"location":"Fishing Village (Square)"},{"weather":"Sunny, Rain, Rainbow","name":"瓦鲁纳杜鹃蜂","time":"All Day","sellPrice":0,"nameEn":"waroonaCuckooBee","rarity":1,"location":"Forest (Deer Tower)"},{"weather":"Sunny, Rainbow","name":"西班牙月蛾","time":"Day, Dusk","sellPrice":0,"nameEn":"spanishMoonMoth","rarity":1,"location":"Forest (Spirit Oak)"},{"weather":"Sunny, Rain, Rainbow","name":"西伯利亚蝗虫","time":"All Day","sellPrice":0,"nameEn":"siberianGrasshopper","rarity":1,"location":"Fishing Village"},{"weather":"Sunny, Rainbow","name":"小月蛾","time":"Dawn, Day, Dusk","sellPrice":0,"nameEn":"miniMoonMoth","rarity":1,"location":"Suburbs"},{"weather":"Sunny, Rain, Rainbow","name":"熊蜂","time":"All Day","sellPrice":0,"nameEn":"bumblebee","rarity":1,"location":"Flower Field"},{"weather":"Rain, Rainbow","name":"异色瓢虫","time":"Day, Dusk, Night","sellPrice":0,"nameEn":"asianLadyBeetle","rarity":1,"location":"Forest (Deer Tower)"},{"weather":"Sunny, Rainbow","name":"银宝石金龟","time":"Night, Dawn, Day","sellPrice":0,"nameEn":"silverJewelScarab","rarity":1,"location":"Onsen (Stone Cliff)"},{"weather":"任意","name":"萤火虫","time":"夜间","sellPrice":60,"nameEn":"Firefly","rarity":2,"location":"森林、河边"},{"weather":"Rain, Rainbow","name":"优雅花金龟","time":"Dawn, Day","sellPrice":0,"nameEn":"elegantFlowerBeetle","rarity":1,"location":"Flower Field (Whale Mountain)"},{"weather":"Sunny, Rain, Rainbow","name":"邮差蝶","time":"All Day","sellPrice":0,"nameEn":"postmanButterfly","rarity":1,"location":"Bait Event"},{"weather":"Sunny, Rainbow","name":"展足木蜂","time":"All Day","sellPrice":0,"nameEn":"splayFootedCarpenter","rarity":1,"location":"Flower Field (Whale Mountain)"},{"weather":"Rain, Rainbow","name":"珍珠蝶","time":"Night, Dawn","sellPrice":0,"nameEn":"motherOfPearl","rarity":1,"location":"Flower Field (Windmill)"},{"weather":"Sunny, Rain, Rainbow","name":"螽斯","time":"All Day","sellPrice":0,"nameEn":"katydid","rarity":1,"location":"Flower Field (Purple Light Beach)"},{"weather":"Sunny, Rainbow","name":"紫皇蛱蝶","time":"Night, Day, Dusk","sellPrice":0,"nameEn":"purpleEmperor","rarity":1,"location":"Flower Field (Whale Mountain)"},{"weather":"Rain, Rainbow","name":"紫晶花金龟","time":"All Day","sellPrice":0,"nameEn":"amethystFlowerBeetle","rarity":1,"location":"Home (Rocks)"}];
+</script>
+<script>
+(function() {
+  'use strict';
+
+  var I18N = window.I18N || {};
+  function _t(key, params) { return I18N.t ? I18N.t(key, params) : key; }
+  function _L(v) { return I18N.L ? I18N.L(v) : v; }
+  function _name(item) { return I18N.nameFor ? I18N.nameFor(item) : (item && item.name) || ''; }
+  function catLabel(cat) {
+    if (cat === 'custom' || cat === 'route') return _t('map.customCategory');
+    return _t('map.cat.' + cat);
+  }
+  function subLabel(sub) { return _t('map.sub.' + sub) || sub; }
+
+  // ==========================================================
+  // Category config
+  // ==========================================================
+  const CATEGORIES = {
+    npc:      { name: 'NPC / 角色',   emoji: '👤', color: '#DF7560', cssVar: '--coral' },
+    resource: { name: '资源采集点',    emoji: '🌿', color: '#6E9E70', cssVar: '--green' },
+    fishing:  { name: '钓鱼水域',      emoji: '🎣', color: '#3E737A', cssVar: '--teal' },
+    shop:     { name: '商店',          emoji: '🛒', color: '#E9B040', cssVar: '--gold' },
+    insect:   { name: '昆虫出没',      emoji: '🦋', color: '#9B8EC4', cssVar: '--lavender' },
+    bird:     { name: '观鸟地点',      emoji: '🐦', color: '#7BA89E', cssVar: '' },
+    animal:   { name: '动物',          emoji: '🐾', color: '#C9956B', cssVar: '' },
+    location: { name: '地点/地标',     emoji: '📍', color: '#8C9898', cssVar: '' },
+    bus:      { name: '巴士站',        emoji: '🚌', color: '#C75E4A', cssVar: '' }
+  };
+
+  const RESOURCE_SUBS = ['berry', 'fruit', 'mushroom', 'stone', 'tree', 'other'];
+
+  // ==========================================================
+  // State
+  // ==========================================================
+  let map, markersData = [], fishData = [], insectData = [], birdData = [];
+  let markerLayers = {};       // { category: L.layerGroup }
+  let allMarkers = [];         // L.marker instances
+  let customMarkers = [];      // from localStorage
+  let customLayer;
+  let routeVisible = false;
+  let routeLayer;
+
+  let selectedEmoji = '📍';
+  let categoryVisible = {};    // { category: bool }
+  let resourceSubVisible = {}; // { sub: bool }
+  let mapBounds = { w: 1000, h: 1000 };  // image dimensions for coord scaling
+  let scaleX = 1, scaleY = 1;             // coordinate scaling factors
+
+  // Set default visibility
+  Object.keys(CATEGORIES).forEach(c => categoryVisible[c] = true);
+  RESOURCE_SUBS.forEach(s => resourceSubVisible[s] = true);
+
+  // ==========================================================
+  // DOM refs
+  // ==========================================================
+  const mapContainer = document.getElementById('map-container');
+  const sidebar = document.getElementById('map-sidebar');
+  const sidebarCats = document.getElementById('sidebar-cats');
+  const searchInput = document.getElementById('map-search');
+  const searchClear = document.getElementById('search-clear');
+  const searchResults = document.getElementById('search-results');
+  const zoomLevel = document.getElementById('zoom-level');
+  const mapPopup = document.getElementById('map-popup');
+  const popupTitle = document.getElementById('popup-title');
+  const popupBody = document.getElementById('popup-body');
+  const popupClose = document.getElementById('popup-close');
+  const customForm = document.getElementById('custom-form');
+  const loadingEl = document.getElementById('map-loading');
+
+  // ==========================================================
+  // MAP INITIALIZATION
+  // ==========================================================
+  function initMap() {
+    // Use the compressed JPEG map image as the base layer
+    var mapImageUrl = 'images/heartopia-map-real.webp';
+
+    var img = new Image();
+    img.onload = function() {
+      // Use the real image dimensions for accurate map bounds
+      setupLeafletMap(mapImageUrl, img.naturalWidth, img.naturalHeight);
+      loadingEl.classList.add('hidden');
+    };
+    img.onerror = function() {
+      // Fallback: colored background with default bounds
+      setupLeafletMap(null, 1000, 1000);
+      loadingEl.classList.add('hidden');
+    };
+    img.src = mapImageUrl;
+  }
+
+  function setupLeafletMap(imageUrl, imgW, imgH) {
+    // Use the real game map coordinate system (1000x1000).
+    // Marker coordinates from live map data are placed directly.
+    const bounds = [[-1000, 0], [0, 1000]];
+    mapBounds.w = 1000; mapBounds.h = 1000;
+    scaleX = 1; scaleY = 1;
+
+    map = L.map('map-container', {
+      crs: L.CRS.Simple,
+      minZoom: -1,
+      maxZoom: 3,
+      zoom: 0,
+      center: [-500, 500],
+      maxBounds: [[-1100, -100], [100, 1100]],
+      maxBoundsViscosity: 1.0,
+      zoomSnap: 0,
+      zoomControl: false,
+      attributionControl: false
+    });
+
+    if (imageUrl) {
+      L.imageOverlay(imageUrl, bounds).addTo(map);
+    } else {
+      // Fallback: colored background
+      mapContainer.style.background = 'linear-gradient(135deg, #C5DDE8, #A3C4D6)';
+    }
+
+    // Start with a moderate zoom — town center visible but full island in reach
+    map.setView([-500, 500], 0);
+
+    // Create layer groups per category
+    Object.keys(CATEGORIES).forEach(cat => {
+      markerLayers[cat] = L.layerGroup().addTo(map);
+    });
+    customLayer = L.layerGroup().addTo(map);
+    routeLayer = L.layerGroup().addTo(map);
+
+    // Update zoom level display
+    map.on('zoom', updateZoomLabel);
+    updateZoomLabel();
+
+    // Context menu for custom markers
+    mapContainer.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      if (e.target.closest('.leaflet-control') || e.target.closest('.map-zoom-ctrl') ||
+          e.target.closest('.map-float-btn') || e.target.closest('.map-mobile-bar')) return;
+      const rect = mapContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      openCustomForm(x, y);
+    });
+
+    // Long-press for mobile custom markers
+    let longPressTimer;
+    mapContainer.addEventListener('touchstart', function(e) {
+      if (e.target.closest('.leaflet-control') || e.target.closest('.map-zoom-ctrl') ||
+          e.target.closest('.map-float-btn') || e.target.closest('.map-mobile-bar') ||
+          e.target.closest('.custom-marker-form')) return;
+      const touch = e.touches[0];
+      longPressTimer = setTimeout(() => {
+        const rect = mapContainer.getBoundingClientRect();
+        openCustomForm(touch.clientX - rect.left, touch.clientY - rect.top);
+      }, 800);
+    }, { passive: true });
+    mapContainer.addEventListener('touchend', () => clearTimeout(longPressTimer));
+    mapContainer.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+
+    // Load data
+    loadMarkerData();
+  }
+
+  function updateZoomLabel() {
+    if (!map) return;
+    const z = map.getZoom();
+    let label;
+    if (z <= -1.5) label = '0.3×';
+    else if (z <= -1) label = '0.4×';
+    else if (z <= -0.5) label = '0.6×';
+    else if (z <= 0) label = '0.8×';
+    else if (z <= 0.5) label = '1×';
+    else if (z <= 1) label = '1.5×';
+    else if (z <= 1.5) label = '2×';
+    else label = '3×';
+    zoomLevel.textContent = label;
+  }
+
+  // ==========================================================
+  // DATA LOADING
+  // ==========================================================
+  async function loadMarkerData() {
+    // Load markers from inline data (always available, no fetch needed)
+    if (typeof INLINE_MAP_MARKERS !== 'undefined') {
+      markersData = INLINE_MAP_MARKERS;
+    } else {
+      // Fallback to fetch if inline data not available
+      try {
+        const res = await fetch('data/map-markers.json');
+        if (res.ok) markersData = await res.json();
+      } catch(e) { console.warn('Failed to load marker data', e); }
+    }
+
+    // Load fish & insect data from inline or fetch
+    if (typeof INLINE_FISH_DATA !== 'undefined') {
+      fishData = INLINE_FISH_DATA;
+    } else {
+      try { const res = await fetch('data/fish.json'); if (res.ok) fishData = await res.json(); } catch(e) {}
+    }
+    if (typeof INLINE_INSECT_DATA !== 'undefined') {
+      insectData = INLINE_INSECT_DATA;
+    } else {
+      try { const res = await fetch('data/insects.json'); if (res.ok) insectData = await res.json(); } catch(e) {}
+    }
+
+    // Load bird data from inline or fetch
+    if (typeof INLINE_BIRD_DATA !== 'undefined') {
+      birdData = INLINE_BIRD_DATA;
+    } else {
+      try { const res = await fetch('data/birds.json'); if (res.ok) birdData = await res.json(); } catch(e) {}
+    }
+
+    // Load custom markers
+    try {
+      customMarkers = JSON.parse(localStorage.getItem('heartopia-custom-markers') || '[]');
+    } catch(e) { customMarkers = []; }
+
+    renderAllMarkers();
+    buildSidebar();
+    renderCustomMarkers();
+  }
+
+  // ==========================================================
+  // MARKER CREATION
+  // ==========================================================
+  function createDivIcon(emoji, color, size) {
+    size = size || 32;
+    return L.divIcon({
+      className: 'custom-div-icon',
+      html: `<div style="
+        width:${size}px;height:${size}px;border-radius:50%;
+        background:${color};display:flex;align-items:center;justify-content:center;
+        font-size:${size*0.5}px;box-shadow:0 2px 6px rgba(61,50,45,0.3);
+        border:2px solid rgba(255,255,255,0.5);transition:transform 0.2s;
+      ">${emoji}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2],
+      popupAnchor: [0, -size/2]
+    });
+  }
+
+  function createMarker(data) {
+    const catConfig = CATEGORIES[data.category] || CATEGORIES.location;
+    const color = data.color || catConfig.color;
+    const icon = createDivIcon(data.emoji, color);
+
+    const marker = L.marker([data.y, data.x], { icon: icon });
+    marker._markerData = data;
+
+    marker.bindTooltip(_L(data.name), {
+      direction: 'top',
+      offset: [0, -18],
+      opacity: 0.9
+    });
+
+    marker.on('click', function() {
+      flyToMarker(marker);
+      showMapPopup(data, marker);
+    });
+
+    // Hover effects
+    marker.on('mouseover', function() {
+      const el = marker.getElement();
+      if (el) {
+        const div = el.querySelector('div');
+        if (div) { div.style.transform = 'scale(1.25)'; div.style.boxShadow = '0 4px 12px rgba(61,50,45,0.4)'; }
+      }
+    });
+    marker.on('mouseout', function() {
+      const el = marker.getElement();
+      if (el) {
+        const div = el.querySelector('div');
+        if (div) { div.style.transform = ''; div.style.boxShadow = ''; }
+      }
+    });
+
+    return marker;
+  }
+
+  function renderAllMarkers() {
+    // Clear existing
+    Object.values(markerLayers).forEach(lg => lg.clearLayers());
+    allMarkers = [];
+
+    markersData.forEach(data => {
+      const marker = createMarker(data);
+      const layer = markerLayers[data.category];
+      if (layer) {
+        marker.addTo(layer);
+        allMarkers.push(marker);
+      }
+    });
+
+    applyVisibility();
+  }
+
+  function renderCustomMarkers() {
+    customLayer.clearLayers();
+    // Remove old custom entries from allMarkers
+    allMarkers = allMarkers.filter(m => !m._markerData || m._markerData.category !== 'custom');
+    customMarkers.forEach(cm => {
+      const icon = createDivIcon(cm.emoji, '#E9B040', 30);
+      const marker = L.marker([cm.y, cm.x], { icon: icon });
+      marker._markerData = {
+        id: cm.id, name: cm.name, emoji: cm.emoji,
+        category: 'custom', desc: cm.note || _t('map.customMarker'),
+        detail: _t('map.customCreate'), x: cm.x, y: cm.y
+      };
+      marker.bindTooltip(cm.name, { direction: 'top', offset: [0, -16] });
+      marker.on('click', function() {
+        flyToMarker(marker);
+        showMapPopup(marker._markerData, marker);
+      });
+      marker.addTo(customLayer);
+      allMarkers.push(marker);
+    });
+  }
+
+  function applyVisibility() {
+    Object.keys(markerLayers).forEach(cat => {
+      const layer = markerLayers[cat];
+      const vis = categoryVisible[cat];
+      if (cat === 'resource') {
+        // Per-subcategory visibility
+        layer.eachLayer(marker => {
+          const sub = marker._markerData && marker._markerData.subcategory;
+          const subVis = sub ? resourceSubVisible[sub] : true;
+          if (vis && subVis) {
+            if (marker.getElement()) marker.getElement().style.display = '';
+          } else {
+            if (marker.getElement()) marker.getElement().style.display = 'none';
+          }
+        });
+      } else {
+        if (vis) {
+          layer.eachLayer(marker => {
+            if (marker.getElement()) marker.getElement().style.display = '';
+          });
+        } else {
+          layer.eachLayer(marker => {
+            if (marker.getElement()) marker.getElement().style.display = 'none';
+          });
+        }
+      }
+    });
+  }
+
+  // ==========================================================
+  // SIDEBAR
+  // ==========================================================
+  function buildSidebar() {
+    sidebarCats.innerHTML = '';
+
+    Object.keys(CATEGORIES).forEach(cat => {
+      const catMarkers = markersData.filter(m => m.category === cat);
+      if (catMarkers.length === 0) return;
+      const catConfig = CATEGORIES[cat];
+
+      const section = document.createElement('div');
+      section.className = 'cat-section';
+      section.dataset.cat = cat;
+
+      section.innerHTML = `
+        <div class="cat-header">
+          <span class="cat-dot" style="background:${catConfig.color}"></span>
+          <span class="cat-name">${catConfig.emoji} ${catLabel(cat)}</span>
+          <span class="cat-count">${catMarkers.length}</span>
+          <span class="cat-toggle" title="显示/隐藏此分类">👁</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-items">
+          ${catMarkers.map(m => `
+            <div class="cat-item" data-id="${m.id}" data-cat="${cat}">
+              <span class="ci-emoji">${m.emoji}</span>
+              <span class="ci-name">${_L(m.name)}</span>
+            </div>
+          `).join('')}
+          ${cat === 'resource' ? `
+            <div class="subfilter-row">
+              <span class="subfilter-chip ${resourceSubVisible['berry'] ? 'active' : ''}" data-sub="berry">🫐 ${_t('map.sub.berry')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['fruit'] ? 'active' : ''}" data-sub="fruit">🍎 ${_t('map.sub.fruit')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['mushroom'] ? 'active' : ''}" data-sub="mushroom">🍄 ${_t('map.sub.mushroom')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['stone'] ? 'active' : ''}" data-sub="stone">⛏️ ${_t('map.sub.stone')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['tree'] ? 'active' : ''}" data-sub="tree">🪵 ${_t('map.sub.tree')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['other'] ? 'active' : ''}" data-sub="other">✨ ${_t('map.sub.other')}</span>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      sidebarCats.appendChild(section);
+
+      // Category header click → toggle collapse
+      section.querySelector('.cat-header').addEventListener('click', function(e) {
+        if (e.target.closest('.cat-count')) return;
+        section.classList.toggle('collapsed');
+      });
+
+      // Category header double-click or click on dot → toggle visibility
+      section.querySelector('.cat-header').addEventListener('dblclick', function() {
+        categoryVisible[cat] = !categoryVisible[cat];
+        section.classList.toggle('hidden-all', !categoryVisible[cat]);
+        const toggle = section.querySelector('.cat-toggle');
+        if (toggle) toggle.textContent = categoryVisible[cat] ? '👁' : '👁‍🗨';
+        applyVisibility();
+      });
+
+      // Category toggle button → toggle visibility (per-category show/hide all)
+      section.querySelector('.cat-toggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        categoryVisible[cat] = !categoryVisible[cat];
+        section.classList.toggle('hidden-all', !categoryVisible[cat]);
+        this.textContent = categoryVisible[cat] ? '👁' : '👁‍🗨';
+        applyVisibility();
+      });
+
+      // Item click → fly to marker + open info
+      section.querySelectorAll('.cat-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          const data = markersData.find(m => m.id === id);
+          if (!data) return;
+
+          // Highlight active
+          sidebarCats.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+
+          // Find and fly to marker
+          const marker = allMarkers.find(m => m._markerData && m._markerData.id === id);
+          if (marker) {
+            flyToMarker(marker);
+            highlightMarker(marker);
+            showMapPopup(data, marker);
+          }
+        });
+      });
+
+      // Sub-filter chips
+      if (cat === 'resource') {
+        section.querySelectorAll('.subfilter-chip').forEach(chip => {
+          chip.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const sub = this.dataset.sub;
+            resourceSubVisible[sub] = !resourceSubVisible[sub];
+            this.classList.toggle('active', resourceSubVisible[sub]);
+            applyVisibility();
+          });
+        });
+      }
+    });
+
+    // Restore visual state after rebuild
+    syncSidebarState();
+
+    // Custom markers section
+    if (customMarkers.length > 0) {
+      const customSection = document.createElement('div');
+      customSection.className = 'cat-section';
+      customSection.innerHTML = `
+        <div class="cat-header" style="border-left-color:#E9B040">
+          <span class="cat-dot" style="background:#E9B040"></span>
+          <span class="cat-name">📌 ${_t('map.customMarkers')}</span>
+          <span class="cat-count">${customMarkers.length}</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-items">
+          ${customMarkers.map(cm => `
+            <div class="cat-item" data-custom-id="${cm.id}">
+              <span class="ci-emoji">${cm.emoji}</span>
+              <span class="ci-name">${cm.name}</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;font-size:0.65rem;padding:2px 6px" data-delete="${cm.id}">🗑</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      sidebarCats.appendChild(customSection);
+
+      customSection.querySelector('.cat-header').addEventListener('click', function() {
+        customSection.classList.toggle('collapsed');
+      });
+
+      customSection.querySelectorAll('.cat-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (e.target.closest('[data-delete]')) {
+            const id = e.target.closest('[data-delete]').dataset.delete;
+            deleteCustomMarker(id);
+            return;
+          }
+          const id = this.dataset.customId;
+          const marker = allMarkers.find(m => m._markerData && m._markerData.id === id);
+          if (marker) {
+            flyToMarker(marker);
+            highlightMarker(marker);
+            showMapPopup(marker._markerData, marker);
+          }
+        });
+      });
+    }
+  }
+
+  function syncSidebarState() {
+    // Sync category visibility classes after sidebar rebuild
+    sidebarCats.querySelectorAll('.cat-section').forEach(section => {
+      const cat = section.dataset.cat;
+      if (cat && categoryVisible.hasOwnProperty(cat)) {
+        section.classList.toggle('hidden-all', !categoryVisible[cat]);
+      }
+      // Sync toggle icon
+      const toggle = section.querySelector('.cat-toggle');
+      if (toggle && cat && categoryVisible.hasOwnProperty(cat)) {
+        toggle.textContent = categoryVisible[cat] ? '👁' : '👁‍🗨';
+      }
+    });
+    // Sync resource subfilter chips
+    sidebarCats.querySelectorAll('.subfilter-chip').forEach(chip => {
+      const sub = chip.dataset.sub;
+      if (sub && resourceSubVisible.hasOwnProperty(sub)) {
+        chip.classList.toggle('active', resourceSubVisible[sub]);
+      }
+    });
+  }
+
+  // ==========================================================
+  // SEARCH
+  // ==========================================================
+  let searchDebounce;
+  searchInput.addEventListener('input', function() {
+    const val = this.value.trim();
+    searchClear.classList.toggle('visible', val.length > 0);
+
+    clearTimeout(searchDebounce);
+    if (val.length < 1) {
+      searchResults.classList.remove('show');
+      resetAllMarkerVisibility();
+      return;
+    }
+    searchDebounce = setTimeout(() => performSearch(val), 200);
+  });
+
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    searchClear.classList.remove('visible');
+    searchResults.classList.remove('show');
+    resetAllMarkerVisibility();
+    searchInput.focus();
+  });
+
+  function performSearch(query) {
+    const q = query.toLowerCase();
+    const results = [];
+
+    markersData.forEach(m => {
+      if (m.name.toLowerCase().includes(q) ||
+          _L(m.name).toLowerCase().includes(q) ||
+          (m.desc && m.desc.toLowerCase().includes(q)) ||
+          (m.detail && m.detail.toLowerCase().includes(q)) ||
+          (m.subcategory && m.subcategory.toLowerCase().includes(q)) ||
+          (CATEGORIES[m.category] && (CATEGORIES[m.category].name.toLowerCase().includes(q) || catLabel(m.category).toLowerCase().includes(q)))) {
+        results.push(m);
+      }
+    });
+
+    // Also search custom markers
+    customMarkers.forEach(cm => {
+      if (cm.name.toLowerCase().includes(q) || (cm.note && cm.note.toLowerCase().includes(q))) {
+        results.push({
+          id: cm.id, name: cm.name, emoji: cm.emoji,
+          category: 'custom', desc: cm.note || '',
+          detail: _t('map.customMarker'), x: cm.x, y: cm.y
+        });
+      }
+    });
+
+    // Render dropdown
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div style="padding:12px 14px;font-size:0.8rem;color:var(--text-dim)">' + _t('map.searchEmpty') + '</div>';
+    } else {
+      // Group by category
+      const grouped = {};
+      results.forEach(r => {
+        const cat = r.category;
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(r);
+      });
+
+      searchResults.innerHTML = Object.keys(grouped).map(cat => {
+        const catConfig = CATEGORIES[cat] || { name: '自定义', emoji: '📌', color: '#E9B040' };
+        return `
+          <div class="search-result-group">${catConfig.emoji} ${catLabel(cat)} (${grouped[cat].length})</div>
+          ${grouped[cat].map(r => `
+            <div class="search-result-item" data-id="${r.id}" data-cat="${cat}">
+              <span class="sri-icon">${r.emoji}</span>
+              <span class="sri-name">${_L(r.name)}</span>
+              <span class="sri-cat">${catLabel(cat)}</span>
+            </div>
+          `).join('')}
+        `;
+      }).join('');
+    }
+
+    searchResults.classList.add('show');
+
+    // Click handlers
+    searchResults.querySelectorAll('.search-result-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const id = this.dataset.id;
+        const cat = this.dataset.cat;
+
+        const data = (cat === 'custom')
+          ? customMarkers.find(c => c.id === id)
+          : markersData.find(m => m.id === id);
+        if (data) {
+          // Normalize for showMapPopup
+          const infoData = (cat === 'custom')
+            ? { id: data.id, name: data.name, emoji: data.emoji, category: 'custom', desc: data.note || '', detail: _t('map.customMarker') }
+            : data;
+          const marker = allMarkers.find(m => m._markerData && m._markerData.id === id);
+          if (marker) {
+            flyToMarker(marker);
+            highlightMarker(marker);
+            showMapPopup(infoData, marker);
+          }
+        }
+
+        searchResults.classList.remove('show');
+        searchInput.value = '';
+        searchClear.classList.remove('visible');
+        resetAllMarkerVisibility();
+      });
+    });
+
+    // Dim non-matching markers on map
+    dimNonMatchingMarkers(results.map(r => r.id));
+  }
+
+  function dimNonMatchingMarkers(matchingIds) {
+    allMarkers.forEach(marker => {
+      const el = marker.getElement();
+      if (!el) return;
+      const id = marker._markerData && marker._markerData.id;
+      if (matchingIds.includes(id)) {
+        el.style.opacity = '1';
+        el.style.filter = '';
+      } else {
+        el.style.opacity = '0.2';
+        el.style.filter = 'grayscale(0.8)';
+      }
+    });
+  }
+
+  function resetAllMarkerVisibility() {
+    allMarkers.forEach(marker => {
+      const el = marker.getElement();
+      if (el) { el.style.opacity = ''; el.style.filter = ''; }
+    });
+    applyVisibility();
+  }
+
+  // Close search results when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.sidebar-search') && !e.target.closest('.search-results')) {
+      searchResults.classList.remove('show');
+    }
+  });
+
+  // ==========================================================
+  // MAP INTERACTIONS
+  // ==========================================================
+let _isFlyingTo = false;
+  function flyToMarker(marker) {
+    const latlng = marker.getLatLng();
+    _isFlyingTo = true;
+    map.flyTo(latlng, 1.5, { duration: 1.2 });
+    map.once('moveend', function() { _isFlyingTo = false; });
+  }
+
+  function highlightMarker(marker) {
+    const el = marker.getElement();
+    if (!el) return;
+    const div = el.querySelector('div');
+    if (!div) return;
+    div.classList.add('marker-highlight');
+    setTimeout(() => div.classList.remove('marker-highlight'), 600);
+  }
+
+  // ==========================================================
+  // MAP POPUP BUBBLE (replaces slide-in info panel)
+  // ==========================================================
+  let popupMarker = null;
+
+  function showMapPopup(data, marker) {
+    const catConfig = CATEGORIES[data.category] || { name: '自定义', color: '#E9B040' };
+    const categoryName = data.category === 'custom' ? _t('map.customMarker') : catLabel(data.category);
+
+    let badgeClass = 'badge-coral';
+    if (data.category === 'resource') badgeClass = 'badge-green';
+    else if (data.category === 'fishing') badgeClass = 'badge-teal';
+    else if (data.category === 'shop') badgeClass = 'badge-gold';
+    else if (data.category === 'insect' || data.category === 'bird') badgeClass = 'badge-lavender';
+    else if (data.category === 'animal') badgeClass = 'badge-lavender';
+    else if (data.category === 'location' || data.category === 'bus') badgeClass = 'badge-teal';
+    else if (data.category === 'route') badgeClass = 'badge-teal';
+
+    popupTitle.innerHTML = `${data.emoji} ${_L(data.name)} <span class="badge ${badgeClass}" style="font-size:0.7rem;vertical-align:middle">${categoryName}</span>`;
+
+    let bodyHTML = `
+      <div class="popup-meta">
+        <span class="badge ${badgeClass}">${categoryName}</span>
+        ${data.subcategory ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">${subLabel(data.subcategory)}</span>` : ''}
+        ${data.schedule ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">🕐 ${_L(data.schedule)}</span>` : ''}
+        ${data.season ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">📅 ${_L(data.season)}</span>` : ''}
+        ${data.unlockDg ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">🔓 DG Lv.${data.unlockDg}</span>` : ''}
+      </div>
+      <p class="popup-desc">${_L(data.desc || '')}</p>
+      ${data.detail ? `<div class="popup-detail-box">📋 ${_L(data.detail)}</div>` : ''}
+    `;
+
+    // Add fish table for fishing spots
+    if (data.fishIds && data.fishIds.length > 0 && fishData.length > 0) {
+      const fishList = fishData.filter(f => data.fishIds.includes(f.name));
+      if (fishList.length > 0) {
+        bodyHTML += `
+          <div class="popup-creatures">
+            <h4>${_t('map.fishTable', {n: fishList.length})}</h4>
+            <table class="popup-creature-table">
+              <thead><tr><th>${_t('map.thName')}</th><th>${_t('db.label.season')}</th><th>${_t('db.label.weather')}</th><th>${_t('db.label.time')}</th><th>${_t('map.thPrice')}</th></tr></thead>
+              <tbody>
+                ${fishList.map(f => `
+                  <tr>
+                    <td>${_name(f)}</td>
+                    <td>${_L(f.season)}</td>
+                    <td>${_L(f.weather)}</td>
+                    <td>${_L(f.time)}</td>
+                    <td style="font-weight:600">${f.sellPrice}g</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    // Add insect table for insect spots
+    if (data.insectIds && data.insectIds.length > 0 && insectData.length > 0) {
+      const insectList = insectData.filter(f => data.insectIds.includes(f.name));
+      if (insectList.length > 0) {
+        bodyHTML += `
+          <div class="popup-creatures">
+            <h4>${_t('map.insectTable', {n: insectList.length})}</h4>
+            <table class="popup-creature-table">
+              <thead><tr><th>${_t('map.thName')}</th><th>${_t('db.label.weather')}</th><th>${_t('db.label.time')}</th><th>${_t('map.thPrice')}</th></tr></thead>
+              <tbody>
+                ${insectList.map(f => `
+                  <tr>
+                    <td>${_name(f)}</td>
+                    <td>${_L(f.weather)}</td>
+                    <td>${_L(f.time)}</td>
+                    <td style="font-weight:600">${f.sellPrice}g</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    // Add bird table for bird-watching spots
+    if (data.birdIds && data.birdIds.length > 0 && birdData.length > 0) {
+      const birdList = birdData.filter(f => data.birdIds.includes(f.name));
+      if (birdList.length > 0) {
+        bodyHTML += `
+          <div class="popup-creatures">
+            <h4>${_t('map.birdTable', {n: birdList.length})}</h4>
+            <table class="popup-creature-table">
+              <thead><tr><th>${_t('map.thName')}</th><th>${_t('map.thLevel')}</th><th>${_t('db.label.weather')}</th><th>${_t('db.label.time')}</th></tr></thead>
+              <tbody>
+                ${birdList.map(f => `
+                  <tr>
+                    <td>${_name(f)}</td>
+                    <td style="font-weight:600">Lv.${f.birdwatchLevel || '?'}</td>
+                    <td>${_L(f.weather)}</td>
+                    <td>${_L(f.time)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    popupBody.innerHTML = bodyHTML;
+    popupMarker = marker;
+
+    // Position the popup near the marker on screen
+    positionPopupAtMarker(marker);
+    mapPopup.classList.add('show');
+
+    // Update popup position when map moves/zooms
+    map.off('move zoom', positionPopupFromMarker);
+    map.on('move zoom', positionPopupFromMarker);
+  }
+
+	  function positionPopupAtMarker(marker) {
+	    if (!marker || !map) return;
+	    const point = map.latLngToContainerPoint(marker.getLatLng());
+	    const containerRect = mapContainer.getBoundingClientRect();
+	    // Account for map-container offset within .map-page (sidebar width on desktop)
+	    const offsetX = mapContainer.offsetLeft;
+	    const offsetY = mapContainer.offsetTop;
+
+	    // Position popup above the marker (popup is child of .map-page, adjust by offset)
+	    const popupW = mapPopup.offsetWidth || 320;
+	    const popupH = mapPopup.offsetHeight || 200;
+	    let left = offsetX + point.x - popupW / 2;
+	    let top = offsetY + point.y - popupH - 20;
+	    let isAbove = true; // popup above marker
+
+	    // Keep popup within .map-page bounds
+	    const pageRect = document.querySelector('.map-page').getBoundingClientRect();
+	    const pageW = pageRect.width;
+	    if (left < 8) left = 8;
+	    if (left + popupW > pageW - 8) left = pageW - popupW - 8;
+	    if (top < 8) { top = offsetY + point.y + 20; isAbove = false; } // Show below marker if not enough space above
+
+	    mapPopup.style.left = left + 'px';
+	    mapPopup.style.top = top + 'px';
+
+	    // Position arrow to point at the marker
+	    const arrow = document.getElementById('popup-arrow');
+	    if (arrow) {
+	      // Arrow horizontal center relative to the popup (7px = half arrow width)
+	      const arrowLeft = offsetX + point.x - left;
+	      arrow.style.left = Math.max(7, Math.min(arrowLeft, popupW - 21)) + 'px';
+
+	      // Arrow direction: down (popup above marker) or up (popup below marker)
+	      arrow.classList.toggle('arrow-down', isAbove);
+	      arrow.classList.toggle('arrow-up', !isAbove);
+	    }
+	  }
+
+  function positionPopupFromMarker() {
+    if (!popupMarker || !map) return;
+    const point = map.latLngToContainerPoint(popupMarker.getLatLng());
+    const containerRect = mapContainer.getBoundingClientRect();
+
+    // Hide popup if marker is far off screen (skip during flyTo animation)
+    if (!_isFlyingTo && (point.x < -100 || point.x > containerRect.width + 100 ||
+        point.y < -100 || point.y > containerRect.height + 100)) {
+      hideMapPopup();
+      return;
+    }
+    positionPopupAtMarker(popupMarker);
+  }
+
+  function hideMapPopup() {
+    mapPopup.classList.remove('show');
+    popupMarker = null;
+    map.off('move zoom', positionPopupFromMarker);
+  }
+
+  popupClose.addEventListener('click', hideMapPopup);
+
+  // Close popup when clicking on empty map area
+  mapContainer.addEventListener('click', function(e) {
+    if (e.target === mapContainer || e.target.closest('.leaflet-container') === mapContainer.querySelector('.leaflet-container')) {
+      // Clicked on the map background, not on a marker or popup
+      if (!e.target.closest('.map-popup-bubble') && !e.target.closest('.leaflet-marker-icon') && !e.target.closest('.leaflet-tooltip')) {
+        hideMapPopup();
+      }
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mapPopup.classList.contains('show')) hideMapPopup();
+  });
+
+  // ==========================================================
+  // CUSTOM MARKERS
+  // ==========================================================
+  function openCustomForm(x, y) {
+    customForm.style.left = x + 'px';
+    customForm.style.top = y + 'px';
+    customForm.classList.add('show');
+    document.getElementById('custom-name').focus();
+    buildEmojiGrid();
+  }
+
+  function closeCustomForm() {
+    customForm.classList.remove('show');
+    document.getElementById('custom-name').value = '';
+  }
+
+  const EMOJI_OPTIONS = ['📍','⭐','❤️','🏴','❗','❓','💎','🎯','🏠','🌟','🔥','💧','🌿','⚡','🎵','🔑','💀','👑','💰','🎁'];
+
+  function buildEmojiGrid() {
+    const grid = document.getElementById('emoji-grid');
+    grid.innerHTML = EMOJI_OPTIONS.map(e =>
+      `<button class="${e === selectedEmoji ? 'selected' : ''}" data-emoji="${e}">${e}</button>`
+    ).join('');
+
+    grid.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        selectedEmoji = this.dataset.emoji;
+        grid.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+  }
+
+  document.getElementById('custom-save').addEventListener('click', function() {
+    const name = document.getElementById('custom-name').value.trim();
+    if (!name) { document.getElementById('custom-name').focus(); return; }
+
+    const rect = mapContainer.getBoundingClientRect();
+    const formRect = customForm.getBoundingClientRect();
+    const centerX = formRect.left + formRect.width/2 - rect.left;
+    const centerY = formRect.top + formRect.height/2 - rect.top;
+    const latlng = map.containerPointToLatLng([centerX, centerY]);
+
+    const newMarker = {
+      id: 'custom-' + Date.now(),
+      emoji: selectedEmoji,
+      name: name,
+      note: '',
+      x: Math.round(latlng.lng),
+      y: Math.round(latlng.lat)
+    };
+
+    customMarkers.push(newMarker);
+    saveCustomMarkers();
+    renderCustomMarkers();
+    closeCustomForm();
+    buildSidebar(); // Refresh sidebar
+  });
+
+  document.getElementById('custom-cancel').addEventListener('click', closeCustomForm);
+
+  function deleteCustomMarker(id) {
+    customMarkers = customMarkers.filter(c => c.id !== id);
+    saveCustomMarkers();
+    renderCustomMarkers();
+    buildSidebar();
+    hideMapPopup();
+  }
+
+  function saveCustomMarkers() {
+    localStorage.setItem('heartopia-custom-markers', JSON.stringify(customMarkers));
+  }
+
+  // ==========================================================
+  // ROUTE
+  // ==========================================================
+  function toggleRoute() {
+    routeVisible = !routeVisible;
+    document.getElementById('btn-route').classList.toggle('active', routeVisible);
+
+    if (routeVisible) {
+      drawRoute();
+    } else {
+      routeLayer.clearLayers();
+    }
+  }
+
+  function drawRoute() {
+    routeLayer.clearLayers();
+
+    const routePoints = [
+      { lat: -510, lng: 510, label: _t('map.route.step1.label'), desc: _t('map.route.step1.desc') },
+      { lat: -536, lng: 232, label: _t('map.route.step2.label'), desc: _t('map.route.step2.desc') },
+      { lat: -472, lng: 495, label: _t('map.route.step3.label'), desc: _t('map.route.step3.desc') },
+      { lat: -692, lng: 506, label: _t('map.route.step4.label'), desc: _t('map.route.step4.desc') },
+      { lat: -510, lng: 510, label: _t('map.route.step5.label'), desc: _t('map.route.step5.desc') }
+    ];
+
+    // Draw path
+    const latlngs = routePoints.map(p => [p.lat, p.lng]);
+    const polyline = L.polyline(latlngs, {
+      color: '#3E737A',
+      weight: 4,
+      opacity: 0.7,
+      dashArray: '10 6',
+      lineCap: 'round',
+      lineJoin: 'round'
+    }).addTo(routeLayer);
+
+    // Draw step markers
+    routePoints.forEach((p, i) => {
+      const isLast = i === routePoints.length - 1;
+      const icon = L.divIcon({
+        className: 'route-div-icon',
+        html: `<div style="
+          width:32px;height:32px;border-radius:50%;
+          background:${isLast ? '#2F5B61' : '#3E737A'};color:#fff;
+          display:flex;align-items:center;justify-content:center;
+          font-size:13px;font-weight:700;box-shadow:0 2px 6px rgba(61,50,45,0.3);
+          border:2px solid rgba(255,255,255,0.6);
+        ">${i+1}</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const marker = L.marker([p.lat, p.lng], { icon: icon }).addTo(routeLayer);
+      marker.bindTooltip(p.label, { direction: 'bottom', offset: [0, 20], permanent: true,
+        className: 'route-tooltip' });
+
+      marker.on('click', function() {
+        map.flyTo([p.lat, p.lng], 1.5, { duration: 1 });
+        showMapPopup({
+          id: 'route-' + i, name: '🚶 ' + p.label, emoji: '🚶',
+          category: 'route', desc: p.desc,
+          detail: _t('map.route.detail', {n: (i+1)}),
+        }, marker);
+      });
+    });
+  }
+
+  document.getElementById('btn-route').addEventListener('click', toggleRoute);
+
+  // ==========================================================
+  // ZOOM CONTROLS
+  // ==========================================================
+  document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
+  document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
+
+  // ==========================================================
+  // OTHER BUTTONS
+  // ==========================================================
+  document.getElementById('btn-locate').addEventListener('click', () => {
+    map.setView([-500, 500], 0);
+    updateZoomLabel();
+    hideMapPopup();
+  });
+
+  // ==========================================================
+  // SIDEBAR — always visible, no toggle
+  // ==========================================================
+
+  // Mobile bar buttons
+  document.getElementById('mbtn-search')?.addEventListener('click', () => {
+    searchInput.focus();
+  });
+  document.getElementById('mbtn-route')?.addEventListener('click', toggleRoute);
+
+  // ==========================================================
+  // KEYBOARD SHORTCUTS
+  // ==========================================================
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === '+' || e.key === '=') { e.preventDefault(); map.zoomIn(); }
+    if (e.key === '-') { e.preventDefault(); map.zoomOut(); }
+    if (e.key === '0') { e.preventDefault(); map.setView([-500, 500], 0); updateZoomLabel(); }
+    if (e.key === 'r' || e.key === 'R') { e.preventDefault(); toggleRoute(); }
+    if (e.key === 'f' || e.key === 'F') { e.preventDefault(); searchInput.focus(); }
+  });
+
+  // ==========================================================
+  // LANGUAGE CHANGE — re-render all dynamic content
+  // ==========================================================
+  window.addEventListener('langchange', function() {
+    if (!map) return;
+    var activePopupId = popupMarker && popupMarker._markerData && popupMarker._markerData.id;
+    renderAllMarkers();
+    renderCustomMarkers();
+    buildSidebar();
+    if (activePopupId) {
+      var m = allMarkers.find(function(x) { return x._markerData && x._markerData.id === activePopupId; });
+      if (m) showMapPopup(m._markerData, m);
+      else hideMapPopup();
+    }
+    var q = searchInput.value.trim();
+    if (q) performSearch(q);
+    if (routeVisible) drawRoute();
+  });
+
+  // ==========================================================
+  // INIT
+  // ==========================================================
+  initMap();
+
+})();
+</script>
+</body>
+</html>
+

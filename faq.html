@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>document.documentElement.classList.add('js');(function(){try{if(localStorage.getItem('heartopia-lang')==='zh')document.documentElement.classList.add('i18n-pending');}catch(e){}setTimeout(function(){if(!window.I18N)document.documentElement.classList.remove('i18n-pending');},2000);})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="faq.title">Heartopia FAQ · 50+ Common Bugs and Fixes</title>
+<meta name="description" data-i18n-content="faq.meta.description" content="Heartopia FAQ one-stop troubleshooting: white screen / won't launch, watering not counting toward quests, iced coffee recipe, Annie's puzzle materials, Dream unlock, pets stuck in walls, fishing keyboard lock-up, co-op parties, redeem codes, and 50+ more answers.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="canonical" href="https://heartopia.sbs/faq.html">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="images/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#DF7560">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Heartopia.sbs">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" data-i18n-content="faq.meta.ogTitle" content="Heartopia FAQ · 50+ Common Bugs and Fixes">
+<meta property="og:description" data-i18n-content="faq.meta.ogDescription" content="Heartopia FAQ one-stop troubleshooting: white screen / won't launch, watering not counting toward quests, iced coffee recipe, Annie's puzzle materials, Dream unlock, pets stuck in walls, fishing keyboard lock-up, co-op parties, redeem codes, and 50+ more answers.">
+<meta property="og:url" content="https://heartopia.sbs/faq.html">
+<meta property="og:image" content="https://heartopia.sbs/images/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Heartopia.sbs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" data-i18n-content="faq.meta.twitterTitle" content="Heartopia FAQ · 50+ Common Bugs and Fixes">
+<meta name="twitter:description" data-i18n-content="faq.meta.twitterDescription" content="Heartopia FAQ one-stop troubleshooting: white screen / won't launch, watering not counting toward quests, iced coffee recipe, Annie's puzzle materials, Dream unlock, pets stuck in walls, fishing keyboard lock-up, co-op parties, redeem codes, and 50+ more answers.">
+<meta name="twitter:image" content="https://heartopia.sbs/images/og-image.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Heartopia.sbs","url":"https://heartopia.sbs/","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://heartopia.sbs/?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://heartopia.sbs/"},{"@type":"ListItem","position":2,"name":"FAQ","item":"https://heartopia.sbs/faq.html"}]}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"White/black screen on launch — game won\u0027t start?","acceptedAnswer":{"@type":"Answer","text":"The most frequent issue on the Steam forums. Try these steps (ordered by success rate): ① Verify game file integrity (Steam → Properties → Installed Files → Verify) ② Disable all in-game overlays (Steam/Discord/NVIDIA Overlay) ③ Force a DirectX 11 launch (add -dx11 to the launch options) ④ Cap the frame rate and launch windowed at a lower resolution ⑤ Update your GPU driver and restart your PC ⑥ Reinstall the game. If none of the above work, wait for an official patch — this is a known engine bug."}},{"@type":"Question","name":"Character auto-runs and won\u0027t stop / keyboard locked up?","acceptedAnswer":{"@type":"Answer","text":"Unplug all gamepads/controllers! Even if you play with keyboard \u0026 mouse, any controller plugged into your PC (Xbox/PS/Switch Pro, etc.) will register ghost input signals, causing auto-run, a locked keyboard, an unopenable chat, stuck animation loops, and more. This is the community-verified #1 fix. If unplugging the controller doesn\u0027t help: check for Sticky Keys, toggle VSync, try compatibility mode, and fully restart your PC. The developers have stated on Discord that there are no plans to add controller support yet."}},{"@type":"Question","name":"Fishing rod makes keyboard input stop working entirely?","acceptedAnswer":{"@type":"Answer","text":"Same root cause as the auto-run problem — unplugging all controllers fixes it . If you urgently need to fish, unequip the rod before a fishing event and re-equip it afterwards. Some players report the controller stick actually can drive the fishing minigame, but a connected controller leaves the keyboard completely dead after fishing."}},{"@type":"Question","name":"Game stutters / severe frame drops?","acceptedAnswer":{"@type":"Answer","text":"Lower the graphics settings (shadows and anti-aliasing are the biggest cost). Close background programs. If you\u0027ve placed lots of furniture in your home, consider reducing decorations — every object adds render load. Capping the frame rate to 60fps on PC effectively lowers CPU/GPU usage."}},{"@type":"Question","name":"\"Incorrect device time\" error blocks you from entering the game?","acceptedAnswer":{"@type":"Answer","text":"Error message: incorrect device time please restore normal time before playing ① Open your phone/PC settings → Date \u0026 Time → turn on \"Set Automatically\" ② Confirm the time zone is correct ③ Fully restart the game and device ④ Android users can also try: Settings → Apps → Heartopia → Clear Cache (don\u0027t clear data!)"}},{"@type":"Question","name":"No sound / abnormal audio?","acceptedAnswer":{"@type":"Answer","text":"Check the in-game audio settings. On Windows, confirm the correct audio output device is selected. If there\u0027s no sound after plugging in headphones, try restarting the game. Some players report audio delay with Bluetooth headphones, so a wired device is recommended."}},{"@type":"Question","name":"iOS crashes / restarts after switching to background?","acceptedAnswer":{"@type":"Answer","text":"The game uses a lot of memory. Close other background apps before launching to free up RAM. Avoid long background switches — only switch out from a safe area (like your home). Older iPhones (iPhone 12 and below) trigger this more often."}},{"@type":"Question","name":"Login timeout / connection failed / stuck loading at 97%?","acceptedAnswer":{"@type":"Answer","text":"① Check whether maintenance is underway (watch the official Discord announcements) ② Switch networks (WiFi ↔ mobile data) and disable VPN/proxy/private DNS ③ Fully close the game process and try again ④ Stuck at 97.33%: log in again, and when asked \"Return to your previous room?\", choose Select a New Room ⑤ Sync the system time and allow the launcher through the firewall"}},{"@type":"Question","name":"UI overlapping / display glitches (PC)?","acceptedAnswer":{"@type":"Answer","text":"Reset display scaling to 100% or 125%. Toggle between fullscreen and windowed mode. Resize the window, then reopen the menu. Check the language/font accessibility settings — long translated text can misalign UI elements."}},{"@type":"Question","name":"Buildings suddenly turn completely black?","acceptedAnswer":{"@type":"Answer","text":"A random rendering bug the developers are aware of. Workaround: exit and re-enter the building to refresh the render. If it happens often, lower the shadow quality in the graphics settings."}},{"@type":"Question","name":"Why doesn\u0027t the watering task count progress?","acceptedAnswer":{"@type":"Answer","text":"If the plot is already soaked by rain or snow, watering won\u0027t trigger the quest counter. Fix: water a dry plot, or visit another player\u0027s home and water for them. You can also pick up and re-place the planter to reset its watering state."}},{"@type":"Question","name":"Why can\u0027t I make iced coffee / iced latte?","acceptedAnswer":{"@type":"Answer","text":"You need the Penguin Stove! A normal stove can\u0027t make iced drinks. The Penguin Stove comes from the Winter Frost Event. You can use the Penguin Stove at Massimo\u0027s café, or wait for the event to re-run and make your own."}},{"@type":"Question","name":"Bought a recipe but can\u0027t find it in your inventory?","acceptedAnswer":{"@type":"Answer","text":"① Check all category tabs (Cooking/Crafting/Furniture) — different recipes sit under different tabs ② Check your mailbox — some recipes are sent as mail attachments ③ Restart the game to refresh your inventory ④ Confirm whether it has a hobby-level or main-story prerequisite ⑤ Wait 24 hours and check again (server sync delay) ⑥ If still missing, contact support (provide UID, recipe name, purchase location/NPC, time, and payment screenshot)"}},{"@type":"Question","name":"Cooking says \"no flour\" but bread still triggers?","acceptedAnswer":{"@type":"Answer","text":"This is a hidden passive unlocked at Cooking Level 2 — a 2% chance to cook any dish without consuming any ingredients . The chance rises with your Cooking level. It\u0027s pure luck; keep cooking and it will trigger naturally. Over time it saves a huge amount of resources."}},{"@type":"Question","name":"Should high-star fish be cooked or sold directly?","acceptedAnswer":{"@type":"Answer","text":"Sell directly if worth more than 100 Gold; cook if under 100. Key numbers: • 1-star common fish (50-75 Gold) → Fish \u0026 Chips sells for 310 Gold ✅ profit • 2-star rare fish (320 Gold) → Fish \u0026 Chips sells for 310 Gold ❌ loss • 3-star premium fish (395 Gold) → Fish \u0026 Chips sells for 310 Gold ❌ big loss Core rule: never cook a fish worth more than 100 Gold each."}},{"@type":"Question","name":"How to harvest fruit trees efficiently?","acceptedAnswer":{"@type":"Answer","text":"Fruit trees always drop fruit on the first hit , and only wood on the next two. So the strategy is: hit each tree once to pick fruit, and come back after 2 minutes when it refreshes. This saves the most stamina and maximizes fruit yield."}},{"@type":"Question","name":"When should I use the Rainbow Bouquet?","acceptedAnswer":{"@type":"Answer","text":"Never use it on a rainbow-weather day! Rainbow weather already massively boosts rare flower spawns, so stacking the bouquet wastes its effect. Save it for normal weather to maximize returns."}},{"@type":"Question","name":"Should I spend Exhibition Tickets right away?","acceptedAnswer":{"@type":"Answer","text":"Don\u0027t spend them right away! Exhibition Tickets carry over across gacha banners . Save them up and pull in bulk when the item you want rotates into the current banner — far better than scattered pulls. Also, duplicate pulls give special exchange vouchers , which you can use in the \"Exchange\" window to directly pick any item from any banner (no RNG)."}},{"@type":"Question","name":"How to level Birdwatching fast?","acceptedAnswer":{"@type":"Answer","text":"Photographing the same bird repeatedly still builds progress! No need to chase new species across the map. Find one easy-to-approach bird and snap it over and over for fast leveling — a trick many players don\u0027t know."}},{"@type":"Question","name":"Insects not respawning?","acceptedAnswer":{"@type":"Answer","text":"Catch the insects already at your spot to trigger new spawns. You can also use the inflatable insect trap bought from Naniwa to lure nearby insects over."}},{"@type":"Question","name":"How to raise my home\u0027s rating?","acceptedAnswer":{"@type":"Answer","text":"Placing high-tier furniture, 5★ collectibles, sculptures and premium flowers (roses, lilies) is the core way to raise your home rating. Prioritize an oven, workbench, bed and bathtub as your basic functional furniture. Don\u0027t build your house too big — 6×6 or 8×8 tiles is the most practical; larger houses have higher load and actually limit placement."}},{"@type":"Question","name":"Inventory full — how to expand it?","acceptedAnswer":{"@type":"Answer","text":"Free expansion: DG Levels 2/7/13/17/19 each grant +50 warehouse slots. Paid expansion: find the NPC Ka Ching (northwest suburbs, across from plot #8). Backpack +10 slots, warehouse +50 slots. The first 5 purchases cost only 10 Wishing Stars (normally 25) — be sure to buy out the discounted uses first."}},{"@type":"Question","name":"How does flower breeding work? Why no new hybrids?","acceptedAnswer":{"@type":"Answer","text":"Breeding isn\u0027t purely single-player — a friend must water your flowers until they bloom to trigger hybridization. Key rules: ① Plant two compatible flowers next to each other (2×2 or checkerboard layout) ② Have a friend water them until they bloom ③ Never harvest the parent flowers — keep them as infinite hybrid-seed generators ④ To collect hybrid seeds, walk over the seed icon (not click) ⑤ Chrysanthemum progression: red + white → pink (2★) → peach (3★) → green (4★) → Lunar (5★). Use Rainbow Powder to help with the green → Lunar stage."}},{"@type":"Question","name":"How to unlock outfit presets / dressing slots?","acceptedAnswer":{"@type":"Answer","text":"Collect 800 clothing collection points (the puzzle icon) to unlock outfit presets. Fastest way: buy clothes with Gold at Dorothy\u0027s clothing shop every day. Once unlocked, use it in the wardrobe/dressing app — 10 slots initially, and you can buy more at Ka Ching\u0027s general store."}},{"@type":"Question","name":"What materials does Annie\u0027s Puzzle Night quest actually need?","acceptedAnswer":{"@type":"Answer","text":"You need 10 Meat , bought from Massimo\u0027s cooking shop. Note: not Fish Jerky, not Cat Treats — even if the quest description is ambiguous, it wants plain Meat. This has been verified by players on Reddit."}},{"@type":"Question","name":"When does the Dream feature unlock?","acceptedAnswer":{"@type":"Answer","text":"It unlocks at DG Level 16 , triggered by talking to the NPC Annie. If it doesn\u0027t appear at 16, re-log the game. The fastest way to level it is buying 16 Puzzle Dreams with Gold at the bug shop."}},{"@type":"Question","name":"Why can\u0027t I view the gallery?","acceptedAnswer":{"@type":"Answer","text":"You must first place the Drawing Board on the ground , then interact with it and tap the gallery/album icon to view it. The gallery can\u0027t be opened from the Drawing Board in your inventory. Photos you take appear in the smart watch → album."}},{"@type":"Question","name":"Stuck on Kathy\u0027s Challenge (high-altitude bubble jumps)?","acceptedAnswer":{"@type":"Answer","text":"The big tree bridge in the forest area southeast of the map. The key difficulty is the second bubble (at the wooden bridge gap) : jump at the exact moment before stepping off the ledge to trigger the bubble\u0027s detection precisely. If you miss, go back and retry — no limit on attempts. The first bubble just needs a vertical jump; the third is above the viewing area on the right. Note that the left route is a dead end — you must walk along the wooden bridge from the right-side steps."}},{"@type":"Question","name":"Can\u0027t find the rumor quest \"Aru\u0027s Treasure\"?","acceptedAnswer":{"@type":"Answer","text":"Prerequisite: DG Level 11 . Go to the lake north of Hot Spring Mountain and find the NPC Norty (hidden atop the wooden path and platforms). In the floating bubbles between the capybara statues, look for the Star \u0026 Moon Earrings (the bubble shows a T-shirt icon). Be sure to tell quest bubbles apart from ordinary floating objects."}},{"@type":"Question","name":"How to do Naughty\u0027s treasure-hunt quest (trekking pole)?","acceptedAnswer":{"@type":"Answer","text":"Prerequisite: DG Level 11. First borrow a metal detector from Albert Jr., then go to the flower field and talk directly to Vernie — no need to actually dig; he has already found the trekking pole for you. Reward: a Retro Lamp."}},{"@type":"Question","name":"How to trigger Dream Bubbles?","acceptedAnswer":{"@type":"Answer","text":"Talk to Bailey Jr., then go to Art Street and play the white piano (any notes work) — reward bubbles will appear nearby. Every Saturday 15 pink bubbles spawn across the map, containing exclusive furniture, dye, puzzle pieces and Gold."}},{"@type":"Question","name":"Main quest stuck / orders not refreshing?","acceptedAnswer":{"@type":"Answer","text":"This was fixed in the Oct 28, 2024 downtime update. If you still hit it: re-log to refresh quest state and make sure you\u0027ve completed all current prerequisite tutorial quests. If reading a letter early broke the quest, simply log in again."}},{"@type":"Question","name":"Can\u0027t complete the \"Buy Any Furniture\" quest?","acceptedAnswer":{"@type":"Answer","text":"Just buy the bread maker next to Uncle Bob. Some players report other furniture may not trigger the counter; the bread maker is a proven, reliable fix."}},{"@type":"Question","name":"How do I get a dog? I already have a cat.","acceptedAnswer":{"@type":"Answer","text":"The prerequisite for a dog is finishing the basic cat-care tutorial first . After adopting a cat, complete the cat-related guide quest line to unlock dogs. You need DG Level 12 and an extra Hobby Expansion Ticket."}},{"@type":"Question","name":"When does the pet system unlock? What are the requirements?","acceptedAnswer":{"@type":"Answer","text":"It unlocks at DG Level 12 , roughly 5-7 days of normal play. Prerequisite: you must have unlocked all five basic hobbies (Fishing, Gardening, Cooking, Bug Catching, Birdwatching). Then go to the pet shop in the town center plaza and talk to Mrs Joan, submitting a Hobby Expansion Ticket to unlock cat care. Note: you must unlock cats before dogs."}},{"@type":"Question","name":"Pet stuck in the ceiling or under the floor?","acceptedAnswer":{"@type":"Answer","text":"A very common bug. Fixes: ① Restart the game → use the \"Recall\" feature in the pet menu ② Leave the house and re-enter it ③ Fast travel somewhere else and come back Prevention: place pet beds on the ground floor only, and avoid stairs, building edges, and thin floors. If still stuck, contact support with your UID to request a manual pet-position reset."}},{"@type":"Question","name":"Can I adopt wild animals (alpacas/deer/capybaras/foxes)?","acceptedAnswer":{"@type":"Answer","text":"No. Alpacas, deer, capybaras, foxes, pandas, birds and the like belong to the separate \"Animal Friendship\" system — you can only feed and interact with them, not take them home. Only cats and dogs can be formally adopted through Mrs Joan\u0027s pet shop."}},{"@type":"Question","name":"What\u0027s the best food to feed pets? How to raise affinity fast?","acceptedAnswer":{"@type":"Answer","text":"Feeding a pet its favorite food gives 2 hearts (regular food only gives 1). The default dog/cat food sold by Mrs Joan is the safest choice. If unsure of the favorite, test with the default food first. Petting + feeding + playing daily is a reliable trio for raising affinity."}},{"@type":"Question","name":"Don\u0027t like the pet shop\u0027s breeds? How many can I keep?","acceptedAnswer":{"@type":"Answer","text":"The pet shop\u0027s breeds refresh daily (3 cats + 3 dogs) — come back tomorrow if you\u0027re not satisfied. The cat cap rises with your care level: Lv.1 = 1 cat → Lv.9 = 5 cats. Dogs: Lv.1 = 1 → Lv.8 = 3. You can keep up to 8 pets total."}},{"@type":"Question","name":"Do pets give gifts? What\u0027s affinity for?","acceptedAnswer":{"@type":"Answer","text":"Pets have a chance to leave gifts (the orange cat may bring back a bag of Gold). Raising affinity unlocks more interactions (petting, brushing, teaching skills, etc.), boosts the gift drop rate, makes animals visit your home more often, and the top level unlocks a special decoration reward."}},{"@type":"Question","name":"How to play with friends? When does it unlock?","acceptedAnswer":{"@type":"Answer","text":"DG Level 4 unlocks the \"Friendship Handbook\" and all social features. Before that, the NPC Bobby guides you through the basics. Once unlocked, add friends via UID in the handbook — tap the top-left menu → avatar to see your own UID. Adding a friend costs 1 Star ; accepting is free."}},{"@type":"Question","name":"How to visit a friend\u0027s town? Any restrictions?","acceptedAnswer":{"@type":"Answer","text":"When a friend is online, a green indicator lights up next to their avatar — tap \"Visit\" to seamlessly teleport. A town supports up to 12 people online at once , with unlimited free visits. Visitors cannot move the host\u0027s furniture, take items, use crafting tables, or access storage. Steam/iOS/Android are fully cross-platform."}},{"@type":"Question","name":"Can friends build together with me?","acceptedAnswer":{"@type":"Answer","text":"You need Bond Level 3 to unlock co-building. Raise your Bond through daily interactions (chatting, holding hands, high-fives, doing activities together, etc.). The Bond system has 10 levels, each unlocking deeper features."}},{"@type":"Question","name":"Can I transfer servers? What if my friend is on a different one?","acceptedAnswer":{"@type":"Answer","text":"Characters are bound to their server; server transfer isn\u0027t supported yet. Changing servers means creating a new character from scratch. To play together you must be on the same server. Agree on a server with friends before starting. When entering the game, tap the small house icon on the right to pick your town or join a friend\u0027s town."}},{"@type":"Question","name":"Chat won\u0027t open / muted until 2036?","acceptedAnswer":{"@type":"Answer","text":"Chat won\u0027t open: unplug all controllers (same root cause as auto-run). Wrongly muted (shows muted until 2036): some players report that using chat or friend features before finishing the tutorial triggered a false anti-cheat flag. Contact support with your UID to appeal the mute. Prevention: finish all beginner tutorials before using chat and friend features."}},{"@type":"Question","name":"What can we do together online?","acceptedAnswer":{"@type":"Answer","text":"Fishing (cast side by side and compare catches), birdwatching/bug catching (split up and call out locations), photo sessions (unlock exclusive multiplayer emotes and interaction poses), co-building your homes (after Bond Lv.3), and joining festival events and co-op quests. The game is built around cooperation and sharing, not competition ."}},{"@type":"Question","name":"Where do I enter redeem codes? Which ones are active?","acceptedAnswer":{"@type":"Answer","text":"Redeem path: watch menu → Settings (gear) → \"General\" tab → \"Redeem Code\" button in the bottom-right → paste the code → collect your reward from the mailbox. Common codes (not case-sensitive): • xdxz2026 — universal permanent code • vip666 / vip777 / vip888 / vip999 • svip666 / svip777 / svip888 • Follow the official Discord and TapTap for the latest limited-time codes (most include Wishing Star rewards)"}},{"@type":"Question","name":"What\u0027s the best way to spend Wishing Stars?","acceptedAnswer":{"@type":"Answer","text":"The first 5 backpack/warehouse expansions cost only 10 Stars (normally 25) — buy them out first. Next, the high-value furniture and exclusive items in the Wishing Star shop. Don\u0027t waste them on speed-ups and misc — Wishing Stars are scarce and a long-term investment resource."}},{"@type":"Question","name":"How to start the Snow Season event? What if I\u0027m stuck?","acceptedAnswer":{"@type":"Answer","text":"Prerequisite: DG Level 7 and complete the main quest \"The Answer Lies Within\". Answer Atara\u0027s call and finish \"File Speedrun\" to start the preparation phase. During the three-day preparation, there\u0027s one NPC task per day: Day 1 Vanya → Night Fishing Coffee Pot, Day 2 Naniwa → Omniscient Booster, Day 3 Mrs Joan → 1,000 Gold, and Day 4 opens the resident opinion survey. Key reminder: the limited ingredient Frosting is capped at 50 per day — always buy the full amount ; for White Radish Seeds, buy the Trend Season exclusive seeds at the gardening shop."}},{"@type":"Question","name":"Team-up reservation rewards not arrived?","acceptedAnswer":{"@type":"Answer","text":"Team rewards are usually issued as redeem codes. Find the code entry in the in-game settings and enter the code you received. If it still hasn\u0027t arrived, check whether it expired or contact support."}},{"@type":"Question","name":"How to use Moonlight Crystals and event currency?","acceptedAnswer":{"@type":"Answer","text":"Save them up! Moonlight Crystals and event-exclusive currency are best spent on limited banners to pull exclusive outfits, furniture, vehicles and seasonal decor. Don\u0027t blow them on the standard pool — miss an exclusive and you may wait a year for a re-run."}},{"@type":"Question","name":"When is the sea fishing event? How to join?","acceptedAnswer":{"@type":"Answer","text":"There\u0027s a sea fishing event daily at 12:00 and 21:00 — arrive within 10 minutes to join. Sometimes players spend 2,000 Gold to spontaneously start one; if you see it announced in the world channel, head over fast. Different waters, weather and times yield different species — watch the fish shadow size (S/M/L) to pick your target."}}]}
+</script>
+</head>
+<body>
+
+<nav id="site-nav" class="site-nav"></nav>
+
+<header class="page-header">
+  <div class="eyebrow" data-i18n="faq.eyebrow">Troubleshooting</div>
+  <h1 data-i18n-html="faq.h1">Common<strong style="color:var(--coral)">Issues</strong></h1>
+  <p class="sub" data-i18n-html="faq.sub">Technical issues · Quest blockers · Game systems · Pet social · Event exclusives — <strong>50+</strong> of the most common questions and solutions from the Reddit, Steam, TapTap and Discord communities</p>
+</header>
+
+<div class="wrap">
+
+  <!-- ============================================ -->
+  <!-- Category 1: Technical / 技术故障 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec1.eyebrow">Technical Issues</div>
+      <h2 data-i18n="faq.sec1.title">Launch / Runtime / Crash Issues</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q1"><span>🖥️</span>White/black screen on launch — game won't start?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n="faq.a1.1">The most frequent issue on the Steam forums. Try these steps (ordered by success rate):</p>
+          <p data-i18n="faq.a1.2">① Verify game file integrity (Steam → Properties → Installed Files → Verify)</p>
+          <p data-i18n="faq.a1.3">② Disable all in-game overlays (Steam/Discord/NVIDIA Overlay)</p>
+          <p data-i18n-html="faq.a1.4">③ Force a DirectX 11 launch (add <code>-dx11</code> to the launch options)</p>
+          <p data-i18n="faq.a1.5">④ Cap the frame rate and launch windowed at a lower resolution</p>
+          <p data-i18n="faq.a1.6">⑤ Update your GPU driver and restart your PC</p>
+          <p data-i18n="faq.a1.7">⑥ Reinstall the game. If none of the above work, wait for an official patch — this is a known engine bug.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q2"><span>🎮</span>Character auto-runs and won't stop / keyboard locked up?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a2.1"><strong>Unplug all gamepads/controllers!</strong> Even if you play with keyboard & mouse, any controller plugged into your PC (Xbox/PS/Switch Pro, etc.) will register ghost input signals, causing auto-run, a locked keyboard, an unopenable chat, stuck animation loops, and more. This is the community-verified #1 fix.</p>
+          <p data-i18n="faq.a2.2">If unplugging the controller doesn't help: check for Sticky Keys, toggle VSync, try compatibility mode, and fully restart your PC.</p>
+          <p data-i18n-html="faq.a2.3"><em>The developers have stated on Discord that there are no plans to add controller support yet.</em></p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q3"><span>🎣</span>Fishing rod makes keyboard input stop working entirely?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a3">Same root cause as the auto-run problem — <strong>unplugging all controllers fixes it</strong>. If you urgently need to fish, unequip the rod before a fishing event and re-equip it afterwards. Some players report the controller stick actually <em>can</em> drive the fishing minigame, but a connected controller leaves the keyboard completely dead after fishing.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q4"><span>💾</span>Game stutters / severe frame drops?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a4">Lower the graphics settings (shadows and anti-aliasing are the biggest cost). Close background programs. If you've placed lots of furniture in your home, consider reducing decorations — every object adds render load. Capping the frame rate to 60fps on PC effectively lowers CPU/GPU usage.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q5"><span>⏰</span>"Incorrect device time" error blocks you from entering the game?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a5.1">Error message: <code>incorrect device time please restore normal time before playing</code></p>
+          <p data-i18n-html="faq.a5.2">① Open your phone/PC settings → Date & Time → turn on <strong>"Set Automatically"</strong></p>
+          <p data-i18n="faq.a5.3">② Confirm the time zone is correct</p>
+          <p data-i18n="faq.a5.4">③ Fully restart the game and device</p>
+          <p data-i18n-html="faq.a5.5">④ Android users can also try: Settings → Apps → Heartopia → <strong>Clear Cache</strong> (don't clear data!)</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q6"><span>🔊</span>No sound / abnormal audio?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a6">Check the in-game audio settings. On Windows, confirm the correct audio output device is selected. If there's no sound after plugging in headphones, try restarting the game. Some players report audio delay with Bluetooth headphones, so a wired device is recommended.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q7"><span>📱</span>iOS crashes / restarts after switching to background?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a7">The game uses a lot of memory. Close other background apps before launching to free up RAM. Avoid long background switches — only switch out from a safe area (like your home). Older iPhones (iPhone 12 and below) trigger this more often.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q8"><span>🔐</span>Login timeout / connection failed / stuck loading at 97%?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n="faq.a8.1">① Check whether maintenance is underway (watch the official Discord announcements)</p>
+          <p data-i18n="faq.a8.2">② Switch networks (WiFi ↔ mobile data) and disable VPN/proxy/private DNS</p>
+          <p data-i18n="faq.a8.3">③ Fully close the game process and try again</p>
+          <p data-i18n-html="faq.a8.4">④ Stuck at 97.33%: log in again, and when asked "Return to your previous room?", choose <strong>Select a New Room</strong></p>
+          <p data-i18n="faq.a8.5">⑤ Sync the system time and allow the launcher through the firewall</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q9"><span>🖱️</span>UI overlapping / display glitches (PC)?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a9">Reset display scaling to 100% or 125%. Toggle between fullscreen and windowed mode. Resize the window, then reopen the menu. Check the language/font accessibility settings — long translated text can misalign UI elements.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q10"><span>⬛</span>Buildings suddenly turn completely black?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a10">A random rendering bug the developers are aware of. Workaround: exit and re-enter the building to refresh the render. If it happens often, lower the shadow quality in the graphics settings.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- Category 2: Game Systems / 系统机制 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec2.eyebrow">Game Systems</div>
+      <h2 data-i18n="faq.sec2.title">Gameplay Questions</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q11"><span>🌧️</span>Why doesn't the watering task count progress?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a11">If the plot is already soaked by rain or snow, watering won't trigger the quest counter. Fix: water a dry plot, or visit another player's home and water for them. You can also pick up and re-place the planter to reset its watering state.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q12"><span>☕</span>Why can't I make iced coffee / iced latte?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a12"><strong>You need the Penguin Stove!</strong> A normal stove can't make iced drinks. The Penguin Stove comes from the Winter Frost Event. You can use the Penguin Stove at Massimo's café, or wait for the event to re-run and make your own.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q13"><span>📖</span>Bought a recipe but can't find it in your inventory?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n="faq.a13.1">① Check all category tabs (Cooking/Crafting/Furniture) — different recipes sit under different tabs</p>
+          <p data-i18n-html="faq.a13.2">② <strong>Check your mailbox</strong> — some recipes are sent as mail attachments</p>
+          <p data-i18n="faq.a13.3">③ Restart the game to refresh your inventory</p>
+          <p data-i18n="faq.a13.4">④ Confirm whether it has a hobby-level or main-story prerequisite</p>
+          <p data-i18n="faq.a13.5">⑤ Wait 24 hours and check again (server sync delay)</p>
+          <p data-i18n="faq.a13.6">⑥ If still missing, contact support (provide UID, recipe name, purchase location/NPC, time, and payment screenshot)</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q14"><span>🍞</span>Cooking says "no flour" but bread still triggers?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a14">This is a <strong>hidden passive unlocked at Cooking Level 2</strong> — a 2% chance to cook any dish <strong>without consuming any ingredients</strong>. The chance rises with your Cooking level. It's pure luck; keep cooking and it will trigger naturally. Over time it saves a huge amount of resources.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q15"><span>🐟</span>Should high-star fish be cooked or sold directly?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a15.1"><strong>Sell directly if worth more than 100 Gold; cook if under 100.</strong> Key numbers:</p>
+          <p data-i18n="faq.a15.2">• 1-star common fish (50-75 Gold) → Fish &amp; Chips sells for 310 Gold ✅ profit</p>
+          <p data-i18n="faq.a15.3">• 2-star rare fish (320 Gold) → Fish &amp; Chips sells for 310 Gold ❌ loss</p>
+          <p data-i18n="faq.a15.4">• 3-star premium fish (395 Gold) → Fish &amp; Chips sells for 310 Gold ❌ big loss</p>
+          <p data-i18n="faq.a15.5">Core rule: never cook a fish worth more than 100 Gold each.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q16"><span>🌳</span>How to harvest fruit trees efficiently?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a16">Fruit trees <strong>always drop fruit on the first hit</strong>, and only wood on the next two. So the strategy is: hit each tree once to pick fruit, and come back after 2 minutes when it refreshes. This saves the most stamina and maximizes fruit yield.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q17"><span>🌈</span>When should I use the Rainbow Bouquet?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a17"><strong>Never use it on a rainbow-weather day!</strong> Rainbow weather already massively boosts rare flower spawns, so stacking the bouquet wastes its effect. Save it for normal weather to maximize returns.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q18"><span>🎫</span>Should I spend Exhibition Tickets right away?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a18">Don't spend them right away! Exhibition Tickets <strong>carry over across gacha banners</strong>. Save them up and pull in bulk when the item you want rotates into the current banner — far better than scattered pulls. Also, duplicate pulls give <strong>special exchange vouchers</strong>, which you can use in the "Exchange" window to directly pick any item from any banner (no RNG).</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q19"><span>🔭</span>How to level Birdwatching fast?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a19"><strong>Photographing the same bird repeatedly still builds progress!</strong> No need to chase new species across the map. Find one easy-to-approach bird and snap it over and over for fast leveling — a trick many players don't know.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q20"><span>🦋</span>Insects not respawning?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a20">Catch the insects already at your spot to trigger new spawns. You can also use the <strong>inflatable insect trap</strong> bought from Naniwa to lure nearby insects over.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q21"><span>🏠</span>How to raise my home's rating?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a21">Placing high-tier furniture, 5★ collectibles, sculptures and premium flowers (roses, lilies) is the core way to raise your home rating. Prioritize an oven, workbench, bed and bathtub as your basic functional furniture. Don't build your house too big — 6×6 or 8×8 tiles is the most practical; larger houses have higher load and actually limit placement.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q22"><span>🎒</span>Inventory full — how to expand it?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a22.1"><strong>Free expansion:</strong> DG Levels 2/7/13/17/19 each grant +50 warehouse slots.</p>
+          <p data-i18n-html="faq.a22.2"><strong>Paid expansion:</strong> find the NPC Ka Ching (northwest suburbs, across from plot #8). Backpack +10 slots, warehouse +50 slots. <strong>The first 5 purchases cost only 10 Wishing Stars</strong> (normally 25) — be sure to buy out the discounted uses first.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q23"><span>🌸</span>How does flower breeding work? Why no new hybrids?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a23.1">Breeding isn't purely single-player — <strong>a friend must water your flowers</strong> until they bloom to trigger hybridization. Key rules:</p>
+          <p data-i18n-html="faq.a23.2">① Plant two compatible flowers <strong>next to each other</strong> (2×2 or checkerboard layout)</p>
+          <p data-i18n="faq.a23.3">② Have a friend water them until they bloom</p>
+          <p data-i18n-html="faq.a23.4">③ <strong>Never harvest the parent flowers</strong> — keep them as infinite hybrid-seed generators</p>
+          <p data-i18n-html="faq.a23.5">④ To collect hybrid seeds, <strong>walk over the seed icon</strong> (not click)</p>
+          <p data-i18n="faq.a23.6">⑤ Chrysanthemum progression: red + white → pink (2★) → peach (3★) → green (4★) → Lunar (5★). Use Rainbow Powder to help with the green → Lunar stage.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q24"><span>👗</span>How to unlock outfit presets / dressing slots?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a24"><strong>Collect 800 clothing collection points</strong> (the puzzle icon) to unlock outfit presets. Fastest way: buy clothes with Gold at Dorothy's clothing shop every day. Once unlocked, use it in the wardrobe/dressing app — 10 slots initially, and you can buy more at Ka Ching's general store.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- Category 3: Quest Blockers / 任务卡关 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec3.eyebrow">Quest Blockers</div>
+      <h2 data-i18n="faq.sec3.title">Quest Bugs &amp; Blocker Fixes</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q25"><span>🧩</span>What materials does Annie's Puzzle Night quest actually need?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a25">You need <strong>10 Meat</strong>, bought from Massimo's cooking shop. Note: <strong>not</strong> Fish Jerky, <strong>not</strong> Cat Treats — even if the quest description is ambiguous, it wants plain Meat. This has been verified by players on Reddit.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q26"><span>💤</span>When does the Dream feature unlock?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a26">It unlocks at <strong>DG Level 16</strong>, triggered by talking to the NPC Annie. If it doesn't appear at 16, re-log the game. The fastest way to level it is buying 16 Puzzle Dreams with Gold at the bug shop.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q27"><span>🖼️</span>Why can't I view the gallery?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a27">You must first place the <strong>Drawing Board on the ground</strong>, then interact with it and tap the gallery/album icon to view it. The gallery can't be opened from the Drawing Board in your inventory. Photos you take appear in the smart watch → album.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q28"><span>🪜</span>Stuck on Kathy's Challenge (high-altitude bubble jumps)?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a28">The big tree bridge in the forest area southeast of the map. The key difficulty is the <strong>second bubble (at the wooden bridge gap)</strong>: jump at the <strong>exact moment before stepping off the ledge</strong> to trigger the bubble's detection precisely. If you miss, go back and retry — no limit on attempts. The first bubble just needs a vertical jump; the third is above the viewing area on the right. Note that <strong>the left route is a dead end</strong> — you must walk along the wooden bridge from the right-side steps.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q29"><span>🗺️</span>Can't find the rumor quest "Aru's Treasure"?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a29">Prerequisite: DG Level <strong>11</strong>. Go to the lake north of Hot Spring Mountain and find the NPC Norty (hidden atop the wooden path and platforms). In the floating bubbles between the capybara statues, look for the <strong>Star & Moon Earrings</strong> (the bubble shows a T-shirt icon). Be sure to tell quest bubbles apart from ordinary floating objects.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q30"><span>🪄</span>How to do Naughty's treasure-hunt quest (trekking pole)?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a30">Prerequisite: DG Level 11. First borrow a metal detector from Albert Jr., then go to the flower field and <strong>talk directly to Vernie</strong> — no need to actually dig; he has already found the trekking pole for you. Reward: a Retro Lamp.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q31"><span>💬</span>How to trigger Dream Bubbles?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a31">Talk to Bailey Jr., then go to Art Street and play the <strong>white piano</strong> (any notes work) — reward bubbles will appear nearby. Every Saturday 15 pink bubbles spawn across the map, containing exclusive furniture, dye, puzzle pieces and Gold.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q32"><span>📋</span>Main quest stuck / orders not refreshing?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a32">This was fixed in the Oct 28, 2024 downtime update. If you still hit it: re-log to refresh quest state and make sure you've completed all current prerequisite tutorial quests. If reading a letter early broke the quest, simply log in again.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q33"><span>🛒</span>Can't complete the "Buy Any Furniture" quest?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a33">Just buy the <strong>bread maker</strong> next to Uncle Bob. Some players report other furniture may not trigger the counter; the bread maker is a proven, reliable fix.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- Category 4: Pets & Animals / 宠物与动物 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec4.eyebrow">Pets &amp; Animals</div>
+      <h2 data-i18n="faq.sec4.title">Cat &amp; Dog Care FAQ</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q34"><span>🐱</span>How do I get a dog? I already have a cat.<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a34">The prerequisite for a dog is <strong>finishing the basic cat-care tutorial first</strong>. After adopting a cat, complete the cat-related guide quest line to unlock dogs. You need DG Level 12 and an extra Hobby Expansion Ticket.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q35"><span>🔓</span>When does the pet system unlock? What are the requirements?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a35">It unlocks at <strong>DG Level 12</strong>, roughly 5-7 days of normal play. Prerequisite: <strong>you must have unlocked all five basic hobbies</strong> (Fishing, Gardening, Cooking, Bug Catching, Birdwatching). Then go to the pet shop in the town center plaza and talk to Mrs Joan, submitting a Hobby Expansion Ticket to unlock cat care. Note: <strong>you must unlock cats before dogs.</strong></p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q36"><span>🐾</span>Pet stuck in the ceiling or under the floor?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n="faq.a36.1">A very common bug. Fixes:</p>
+          <p data-i18n-html="faq.a36.2">① Restart the game → use the <strong>"Recall"</strong> feature in the pet menu</p>
+          <p data-i18n="faq.a36.3">② Leave the house and re-enter it</p>
+          <p data-i18n="faq.a36.4">③ Fast travel somewhere else and come back</p>
+          <p data-i18n-html="faq.a36.5"><strong>Prevention:</strong> place pet beds on the ground floor only, and avoid stairs, building edges, and thin floors. If still stuck, contact support with your UID to request a manual pet-position reset.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q37"><span>🦙</span>Can I adopt wild animals (alpacas/deer/capybaras/foxes)?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a37"><strong>No.</strong> Alpacas, deer, capybaras, foxes, pandas, birds and the like belong to the separate "Animal Friendship" system — you can only feed and interact with them, not take them home. Only <strong>cats and dogs</strong> can be formally adopted through Mrs Joan's pet shop.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q38"><span>🍖</span>What's the best food to feed pets? How to raise affinity fast?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a38">Feeding a pet its <strong>favorite food</strong> gives <strong>2 hearts</strong> (regular food only gives 1). The default dog/cat food sold by Mrs Joan is the safest choice. If unsure of the favorite, test with the default food first. Petting + feeding + playing daily is a reliable trio for raising affinity.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q39"><span>🏪</span>Don't like the pet shop's breeds? How many can I keep?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a39">The pet shop's breeds <strong>refresh daily</strong> (3 cats + 3 dogs) — come back tomorrow if you're not satisfied. The cat cap rises with your care level: Lv.1 = 1 cat → Lv.9 = 5 cats. Dogs: Lv.1 = 1 → Lv.8 = 3. You can keep up to <strong>8</strong> pets total.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q40"><span>🎁</span>Do pets give gifts? What's affinity for?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a40">Pets have a chance to leave gifts (the orange cat may bring back a bag of Gold). Raising affinity unlocks more interactions (petting, brushing, teaching skills, etc.), boosts the gift drop rate, makes animals visit your home more often, and the top level unlocks a special decoration reward.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- Category 5: Social & Multiplayer / 社交联机 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec5.eyebrow">Social &amp; Multiplayer</div>
+      <h2 data-i18n="faq.sec5.title">Multiplayer &amp; Friends</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q41"><span>🔗</span>How to play with friends? When does it unlock?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a41"><strong>DG Level 4</strong> unlocks the "Friendship Handbook" and all social features. Before that, the NPC Bobby guides you through the basics. Once unlocked, add friends via <strong>UID</strong> in the handbook — tap the top-left menu → avatar to see your own UID. Adding a friend costs <strong>1 Star</strong>; accepting is free.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q42"><span>🏘️</span>How to visit a friend's town? Any restrictions?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a42">When a friend is online, a green indicator lights up next to their avatar — tap "Visit" to seamlessly teleport. A town supports up to <strong>12 people online at once</strong>, with unlimited free visits. Visitors <strong>cannot</strong> move the host's furniture, take items, use crafting tables, or access storage. Steam/iOS/Android are fully cross-platform.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q43"><span>🏗️</span>Can friends build together with me?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a43">You need <strong>Bond Level 3</strong> to unlock co-building. Raise your Bond through daily interactions (chatting, holding hands, high-fives, doing activities together, etc.). The Bond system has 10 levels, each unlocking deeper features.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q44"><span>🔀</span>Can I transfer servers? What if my friend is on a different one?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a44"><strong>Characters are bound to their server; server transfer isn't supported yet.</strong> Changing servers means creating a new character from scratch. To play together you must be on the same server. Agree on a server with friends before starting. When entering the game, tap the small house icon on the right to pick your town or join a friend's town.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q45"><span>🚫</span>Chat won't open / muted until 2036?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a45.1"><strong>Chat won't open: unplug all controllers</strong> (same root cause as auto-run).</p>
+          <p data-i18n-html="faq.a45.2"><strong>Wrongly muted (shows muted until 2036):</strong> some players report that using chat or friend features before finishing the tutorial triggered a false anti-cheat flag. Contact support with your UID to appeal the mute.</p>
+          <p data-i18n-html="faq.a45.3"><strong>Prevention:</strong> finish all beginner tutorials before using chat and friend features.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q46"><span>📸</span>What can we do together online?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a46">Fishing (cast side by side and compare catches), birdwatching/bug catching (split up and call out locations), photo sessions (unlock exclusive multiplayer emotes and interaction poses), co-building your homes (after Bond Lv.3), and joining festival events and co-op quests. The game is built around <strong>cooperation and sharing, not competition</strong>.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- Category 6: Events & Currencies / 活动与资源 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec6.eyebrow">Events &amp; Resources</div>
+      <h2 data-i18n="faq.sec6.title">Event Exclusives · Redeem Codes · Currency Planning</h2>
+    </div>
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q47"><span>🎟️</span>Where do I enter redeem codes? Which ones are active?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a47.1"><strong>Redeem path:</strong> watch menu → Settings (gear) → "General" tab → "Redeem Code" button in the bottom-right → paste the code → collect your reward from the mailbox.</p>
+          <p data-i18n-html="faq.a47.2"><strong>Common codes (not case-sensitive):</strong></p>
+          <p data-i18n-html="faq.a47.3">• <code>xdxz2026</code> — universal permanent code</p>
+          <p>• <code>vip666</code> / <code>vip777</code> / <code>vip888</code> / <code>vip999</code></p>
+          <p>• <code>svip666</code> / <code>svip777</code> / <code>svip888</code></p>
+          <p data-i18n="faq.a47.4">• Follow the official Discord and TapTap for the latest limited-time codes (most include Wishing Star rewards)</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q48"><span>⭐</span>What's the best way to spend Wishing Stars?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a48"><strong>The first 5 backpack/warehouse expansions cost only 10 Stars (normally 25) — buy them out first.</strong> Next, the high-value furniture and exclusive items in the Wishing Star shop. Don't waste them on speed-ups and misc — Wishing Stars are scarce and a long-term investment resource.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q49"><span>❄️</span>How to start the Snow Season event? What if I'm stuck?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a">
+          <p data-i18n-html="faq.a49.1">Prerequisite: DG Level <strong>7</strong> and complete the main quest "The Answer Lies Within". Answer Atara's call and finish "File Speedrun" to start the preparation phase. During the three-day preparation, there's one NPC task per day: Day 1 Vanya → Night Fishing Coffee Pot, Day 2 Naniwa → Omniscient Booster, Day 3 Mrs Joan → 1,000 Gold, and Day 4 opens the resident opinion survey.</p>
+          <p data-i18n-html="faq.a49.2">Key reminder: the limited ingredient <strong>Frosting is capped at 50 per day — always buy the full amount</strong>; for White Radish Seeds, buy the Trend Season exclusive seeds at the gardening shop.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q50"><span>🪙</span>Team-up reservation rewards not arrived?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n="faq.a50">Team rewards are usually issued as redeem codes. Find the code entry in the in-game settings and enter the code you received. If it still hasn't arrived, check whether it expired or contact support.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q51"><span>💎</span>How to use Moonlight Crystals and event currency?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a51"><strong>Save them up!</strong> Moonlight Crystals and event-exclusive currency are best spent on limited banners to pull exclusive outfits, furniture, vehicles and seasonal decor. Don't blow them on the standard pool — miss an exclusive and you may wait a year for a re-run.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" data-i18n-html="faq.q52"><span>🎣</span>When is the sea fishing event? How to join?<span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><p data-i18n-html="faq.a52">There's a sea fishing event daily at <strong>12:00 and 21:00</strong> — arrive within 10 minutes to join. Sometimes players spend 2,000 Gold to spontaneously start one; if you see it announced in the world channel, head over fast. Different waters, weather and times yield different species — watch the fish shadow size (S/M/L) to pick your target.</p></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- Category 7: Quick Answers / 快速问答 -->
+  <!-- ============================================ -->
+  <div class="section">
+    <div class="section-hd reveal">
+      <div class="eyebrow" data-i18n="faq.sec7.eyebrow">Quick Answers</div>
+      <h2 data-i18n="faq.sec7.title">One-line Answers</h2>
+    </div>
+    <div class="tbl-wrap reveal">
+      <table>
+        <thead><tr><th data-i18n="faq.tbl.head.q">Question</th><th data-i18n="faq.tbl.head.a">Answer</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="faq.tbl.q1">When does the server reset?</td><td data-i18n="faq.tbl.a1">6:00 AM Heartopia time (check your watch for the local time offset)</td></tr>
+          <tr><td data-i18n="faq.tbl.q2">Do I need to water on rainy days?</td><td data-i18n="faq.tbl.a2">No — rain and snow water crops automatically</td></tr>
+          <tr><td data-i18n="faq.tbl.q3">Which to pick first, Cooking or Bug Catching?</td><td data-i18n-html="faq.tbl.a3"><strong>Strongly recommend Cooking first</strong> — the money-making gap is huge</td></tr>
+          <tr><td data-i18n="faq.tbl.q4">Cook or sell high-star fish?</td><td data-i18n="faq.tbl.a4">Sell directly if over 100 Gold; cook if under 100</td></tr>
+          <tr><td data-i18n="faq.tbl.q5">Best beginner crop?</td><td data-i18n="faq.tbl.a5">Potato — 3× the profit of tomato</td></tr>
+          <tr><td data-i18n="faq.tbl.q6">Most important long-term crop?</td><td data-i18n="faq.tbl.a6">Wheat — needed by almost all high-profit recipes</td></tr>
+          <tr><td data-i18n="faq.tbl.q7">Best way to spend Wishing Stars?</td><td data-i18n="faq.tbl.a7">The first 5 backpack/warehouse expansions cost only 10 Stars (normally 25) — buy them out first</td></tr>
+          <tr><td data-i18n="faq.tbl.q8">How to make money fast?</td><td data-i18n="faq.tbl.a8">Cook → sell to Albert Jr.; Blueberry Jam is the earliest high-profit recipe</td></tr>
+          <tr><td data-i18n="faq.tbl.q9">Scooter vs bus?</td><td data-i18n="faq.tbl.a9">The scooter is cheaper and faster — cut through the town center as a shortcut</td></tr>
+          <tr><td data-i18n="faq.tbl.q10">Not enough Hobby Expansion Tickets?</td><td data-i18n="faq.tbl.a10">Complete daily quests, advance the main story, and raise your DG Level</td></tr>
+          <tr><td data-i18n="faq.tbl.q11">DG Level rising slowly?</td><td data-i18n="faq.tbl.a11">Do the 5 villager commissions every day (each gives 1,000-3,000 Gold + lots of XP)</td></tr>
+          <tr><td data-i18n="faq.tbl.q12">Crop maturity time shows incorrectly?</td><td data-i18n="faq.tbl.a12">Just a display bug — the actual maturity time is unchanged</td></tr>
+          <tr><td data-i18n="faq.tbl.q13">What to plant while online vs offline?</td><td data-i18n="faq.tbl.a13">Plant tomato/potato while online, wheat while offline, and lettuce before bed</td></tr>
+          <tr><td data-i18n="faq.tbl.q14">Can't find a specific fish?</td><td data-i18n-html="faq.tbl.a14">Fish require <strong>location + weather + time</strong> to all match</td></tr>
+          <tr><td data-i18n="faq.tbl.q15">Game crashes at level 6 free-building?</td><td data-i18n="faq.tbl.a15">Fixed via hotfix — if you still hit it, update the game</td></tr>
+          <tr><td data-i18n="faq.tbl.q16">Character stuck in an umbrella/object?</td><td data-i18n="faq.tbl.a16">ESC menu → use the Relocate feature → restart</td></tr>
+          <tr><td data-i18n="faq.tbl.q17">Held item vanished but still usable?</td><td data-i18n="faq.tbl.a17">Fully close the process and re-log to refresh the state</td></tr>
+          <tr><td data-i18n="faq.tbl.q18">Food button blocked by the snow UI?</td><td data-i18n="faq.tbl.a18">Adjust the camera angle, or wait for the weather to clear</td></tr>
+          <tr><td data-i18n="faq.tbl.q19">Blue screen / stuck after skipping a cutscene?</td><td data-i18n="faq.tbl.a19">Don't tap skip — let the animation play out to enter the game</td></tr>
+          <tr><td data-i18n="faq.tbl.q20">How to change hairstyle / face accessories / face?</td><td data-i18n="faq.tbl.a20">Go to the second floor of the clothing shop and use the dressing mirror</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<footer id="site-footer" class="site-footer"></footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
