@@ -924,7 +924,7 @@
       'about.who.h2': 'Who We Are',
       'about.who.p': 'Heartopia.sbs is an &amp;lt;strong&amp;gt;unofficial guide site&amp;lt;/strong&amp;gt; created and maintained by dedicated players of Heartopia. We are not the official team, nor are we affiliated in any way with the developers or publisher of the game — we are simply a group of fellow fans who love this game and want to organize the pitfalls we have hit and the experience we have gathered to share with more players.',
       'about.what.h2': 'What We Do',
-      'about.what.p': 'This site is dedicated to consolidating scattered information into a clear, searchable, up-to-date Chinese resource library, covering the complete journey from your first day on the island to max-level graduation:',
+      'about.what.p': 'This site is dedicated to consolidating scattered information into a clear, searchable, up-to-date English resource library, covering the complete journey from your first day on the island to max-level graduation:',
       'about.what.li1': '&amp;lt;strong&amp;gt;Beginner Guides and Progression Routes&amp;lt;/strong&amp;gt;: the time-gated DG 1→20 progression order and daily must-do checklists',
       'about.what.li2': '&amp;lt;strong&amp;gt;Eight Collectible Databases&amp;lt;/strong&amp;gt;: fish, insects, birds, recipes, crops, NPCs, achievements, and sheet music',
       'about.what.li3': '&amp;lt;strong&amp;gt;Interactive World Map&amp;lt;/strong&amp;gt;: 300+ markers, with real-time search and route planning',
