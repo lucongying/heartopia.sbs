@@ -67,8 +67,8 @@
   </div>
 
   <div class="card" style="margin-bottom:16px">
-    <h2 style="font-size:1.02rem;margin:0 0 8px">🌱 How to use the Crop Database</h2>
-    <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin:0">Compare growth time, season fit, and profit-per-hour for all 28 crops to plan the most efficient farm; the priority column marks the best planting choices. <strong>Quick tips:</strong> potatoes return 3× the profit of tomatoes early on, and planting blueberries before bed means they're ready to harvest in the morning.</p>
+    <h2 style="font-size:1.02rem;margin:0 0 8px" data-i18n="dbcrops.help">🌱 How to use the Crop Database</h2>
+    <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin:0" data-i18n-html="dbcrops.helpText">Compare growth time, season fit, and profit-per-hour for all 28 crops to plan the most efficient farm; the priority column marks the best planting choices. <strong>Quick tips:</strong> potatoes return 3× the profit of tomatoes early on, and planting blueberries before bed means they're ready to harvest in the morning.</p>
   </div>
 
   <div class="search-bar" style="margin-bottom:12px">
@@ -96,14 +96,14 @@
 <script src="js/database.js"></script>
 <script>
 var HEADERS = {
-  fish:    ['名称','位置','季节','天气','时间','稀有度','售价','建议'],
-  insects: ['名称','位置','天气','时间','稀有度','售价'],
-  birds:   ['名称','位置','天气','时间','观鸟等级'],
-  recipes: ['名称','材料','能量','售价','★★','利润','解锁'],
-  crops:   ['名称','类别','生长','季节','收获','售价','种子','收益/h','优先级','解锁'],
-  npcs:    ['名称','角色','位置','出没时间','解锁条件','喜好礼物'],
-  achievements: ['名称','类别','描述','解锁条件','奖励'],
-  scores:  ['名称','来源','乐器','难度','解锁']
+  fish:    ['Name','Location','Season','Weather','Time','Rarity','Price','Notes'],
+  insects: ['Name','Location','Weather','Time','Rarity','Price'],
+  birds:   ['Name','Location','Weather','Time','Birdwatch Lv'],
+  recipes: ['Name','Ingredients','Energy','Price','★★','Profit','Unlock'],
+  crops:   ['Name','Category','Growth','Season','Harvest','Price','Seed','Profit/h','Priority','Unlock'],
+  npcs:    ['Name','Role','Location','Schedule','Unlock','Favorite Gifts'],
+  achievements: ['Name','Category','Description','Unlock','Reward'],
+  scores:  ['Name','Source','Instrument','Difficulty','Unlock']
 };
 function updateTableHead(tab) {
   var head = document.getElementById('table-head');
@@ -116,7 +116,7 @@ function updateTableHead(tab) {
   if (!grid) return;
   grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-dim)">' + window.I18N.t('db.loading') + '</div>';
   try { await loadData(['crops']); } catch (e) {
-    console.error('数据加载失败:', e);
+    console.error('Failed to load data:', e);
     grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--coral)">' + window.I18N.t('common.loadFailed') + '</div>';
     document.getElementById('result-count').textContent = window.I18N.t('db.loadFailed');
     return;

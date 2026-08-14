@@ -690,7 +690,7 @@
 </div>
 
 <!-- ============================================================ -->
-<!-- 地图介绍与功能 — 探索者日志 -->
+<!-- Map intro & features — Explorer's Log -->
 <!-- ============================================================ -->
 <div class="map-info-section">
   <div class="section-hd">
@@ -700,7 +700,7 @@
 
   <p class="map-info-intro" data-i18n-html="map.infoIntro">A full-featured interactive Heartopia map built on <strong>Leaflet.js</strong>, with <strong>100+</strong> accurate markers across <strong>9 categories</strong>: NPCs, resources, fishing spots, shops, insects, birds, animals, landmarks and bus stops. Whether you're a beginner running routes or a completionist filling every encyclopedia, this one map has the whole island covered.</p>
 
-  <!-- 核心功能 -->
+  <!-- Core features -->
   <div class="map-features">
     <div class="map-feature-card">
       <div class="map-feature-badge coral">🔍</div>
@@ -732,7 +732,7 @@
     </div>
   </div>
 
-  <!-- 分类颜色图例 -->
+  <!-- Category color legend -->
   <div class="map-category-legend">
     <div class="legend-chip">
       <div class="legend-dot" style="background:#DF7560"></div>
@@ -772,7 +772,7 @@
     </div>
   </div>
 
-  <!-- 数据统计 -->
+  <!-- Data stats -->
   <div class="map-stats">
     <div class="map-stat">
       <div class="stat-num">100+</div>
@@ -835,15 +835,15 @@ var INLINE_INSECT_DATA = [{"weather":"Sunny, Rain, Rainbow","name":"阿波罗绢
   // Category config
   // ==========================================================
   const CATEGORIES = {
-    npc:      { name: 'NPC / 角色',   emoji: '👤', color: '#DF7560', cssVar: '--coral' },
-    resource: { name: '资源采集点',    emoji: '🌿', color: '#6E9E70', cssVar: '--green' },
-    fishing:  { name: '钓鱼水域',      emoji: '🎣', color: '#3E737A', cssVar: '--teal' },
-    shop:     { name: '商店',          emoji: '🛒', color: '#E9B040', cssVar: '--gold' },
-    insect:   { name: '昆虫出没',      emoji: '🦋', color: '#9B8EC4', cssVar: '--lavender' },
-    bird:     { name: '观鸟地点',      emoji: '🐦', color: '#7BA89E', cssVar: '' },
-    animal:   { name: '动物',          emoji: '🐾', color: '#C9956B', cssVar: '' },
-    location: { name: '地点/地标',     emoji: '📍', color: '#8C9898', cssVar: '' },
-    bus:      { name: '巴士站',        emoji: '🚌', color: '#C75E4A', cssVar: '' }
+    npc:      { name: 'NPC / Characters',   emoji: '👤', color: '#DF7560', cssVar: '--coral' },
+    resource: { name: 'Resource Points',    emoji: '🌿', color: '#6E9E70', cssVar: '--green' },
+    fishing:  { name: 'Fishing Spots',      emoji: '🎣', color: '#3E737A', cssVar: '--teal' },
+    shop:     { name: 'Shops',          emoji: '🛒', color: '#E9B040', cssVar: '--gold' },
+    insect:   { name: 'Insect Locations',      emoji: '🦋', color: '#9B8EC4', cssVar: '--lavender' },
+    bird:     { name: 'Birdwatching Spots',      emoji: '🐦', color: '#7BA89E', cssVar: '' },
+    animal:   { name: 'Animals',          emoji: '🐾', color: '#C9956B', cssVar: '' },
+    location: { name: 'Locations / Landmarks',     emoji: '📍', color: '#8C9898', cssVar: '' },
+    bus:      { name: 'Bus Stops',        emoji: '🚌', color: '#C75E4A', cssVar: '' }
   };
 
   const RESOURCE_SUBS = ['berry', 'fruit', 'mushroom', 'stone', 'tree', 'other'];
@@ -890,8 +890,8 @@ var INLINE_INSECT_DATA = [{"weather":"Sunny, Rain, Rainbow","name":"阿波罗绢
   // MAP INITIALIZATION
   // ==========================================================
   function initMap() {
-    // Use the compressed JPEG map image as the base layer
-    var mapImageUrl = 'images/heartopia-map-real.webp';
+    // Original illustrated base map (self-drawn, no official game assets)
+    var mapImageUrl = 'images/map-base.svg';
 
     var img = new Image();
     img.onload = function() {
@@ -1182,7 +1182,7 @@ var INLINE_INSECT_DATA = [{"weather":"Sunny, Rain, Rainbow","name":"阿波罗绢
           <span class="cat-dot" style="background:${catConfig.color}"></span>
           <span class="cat-name">${catConfig.emoji} ${catLabel(cat)}</span>
           <span class="cat-count">${catMarkers.length}</span>
-          <span class="cat-toggle" title="显示/隐藏此分类">👁</span>
+          <span class="cat-toggle" title="Show/hide this category">👁</span>
           <span class="cat-arrow">▼</span>
         </div>
         <div class="cat-items">
@@ -1403,7 +1403,7 @@ var INLINE_INSECT_DATA = [{"weather":"Sunny, Rain, Rainbow","name":"阿波罗绢
       });
 
       searchResults.innerHTML = Object.keys(grouped).map(cat => {
-        const catConfig = CATEGORIES[cat] || { name: '自定义', emoji: '📌', color: '#E9B040' };
+        const catConfig = CATEGORIES[cat] || { name: 'Custom', emoji: '📌', color: '#E9B040' };
         return `
           <div class="search-result-group">${catConfig.emoji} ${catLabel(cat)} (${grouped[cat].length})</div>
           ${grouped[cat].map(r => `
@@ -1508,7 +1508,7 @@ let _isFlyingTo = false;
   let popupMarker = null;
 
   function showMapPopup(data, marker) {
-    const catConfig = CATEGORIES[data.category] || { name: '自定义', color: '#E9B040' };
+    const catConfig = CATEGORIES[data.category] || { name: 'Custom', color: '#E9B040' };
     const categoryName = data.category === 'custom' ? _t('map.customMarker') : catLabel(data.category);
 
     let badgeClass = 'badge-coral';

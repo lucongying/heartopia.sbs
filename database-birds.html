@@ -67,8 +67,8 @@
   </div>
 
   <div class="card" style="margin-bottom:16px">
-    <h2 style="font-size:1.02rem;margin:0 0 8px">🐦 How to use the Bird Database</h2>
-    <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin:0">Every bird lists the Birdwatching level, location, and weather needed to find it. Search by name or filter by location to track down a specific species. <strong>Quick tips:</strong> the higher your Birdwatching level, the more likely rare raptors and waterfowl appear, so level up before chasing the rarest birds.</p>
+    <h2 style="font-size:1.02rem;margin:0 0 8px" data-i18n="dbbirds.help">🐦 How to use the Bird Database</h2>
+    <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin:0" data-i18n-html="dbbirds.helpText">Every bird lists the Birdwatching level, location, and weather needed to find it. Search by name or filter by location to track down a specific species. <strong>Quick tips:</strong> the higher your Birdwatching level, the more likely rare raptors and waterfowl appear, so level up before chasing the rarest birds.</p>
   </div>
 
   <div class="search-bar" style="margin-bottom:12px">
@@ -96,14 +96,14 @@
 <script src="js/database.js"></script>
 <script>
 var HEADERS = {
-  fish:    ['名称','位置','季节','天气','时间','稀有度','售价','建议'],
-  insects: ['名称','位置','天气','时间','稀有度','售价'],
-  birds:   ['名称','位置','季节','天气','时间','稀有度','观鸟等级'],
-  recipes: ['名称','材料','能量','售价','★★','利润','解锁'],
-  crops:   ['名称','生长','季节','售价','收益/h','优先级'],
-  npcs:    ['名称','角色','位置','出没时间','解锁条件','喜好礼物'],
-  achievements: ['名称','类别','描述','解锁条件','奖励'],
-  scores:  ['名称','来源','乐器','难度','解锁']
+  fish:    ['Name','Location','Season','Weather','Time','Rarity','Price','Notes'],
+  insects: ['Name','Location','Weather','Time','Rarity','Price'],
+  birds:   ['Name','Location','Season','Weather','Time','Rarity','Birdwatch Lv'],
+  recipes: ['Name','Ingredients','Energy','Price','★★','Profit','Unlock'],
+  crops:   ['Name','Growth','Season','Price','Profit/h','Priority'],
+  npcs:    ['Name','Role','Location','Schedule','Unlock','Favorite Gifts'],
+  achievements: ['Name','Category','Description','Unlock','Reward'],
+  scores:  ['Name','Source','Instrument','Difficulty','Unlock']
 };
 function updateTableHead(tab) {
   var head = document.getElementById('table-head');
@@ -116,7 +116,7 @@ function updateTableHead(tab) {
   if (!grid) return;
   grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-dim)">' + window.I18N.t('db.loading') + '</div>';
   try { await loadData(['birds']); } catch (e) {
-    console.error('数据加载失败:', e);
+    console.error('Failed to load data:', e);
     grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--coral)">' + window.I18N.t('common.loadFailed') + '</div>';
     document.getElementById('result-count').textContent = window.I18N.t('db.loadFailed');
     return;
