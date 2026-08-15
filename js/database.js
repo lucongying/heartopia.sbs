@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Heartopia Guide · Database Engine
    Search, filter, tab switching for the database page
    Supports: fish, insects, birds, recipes, crops, npcs
@@ -13,9 +13,9 @@ function _name(item) { return window.I18N ? window.I18N.nameFor(item) : (item &&
 function _L(v) { return window.I18N ? window.I18N.L(v) : v; }
 function _t(key, params) { return window.I18N ? window.I18N.t(key, params) : key; }
 function _sub(item) {
-  if (!item || !item.nameEn) return '';
+  if (!item || !item.enName) return '';
   if (window.I18N && window.I18N.getLang() === 'en') return '';
-  var en = window.I18N ? window.I18N.displayNameEn(item.nameEn) : item.nameEn;
+  var en = window.I18N ? window.I18N.displayNameEn(item.enName) : item.enName;
   return en ? '<span class="fish-card-subtitle">' + en + '</span>' : '';
 }
 
@@ -167,7 +167,7 @@ function renderRow(tab, item) {
         <td>${item.weather}</td>
         <td>${item.time}</td>
         <td><span class="stars">${'★'.repeat(bRowRarity)}<span>${'☆'.repeat(5 - bRowRarity)}</span></span></td>
-        <td><span class="badge badge-lavender">Lv.${item.birdwatchLevel}</span></td>
+        <td><span class="badge badge-lavender">Lv.${item.birdLv}</span></td>
       </tr>`;
     case 'recipes':
       return `<tr>
@@ -182,7 +182,7 @@ function renderRow(tab, item) {
     case 'crops':
       return `<tr>
         <td><strong>${item.name}</strong></td>
-        <td><span class="badge" style="font-size:0.7rem;padding:1px 7px;background:var(--surface);color:var(--text-dim);border:1px solid var(--border)">${getCropEmoji(item.nameEn, item.name, item.category).emoji} ${item.category || '作物'}</span></td>
+        <td><span class="badge" style="font-size:0.7rem;padding:1px 7px;background:var(--surface);color:var(--text-dim);border:1px solid var(--border)">${getCropEmoji(item.enName, item.name, item.category).emoji} ${item.category || '作物'}</span></td>
         <td>${item.growthTime}</td>
         <td>${item.season}</td>
         <td>${item.harvestType || '单次收获'}</td>
@@ -226,8 +226,8 @@ function renderRow(tab, item) {
 }
 
 // ---- Fish emoji mapping ----
-function getFishEmoji(nameEn, name) {
-  var en = (nameEn || '').toLowerCase();
+function getFishEmoji(enName, name) {
+  var en = (enName || '').toLowerCase();
   var cn = name || '';
 
   // Sharks
@@ -296,8 +296,8 @@ function getFishEmoji(nameEn, name) {
 }
 
 // ---- Insect emoji mapping ----
-function getInsectEmoji(nameEn, name) {
-  var en = (nameEn || '').toLowerCase();
+function getInsectEmoji(enName, name) {
+  var en = (enName || '').toLowerCase();
   var cn = name || '';
 
   // Butterfly
@@ -330,8 +330,8 @@ function getInsectEmoji(nameEn, name) {
 }
 
 // ---- Bird emoji mapping ----
-function getBirdEmoji(nameEn, name) {
-  var en = (nameEn || '').toLowerCase();
+function getBirdEmoji(enName, name) {
+  var en = (enName || '').toLowerCase();
   var cn = name || '';
 
   // Owls
@@ -387,8 +387,8 @@ function getBirdEmoji(nameEn, name) {
 }
 
 // ---- Crop emoji mapping ----
-function getCropEmoji(nameEn, name, category) {
-  var en = (nameEn || '').toLowerCase();
+function getCropEmoji(enName, name, category) {
+  var en = (enName || '').toLowerCase();
   var cn = name || '';
   var cat = category || '';
 
@@ -462,8 +462,8 @@ function rarityClass(rarity) {
 }
 
 // ---- Recipe emoji mapping ----
-function getRecipeEmoji(nameEn, name, category) {
-  var en = (nameEn || '').toLowerCase();
+function getRecipeEmoji(enName, name, category) {
+  var en = (enName || '').toLowerCase();
   var cn = name || '';
   var cat = category || '';
 
@@ -517,8 +517,8 @@ function getRecipeEmoji(nameEn, name, category) {
 }
 
 // ---- NPC emoji mapping ----
-function getNpcEmoji(nameEn, name, role) {
-  var en = (nameEn || '').toLowerCase();
+function getNpcEmoji(enName, name, role) {
+  var en = (enName || '').toLowerCase();
   var cn = name || '';
   var rl = role || '';
 
@@ -656,7 +656,7 @@ function getMoodEmoji(mood) {
 function renderCard(tab, item) {
   switch (tab) {
     case 'fish':
-      var fe = getFishEmoji(item.nameEn, item.name);
+      var fe = getFishEmoji(item.enName, item.name);
       var rCls = rarityClass(item.rarity || 1);
       var noteText = item.note || '';
       var cookText = item.cookAdvice || '';
@@ -664,16 +664,16 @@ function renderCard(tab, item) {
 
       // ---- Shadow size display ----
       var shadowMap = { 'Golden': '金色', 'L': '大型', 'M': '中型', 'S': '小型' };
-      var shadowCN = shadowMap[item.shadowSize] || '';
-      var shadowIcon = item.shadowSize === 'Golden' ? '🟡' : item.shadowSize === 'L' ? '🔵' : item.shadowSize === 'M' ? '🟢' : item.shadowSize === 'S' ? '⚪' : '';
+      var shadowCN = shadowMap[item.shadow] || '';
+      var shadowIcon = item.shadow === 'Golden' ? '🟡' : item.shadow === 'L' ? '🔵' : item.shadow === 'M' ? '🟢' : item.shadow === 'S' ? '⚪' : '';
 
       // ---- Fish type display ----
-      var typeRaw = { 'Sea': '海洋', 'River': '河流', 'Lake': '湖泊' }[item.fishType] || '';
-      var typeIcon = { 'Sea': '🌊', 'River': '🏞', 'Lake': '🏔' }[item.fishType] || '';
+      var typeRaw = { 'Sea': '海洋', 'River': '河流', 'Lake': '湖泊' }[item.habitat] || '';
+      var typeIcon = { 'Sea': '🌊', 'River': '🏞', 'Lake': '🏔' }[item.habitat] || '';
       var typeDisplay = typeRaw ? typeIcon + ' ' + _L(typeRaw) : '';
 
       // ---- Fishing level ----
-      var levelDisplay = item.fishingLevel ? 'Lv.' + item.fishingLevel : '';
+      var levelDisplay = item.fishLv ? 'Lv.' + item.fishLv : '';
 
       return '<div class="db-item-card fish-card ' + rCls + '">' +
         // ── Header: thumbnail + name ──
@@ -703,7 +703,7 @@ function renderCard(tab, item) {
             (typeDisplay ? '<div class="fish-detail-cell"><span class="fi-icon">🏷</span><span class="fi-label">' + _t('db.label.water') + '</span><span class="fi-val">' + typeDisplay + '</span></div>' : '<div class="fish-detail-cell"></div>') +
             (shadowCN ? '<div class="fish-detail-cell"><span class="fi-icon">📏</span><span class="fi-label">' + _t('db.label.shadow') + '</span><span class="fi-val">' + shadowIcon + ' ' + _L(shadowCN) + '</span></div>' : '<div class="fish-detail-cell"></div>') +
             // Row 4: Fishing Level (if present)
-            (levelDisplay ? '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">🎣</span><span class="fi-label">' + _t('db.label.fishingLevel') + '</span><span class="fi-val">' + levelDisplay + '</span></div>' : '') +
+            (levelDisplay ? '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">🎣</span><span class="fi-label">' + _t('db.label.fishLv') + '</span><span class="fi-val">' + levelDisplay + '</span></div>' : '') +
           '</div>' +
         '</div>' +
         // ── Note (if present) ──
@@ -718,7 +718,7 @@ function renderCard(tab, item) {
         '</div>' +
       '</div>';
     case 'insects':
-      var ie = getInsectEmoji(item.nameEn, item.name);
+      var ie = getInsectEmoji(item.enName, item.name);
       var irCls = rarityClass(item.rarity || 1);
       var inoteText = item.note || '';
 
@@ -761,7 +761,7 @@ function renderCard(tab, item) {
         : '') +
       '</div>';
     case 'birds':
-      var be = getBirdEmoji(item.nameEn, item.name);
+      var be = getBirdEmoji(item.enName, item.name);
       var bRarity = item.rarity || 1;
       var rCls = rarityClass(bRarity);
       var bNoteText = item.note || '';
@@ -791,14 +791,14 @@ function renderCard(tab, item) {
             '<div class="fish-detail-cell"><span class="fi-icon">🕐</span><span class="fi-label">' + _t('db.label.time') + '</span><span class="fi-val">' + _L(item.time || '全天') + '</span></div>' +
             '<div class="fish-detail-cell"><span class="fi-icon">📍</span><span class="fi-label">' + _t('db.label.location') + '</span><span class="fish-location-pill">' + _L(item.location || '未知') + '</span></div>' +
             // Row 3: Birdwatch Level (full width)
-            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">🔭</span><span class="fi-label">' + _t('db.label.birdwatchLevel') + '</span><span class="fi-val">Lv.' + (item.birdwatchLevel || '?') + '</span></div>' +
+            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">🔭</span><span class="fi-label">' + _t('db.label.birdLv') + '</span><span class="fi-val">Lv.' + (item.birdLv || '?') + '</span></div>' +
           '</div>' +
         '</div>' +
         // ── Note (if present) ──
         (bNoteText ? '<div class="fish-note-strip">💡 ' + _L(bNoteText) + '</div>' : '') +
       '</div>';
     case 'recipes':
-      var re = getRecipeEmoji(item.nameEn, item.name, item.category);
+      var re = getRecipeEmoji(item.enName, item.name, item.category);
       var rCls = recipeLevelClass(item.unlock);
       // ★★ multiplier vs base: highlight profit ratio
       var profitRatio = item.star2Price && item.sellPrice ? (item.star2Price / item.sellPrice).toFixed(1) : '1.5';
@@ -846,7 +846,7 @@ function renderCard(tab, item) {
         '</div>' +
       '</div>';
     case 'crops':
-      var ce = getCropEmoji(item.nameEn, item.name, item.category);
+      var ce = getCropEmoji(item.enName, item.name, item.category);
       var pCls = cropPriorityClass(item.priority);
       var cNoteText = item.note || '';
       var profitDisplay = typeof item.profitPerHour === 'number' ? item.profitPerHour.toFixed(1) + ' G/h' : _L(item.profitPerHour);
@@ -901,7 +901,7 @@ function renderCard(tab, item) {
         '</div>' +
       '</div>';
     case 'npcs':
-      var ne = getNpcEmoji(item.nameEn, item.name, item.role);
+      var ne = getNpcEmoji(item.enName, item.name, item.role);
       var nCatCls = npcCategoryClass(ne.category);
       var hasDesc = item.description && item.description.length > 0;
 

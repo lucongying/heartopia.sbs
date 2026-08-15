@@ -1,7 +1,7 @@
-﻿var NPCS_DATA = [
+var NPCS_DATA = [
   {
     "name": "Vanya",
-    "nameEn": "vanya",
+    "enName": "vanya",
     "role": "🎣 钓鱼导师",
     "location": "登门拜访 / 城镇河岸",
     "schedule": "全天 · DG Lv.2 自动登门",
@@ -11,7 +11,7 @@
   },
   {
     "name": "Blanc",
-    "nameEn": "blanc",
+    "enName": "blanc",
     "role": "🌱 园艺导师",
     "location": "花园街（城镇中心南侧）",
     "schedule": "全天",
@@ -21,7 +21,7 @@
   },
   {
     "name": "Massimo",
-    "nameEn": "massimo",
+    "enName": "massimo",
     "role": "🍳 烹饪导师",
     "location": "咖啡馆（城镇中心）",
     "schedule": "全天 · 售卖材料每日刷新",
@@ -31,7 +31,7 @@
   },
   {
     "name": "Naniwa",
-    "nameEn": "naniwa",
+    "enName": "naniwa",
     "role": "🦋 捕虫导师",
     "location": "城镇中心",
     "schedule": "全天",
@@ -41,7 +41,7 @@
   },
   {
     "name": "Bailey J",
-    "nameEn": "bailey-j",
+    "enName": "bailey-j",
     "role": "🔭 观鸟导师",
     "location": "城镇中心",
     "schedule": "全天",
@@ -51,7 +51,7 @@
   },
   {
     "name": "琼夫人",
-    "nameEn": "mrs-joan",
+    "enName": "mrs-joan",
     "role": "🐱 宠物领养",
     "location": "宠物领养中心（城镇中心）",
     "schedule": "全天",
@@ -61,7 +61,7 @@
   },
   {
     "name": "Albert Jr.",
-    "nameEn": "albert-jr",
+    "enName": "albert-jr",
     "role": "💰 流浪商人",
     "location": "全地图随机游走（无固定位置）",
     "schedule": "随机游走 · 始终可用",
@@ -71,7 +71,7 @@
   },
   {
     "name": "Ka Ching",
-    "nameEn": "ka-ching",
+    "enName": "ka-ching",
     "role": "🎒 背包扩容",
     "location": "郊区（西部）",
     "schedule": "全天",
@@ -81,7 +81,7 @@
   },
   {
     "name": "Annie",
-    "nameEn": "annie",
+    "enName": "annie",
     "role": "💤 Dream功能",
     "location": "城镇中心",
     "schedule": "全天",
@@ -91,7 +91,7 @@
   },
   {
     "name": "Dorothy",
-    "nameEn": "dorothee",
+    "enName": "dorothee",
     "role": "👗 服装店主 + 每日食物任务",
     "location": "服装店（城镇中心）",
     "schedule": "全天 · 库存每日刷新",
@@ -101,7 +101,7 @@
   },
   {
     "name": "Bob",
-    "nameEn": "bob",
+    "enName": "bob",
     "role": "🏪 杂货店主",
     "location": "中心商店街",
     "schedule": "全天 · 库存每日刷新",
@@ -111,7 +111,7 @@
   },
   {
     "name": "Atara",
-    "nameEn": "atara",
+    "enName": "atara",
     "role": "📋 活动/周常任务",
     "location": "城镇中心",
     "schedule": "全天",
@@ -121,7 +121,7 @@
   },
   {
     "name": "收藏家",
-    "nameEn": "collector",
+    "enName": "collector",
     "role": "🗃️ 收集品兑换",
     "location": "城镇中心",
     "schedule": "全天",
@@ -131,7 +131,7 @@
   },
   {
     "name": "Andrew",
-    "nameEn": "andrew",
+    "enName": "andrew",
     "role": "🔧 工具/修理",
     "location": "城镇东侧",
     "schedule": "全天",
@@ -141,7 +141,7 @@
   },
   {
     "name": "Eric",
-    "nameEn": "eric",
+    "enName": "eric",
     "role": "♨️ 温泉山居民",
     "location": "温泉山区域",
     "schedule": "全天",
@@ -151,7 +151,7 @@
   },
   {
     "name": "Will",
-    "nameEn": "will",
+    "enName": "will",
     "role": "🌷 花田居民",
     "location": "花田区域（紫罗兰海滩附近）",
     "schedule": "全天",
@@ -161,7 +161,7 @@
   },
   {
     "name": "Patti",
-    "nameEn": "patti",
+    "enName": "patti",
     "role": "🏝️ 森林岛居民",
     "location": "森林岛区域",
     "schedule": "全天",
@@ -171,7 +171,7 @@
   },
   {
     "name": "Vernie",
-    "nameEn": "vernie",
+    "enName": "vernie",
     "role": "🏖️ 海滩居民",
     "location": "紫罗兰海滩",
     "schedule": "全天",
@@ -181,7 +181,7 @@
   },
   {
     "name": "Bill",
-    "nameEn": "bill",
+    "enName": "bill",
     "role": "⚓ 渔村居民",
     "location": "渔村",
     "schedule": "全天",
@@ -191,7 +191,7 @@
   },
   {
     "name": "Doris",
-    "nameEn": "doris",
+    "enName": "doris",
     "role": "🎨 艺术街居民",
     "location": "艺术街（城镇西侧）",
     "schedule": "全天",

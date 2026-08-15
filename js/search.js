@@ -14,7 +14,7 @@
   var I18N = window.I18N;
   function _t(key, params) { return I18N ? I18N.t(key, params) : key; }
   function _L(v) { return I18N ? I18N.L(v) : v; }
-  function _name(r) { return I18N ? I18N.nameFor({ name: r.name, nameEn: r.nameEn }) : r.name; }
+  function _name(r) { return I18N ? I18N.nameFor({ name: r.name, enName: r.enName }) : r.name; }
   function _sub(r) {
     if (!r.sub) return '';
     return String(r.sub).split(' · ').map(_L).join(' · ');
@@ -34,12 +34,12 @@
   function emojiFor(key, item) {
     try {
       switch (key) {
-        case 'fish': return window.getFishEmoji ? getFishEmoji(item.nameEn, item.name).emoji : '🐟';
-        case 'insects': return window.getInsectEmoji ? getInsectEmoji(item.nameEn, item.name).emoji : '🦋';
-        case 'birds': return window.getBirdEmoji ? getBirdEmoji(item.nameEn, item.name).emoji : '🐦';
-        case 'recipes': return window.getRecipeEmoji ? getRecipeEmoji(item.nameEn, item.name, item.category).emoji : '🍳';
-        case 'crops': return window.getCropEmoji ? getCropEmoji(item.nameEn, item.name, item.category).emoji : '🌱';
-        case 'npcs': return window.getNpcEmoji ? getNpcEmoji(item.nameEn, item.name, item.role).emoji : '👤';
+        case 'fish': return window.getFishEmoji ? getFishEmoji(item.enName, item.name).emoji : '🐟';
+        case 'insects': return window.getInsectEmoji ? getInsectEmoji(item.enName, item.name).emoji : '🦋';
+        case 'birds': return window.getBirdEmoji ? getBirdEmoji(item.enName, item.name).emoji : '🐦';
+        case 'recipes': return window.getRecipeEmoji ? getRecipeEmoji(item.enName, item.name, item.category).emoji : '🍳';
+        case 'crops': return window.getCropEmoji ? getCropEmoji(item.enName, item.name, item.category).emoji : '🌱';
+        case 'npcs': return window.getNpcEmoji ? getNpcEmoji(item.enName, item.name, item.role).emoji : '👤';
         case 'achievements': return window.getAchievementEmoji ? getAchievementEmoji(item.category).emoji : '🏆';
         case 'scores': return window.getScoreEmoji ? getScoreEmoji(item.instrument).emoji : '🎵';
         default: return '·';
@@ -69,10 +69,10 @@
     data.forEach(function (item) {
       if (!item || !item.name) return;
       var sub = subtitleFor(cfg.key, item);
-      var hay = [item.name, item.nameEn, sub].filter(Boolean).join(' ').toLowerCase();
+      var hay = [item.name, item.enName, sub].filter(Boolean).join(' ').toLowerCase();
       INDEX.push({
         key: cfg.key, page: cfg.page, label: cfg.label, accent: cfg.accent,
-        name: item.name, nameEn: item.nameEn || '',
+        name: item.name, enName: item.enName || '',
         sub: sub, emoji: emojiFor(cfg.key, item), hay: hay
       });
     });
@@ -84,13 +84,13 @@
     var out = [];
     INDEX.forEach(function (it) {
       var name = it.name.toLowerCase();
-      var nameEn = it.nameEn.toLowerCase();
+      var enName = it.enName.toLowerCase();
       var s = 0;
       if (name === query) s = 100;
       else if (name.indexOf(query) === 0) s = 90;
-      else if (nameEn.indexOf(query) === 0) s = 85;
+      else if (enName.indexOf(query) === 0) s = 85;
       else if (name.indexOf(query) !== -1) s = 70;
-      else if (nameEn.indexOf(query) !== -1) s = 60;
+      else if (enName.indexOf(query) !== -1) s = 60;
       else if (it.hay.indexOf(query) !== -1) s = 40;
       if (s > 0) out.push({ it: it, s: s });
     });
