@@ -1833,7 +1833,7 @@
       'index.hero.achievementLabel': '🏆 Achievements',
       'index.hero.scoreLabel': '🎵 Scores',
       'index.hero.trustUpdate': '✅ &lt;strong&gt;Constantly updated&lt;/strong&gt; · Redeem codes verified 2026-08-12',
-      'index.hero.trustChinese': '🌐 &lt;strong&gt;Full English&lt;/strong&gt; · Beginner-friendly',
+      'index.hero.trustChinese': '🌐 Beginner-friendly',
       'index.hero.trustVerified': '🛠️ &lt;strong&gt;Tested &amp; verified&lt;/strong&gt; · Original guides written and maintained by our team',
       'index.hero.navBeginner': '🆕 Beginner',
       'index.hero.navProgression': '📈 Progression',
