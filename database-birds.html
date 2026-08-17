@@ -53,7 +53,35 @@
 </head>
 <body>
 
-<nav id="site-nav" class="site-nav"></nav>
+<nav id="site-nav" class="site-nav">
+<div class="wrap">
+<a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Heartopia.sbs" class="nav-brand-logo" width="165" height="30"></a>
+<ul class="nav-links">
+<li><a href="index.html" data-i18n="nav.home">首页</a></li>
+<li><a href="beginner.html" data-i18n="nav.beginner">新手上路</a></li>
+<li><a href="progression.html" data-i18n="nav.progression">进阶流程</a></li>
+<li class="nav-dropdown">
+<a href="database.html" class="nav-dropdown-toggle" data-i18n="nav.database">数据库</a>
+<ul class="nav-dropdown-menu">
+<li><a href="database-fish.html"><span class="dd-icon">🎣</span><span data-i18n="nav.db.fish">鱼类</span></a></li>
+<li><a href="database-insects.html"><span class="dd-icon">🦋</span><span data-i18n="nav.db.insects">昆虫</span></a></li>
+<li><a href="database-birds.html"><span class="dd-icon">🐦</span><span data-i18n="nav.db.birds">鸟类</span></a></li>
+<li><a href="database-recipes.html"><span class="dd-icon">🍳</span><span data-i18n="nav.db.recipes">食谱</span></a></li>
+<li><a href="database-crops.html"><span class="dd-icon">🌱</span><span data-i18n="nav.db.crops">作物</span></a></li>
+<li><a href="database-npcs.html"><span class="dd-icon">👥</span><span data-i18n="nav.db.npcs">NPC</span></a></li>
+<li><a href="database-achievements.html"><span class="dd-icon">🏆</span><span data-i18n="nav.db.achievements">成就</span></a></li>
+<li><a href="database-scores.html"><span class="dd-icon">🎵</span><span data-i18n="nav.db.scores">乐谱</span></a></li>
+</ul>
+</li>
+<li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>
+<li><a href="map.html" data-i18n="nav.map">地图</a></li>
+<li><a href="activities.html" data-i18n="nav.activities">活动</a></li>
+<li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>
+<li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>
+</ul>
+<button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch language">🌐 <span>中文</span></button>
+</div>
+</nav>
 
 <header class="page-header">
   <div class="eyebrow" data-i18n="dbbirds.eyebrow">🐦 Database · Birds</div>
@@ -180,17 +208,58 @@
     <button class="btn btn-ghost btn-sm" id="clear-search" style="flex-shrink:0" data-i18n="db.clear">Clear</button>
   </div>
 
-  <div id="result-count" class="result-count" data-i18n="db.loading">Loading data…</div>
+  <div id="result-count" class="result-count" data-i18n="db.loading">69 items</div>
 
   <div class="db-card-grid" id="data-grid"></div>
+<section id="db-static" class="db-static">
+  <h2>Birds Database</h2>
+  <p>69 entries listed below. Server-rendered so search engines can read the full reference without JavaScript.</p>
+<table class="static-table"><thead><tr><th>Name</th><th>Location</th><th>Season</th><th>Weather</th><th>Time</th><th>Rarity</th><th>Birdwatch Lv</th></tr></thead><tbody><tr><td>Audouins Gull (奥氏鸥)</td><td>鲸海（海岸和沙滩）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>White Wagtail (白鹡鸰)</td><td>紫光海滩</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>White Headed Duck (白头硬尾鸭)</td><td>温泉山湖</td><td>全年</td><td>雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>Lv.9</td></tr><tr><td>White Tern (白燕鸥)</td><td>东海</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Redpoll (白腰朱顶雀)</td><td>森林（灵橡松林）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Pied Imperial Pigeon (斑皇鸠)</td><td>渔村</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Smew (斑头秋沙鸭)</td><td>森林湖</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Zebra Finch (斑胸草雀)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Pileated Woodpecker (北美黑啄木鸟)</td><td>森林</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Eurasian Chaffinch (苍头燕雀)</td><td>花田</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Orange Bellied Fruit Dove (橙腹果鸠)</td><td>花田</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Eurasian Wigeon (赤颈鸭)</td><td>河流</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Ruddy Shelduck (赤麻鸭)</td><td>郊区湖</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Greater Flamingo (大红鹳)</td><td>水边</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Great Tit (大山雀)</td><td>温泉山</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Imperial Shag (帝鸬鹚)</td><td>东海/和风海</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>Lv.9</td></tr><tr><td>Eastern Bluebird (东方蓝鸲)</td><td>郊区</td><td>全年</td><td>雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>African Olive Pigeon (非洲橄榄鸽)</td><td>温泉山（温泉）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Pink Pigeon (粉红鸽)</td><td>花田（鲸山）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Pink Necked Green Pigeon (粉颈绿鸠)</td><td>花田</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Jambu Fruit Dove (粉头果鸠)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Cinnamon Ground Dove (桂红地鸠)</td><td>渔村（东码头）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Brown Noddy (褐燕鸥)</td><td>古海海边</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Black Headed Gull (黑头鸥)</td><td>海边</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Red Bellied Bullfinch (红腹灰雀)</td><td>森林（灵橡树）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Red Footed Falcon (红脚隼)</td><td>森林</td><td>全年</td><td>晴、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Red Faced Cormorant (红脸鸬鹚)</td><td>古海/鲸海</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Common Kestrel (红隼)</td><td>森林（鹿塔）</td><td>全年</td><td>晴、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Red Falcon (红隼(赤隼))</td><td>森林（鹿塔）</td><td>全年</td><td>晴、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.8</td></tr><tr><td>Yellow Bellied Flycatcher (黄腹鹟)</td><td>渔村（码头）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>European Bee Eater (黄喉蜂虎)</td><td>温泉山湖岸</td><td>全年</td><td>雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Yellow Eyed Pigeon (黄眼鸽)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Twite (黄嘴朱顶雀)</td><td>花田</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Collared Dove (灰斑鸠)</td><td>家园</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Grey Crested Cardinal (灰冠红雀)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Azure Tit (灰蓝山雀)</td><td>花田（风车花田）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Grey Headed Dove (灰头斑鸠)</td><td>家园</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Eurasian Wren (鹪鹩)</td><td>森林</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Eurasian Golden Oriole (金黄鹂)</td><td>家园</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Golden Bowerbird (金色园丁鸟)</td><td>森林（灵橡松林）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Wonga Pigeon (巨果鸠)</td><td>森林</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Blue Tit (蓝山雀)</td><td>花田</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Woodchat Shrike (林䳭伯劳)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Green Headed Tanager (绿头唐纳雀)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Mallard (绿头鸭)</td><td>湖泊</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>American Flamingo (美洲火烈鸟)</td><td>花田</td><td>全年</td><td>彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>Lv.9</td></tr><tr><td>Stock Dove (欧鸽)</td><td>中心区域</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>European Shag (欧鸬鹚)</td><td>森林岛下方/灯塔附近</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Eurasian Eagle Owl (欧亚雕鸮)</td><td>温泉山</td><td>全年</td><td>晴、雨、彩虹</td><td>夜间</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Eurasian Bullfinch (欧亚红腹灰雀)</td><td>郊区</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Eurasian Collared Dove (欧亚灰斑鸠)</td><td>家园</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>European Robin (欧亚鸲(知更鸟))</td><td>中心区域</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Eurasian Nuthatch (欧亚䴓)</td><td>渔村</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.2</td></tr><tr><td>Przevalskis Parrotbill (普氏鸦雀)</td><td>渔村广场</td><td>全年</td><td>晴、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Regent Bowerbird (摄政园丁鸟)</td><td>森林（灵橡松林）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Double Barred Finch (双斑草雀)</td><td>渔村（灯塔）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Pine Grosbeak (松雀)</td><td>森林岛</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>Paradise Tanager (天堂唐纳雀)</td><td>郊区</td><td>全年</td><td>任意</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>Lv.9</td></tr><tr><td>Verditer Flycatcher (铜蓝鹟)</td><td>森林</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.4</td></tr><tr><td>King Eider (王绒鸭)</td><td>河流</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Bearded Reedling (文须雀)</td><td>温泉山</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Hawfinch (锡嘴雀)</td><td>温泉山（火山口湖）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Lesser Flamingo (小红鹳)</td><td>森林湖岸</td><td>全年</td><td>雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.5</td></tr><tr><td>Tern (燕鸥)</td><td>东侧海边</td><td>全年</td><td>彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Silver Throated Tit (银喉山雀)</td><td>森林（跳跃谜题）</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Lv.3</td></tr><tr><td>Long Tailed Tit (银喉长尾山雀)</td><td>Blanc头顶</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr><tr><td>Peregrine Falcon (游隼)</td><td>温泉山（温泉）</td><td>全年</td><td>雨、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Lv.7</td></tr><tr><td>Long Eared Owl (长耳鸮)</td><td>温泉山（石崖）</td><td>全年</td><td>晴、彩虹</td><td>全天</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Lv.6</td></tr><tr><td>Spotted Dove (珠颈斑鸠)</td><td>中心区域</td><td>全年</td><td>晴、雨、彩虹</td><td>全天</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Lv.1</td></tr></tbody></table></section>
 
-  <div id="empty-state" style="display:none;text-align:center;padding:40px 20px;color:var(--text-dim)">
+<div id="empty-state" style="display:none;text-align:center;padding:40px 20px;color:var(--text-dim)">
     <div style="font-size:2.5rem;margin-bottom:8px">🔍</div>
     <p data-i18n="dbbirds.empty">No matching birds found. Try another keyword?</p>
   </div>
 </div>
 
-<footer id="site-footer" class="site-footer"></footer>
+<footer id="site-footer" class="site-footer">
+<div class="wrap">
+<div class="footer-grid">
+<div class="footer-brand">
+<img src="images/logo.svg" alt="Heartopia.sbs" class="footer-logo" width="150" height="27">
+<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、交互地图、兑换码与常见问题。</p>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.explore">探索</h4>
+<a href="index.html" data-i18n="nav.home">首页</a>
+<a href="beginner.html" data-i18n="nav.beginner">新手上路</a>
+<a href="map.html" data-i18n="footer.map">互动地图</a>
+<a href="faq.html" data-i18n="nav.faq">常见问题</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.database">数据库</h4>
+<a href="database-fish.html" data-i18n="nav.db.fish">鱼类</a>
+<a href="database-insects.html" data-i18n="nav.db.insects">昆虫</a>
+<a href="database-birds.html" data-i18n="nav.db.birds">鸟类</a>
+<a href="database-recipes.html" data-i18n="nav.db.recipes">食谱</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.about">关于本站</h4>
+<a href="about.html" data-i18n="footer.aboutUs">关于我们</a>
+<a href="contact.html" data-i18n="footer.contact">联系我们</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.legal">法律</h4>
+<a href="privacy.html" data-i18n="footer.privacy">隐私政策</a>
+<a href="terms.html" data-i18n="footer.terms">服务条款</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="footer-disclaimer" data-i18n-html="footer.disclaimer">本站为<strong>粉丝自制的非官方网站</strong>，与 <strong>XD Interactive Entertainment</strong> 及《心动小镇》(Heartopia) 官方团队<strong>无任何关联</strong>，未获官方认可、授权或赞助。游戏名称、商标、图像及内容版权均归其各自所有者所有。</p>
+<p class="footer-copy" data-i18n="footer.copy">© 2026 Heartopia.sbs · 玩家自发整理 · 仅供交流学习使用</p>
+</div>
+</div>
+</footer>
 
 <script src="js/i18n.js"></script>
 <script src="js/i18n-data.js"></script>

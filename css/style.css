@@ -1931,3 +1931,42 @@ a:focus-visible, button:focus-visible, .filter-chip:focus-visible,
 
 /* ----- i18n FOUC guard ----- */
 html.js.i18n-pending body { visibility: hidden; }
+
+/* Static (no-JS) fallback content for crawlers and search engines */
+#db-static, #map-static { margin-top: 20px; }
+html.js #db-static, html.js #map-static { display: none; }
+#db-static .static-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+#db-static .static-table th, #db-static .static-table td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; }
+#db-static .static-table th { background: var(--surface); }
+#db-static h2, #map-static h2 { margin: 0 0 8px; }
+#map-static .static-list { list-style: none; padding: 0; }
+#map-static .static-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+
+/* ----- Back to top ----- */
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--coral);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity var(--ease), transform var(--ease), visibility var(--ease), background var(--ease);
+}
+.back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover { background: var(--coral-dark); }
+.back-to-top:active { transform: translateY(0) scale(0.92); }
+@media (max-width: 700px) {
+  .back-to-top { right: 16px; bottom: 16px; width: 40px; height: 40px; }
+}

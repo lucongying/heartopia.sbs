@@ -147,4 +147,27 @@
       dropdowns.forEach(dd => dd.classList.remove('open'));
     }
   });
+
+  // ---- Back to top ----
+  const backToTop = document.createElement('button');
+  backToTop.type = 'button';
+  backToTop.className = 'back-to-top';
+  backToTop.setAttribute('aria-label', 'Back to top');
+  backToTop.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(backToTop);
+
+  let backToTopTicking = false;
+  const showBackToTop = () => backToTop.classList.toggle('show', window.scrollY > 400);
+  window.addEventListener('scroll', () => {
+    if (!backToTopTicking) {
+      backToTopTicking = true;
+      requestAnimationFrame(() => { showBackToTop(); backToTopTicking = false; });
+    }
+  }, { passive: true });
+  showBackToTop();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
 })();

@@ -53,7 +53,35 @@
 </head>
 <body>
 
-<nav id="site-nav" class="site-nav"></nav>
+<nav id="site-nav" class="site-nav">
+<div class="wrap">
+<a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Heartopia.sbs" class="nav-brand-logo" width="165" height="30"></a>
+<ul class="nav-links">
+<li><a href="index.html" data-i18n="nav.home">首页</a></li>
+<li><a href="beginner.html" data-i18n="nav.beginner">新手上路</a></li>
+<li><a href="progression.html" data-i18n="nav.progression">进阶流程</a></li>
+<li class="nav-dropdown">
+<a href="database.html" class="nav-dropdown-toggle" data-i18n="nav.database">数据库</a>
+<ul class="nav-dropdown-menu">
+<li><a href="database-fish.html"><span class="dd-icon">🎣</span><span data-i18n="nav.db.fish">鱼类</span></a></li>
+<li><a href="database-insects.html"><span class="dd-icon">🦋</span><span data-i18n="nav.db.insects">昆虫</span></a></li>
+<li><a href="database-birds.html"><span class="dd-icon">🐦</span><span data-i18n="nav.db.birds">鸟类</span></a></li>
+<li><a href="database-recipes.html"><span class="dd-icon">🍳</span><span data-i18n="nav.db.recipes">食谱</span></a></li>
+<li><a href="database-crops.html"><span class="dd-icon">🌱</span><span data-i18n="nav.db.crops">作物</span></a></li>
+<li><a href="database-npcs.html"><span class="dd-icon">👥</span><span data-i18n="nav.db.npcs">NPC</span></a></li>
+<li><a href="database-achievements.html"><span class="dd-icon">🏆</span><span data-i18n="nav.db.achievements">成就</span></a></li>
+<li><a href="database-scores.html"><span class="dd-icon">🎵</span><span data-i18n="nav.db.scores">乐谱</span></a></li>
+</ul>
+</li>
+<li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>
+<li><a href="map.html" data-i18n="nav.map">地图</a></li>
+<li><a href="activities.html" data-i18n="nav.activities">活动</a></li>
+<li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>
+<li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>
+</ul>
+<button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch language">🌐 <span>中文</span></button>
+</div>
+</nav>
 
 <header class="page-header">
   <div class="eyebrow" data-i18n="dbrecipes.eyebrow">🍳 Database · Recipes</div>
@@ -169,17 +197,58 @@
     <button class="btn btn-ghost btn-sm" id="clear-search" style="flex-shrink:0" data-i18n="db.clear">Clear</button>
   </div>
 
-  <div id="result-count" class="result-count" data-i18n="db.loading">Loading data…</div>
+  <div id="result-count" class="result-count" data-i18n="db.loading">96 items</div>
 
   <div class="db-card-grid" id="data-grid"></div>
+<section id="db-static" class="db-static">
+  <h2>Recipes Database</h2>
+  <p>96 entries listed below. Server-rendered so search engines can read the full reference without JavaScript.</p>
+<table class="static-table"><thead><tr><th>Name</th><th>Ingredients</th><th>Energy</th><th>Price</th><th>Star 2</th><th>Profit</th><th>Unlock</th></tr></thead><tbody><tr><td>Mixed Jam (混合果酱)</td><td>任意水果 &#215;4</td><td>25</td><td>170 G</td><td>255</td><td>原料价~64→170+</td><td>烹饪解锁后自动获得</td></tr><tr><td>Blueberry Jam (蓝莓酱)</td><td>蓝莓 &#215;4</td><td>20</td><td>170 G</td><td>255</td><td>64→170</td><td>烹饪解锁后自动获得</td></tr><tr><td>Strawberry Jam (草莓酱)</td><td>草莓 &#215;4</td><td>20</td><td>190 G</td><td>285</td><td>120→190</td><td>烹饪解锁后自动获得</td></tr><tr><td>Grape Jam (葡萄酱)</td><td>葡萄 &#215;4</td><td>25</td><td>220 G</td><td>330</td><td>160→220</td><td>烹饪解锁后自动获得</td></tr><tr><td>Raspberry Jam (树莓酱)</td><td>树莓 &#215;4</td><td>22</td><td>180 G</td><td>270</td><td>80→180</td><td>烹饪解锁后自动获得</td></tr><tr><td>Apple Jam (苹果酱)</td><td>苹果 &#215;4</td><td>25</td><td>200 G</td><td>300</td><td>120→200</td><td>烹饪解锁后自动获得</td></tr><tr><td>Mandarin Jam (橘子酱)</td><td>橘子 &#215;4</td><td>22</td><td>195 G</td><td>292</td><td>100→195</td><td>烹饪解锁后自动获得</td></tr><tr><td>Pineapple Jam (菠萝酱)</td><td>菠萝 &#215;4</td><td>25</td><td>210 G</td><td>315</td><td>60→210</td><td>烹饪解锁后自动获得</td></tr><tr><td>Tomato Sauce (番茄酱)</td><td>番茄 &#215;4</td><td>20</td><td>160 G</td><td>240</td><td>40→160</td><td>混合果酱变体</td></tr><tr><td>Chocolate Sauce (巧克力酱)</td><td>可可豆 &#215;4</td><td>30</td><td>240 G</td><td>360</td><td>120→240</td><td>烹饪解锁后自动获得</td></tr><tr><td>Grilled Mushrooms (烤蘑菇)</td><td>任意蘑菇 &#215;4</td><td>30</td><td>120 G</td><td>180</td><td>采集免费→120</td><td>烹饪基础</td></tr><tr><td>Grilled Oyster Mushroom (烤平菇)</td><td>平菇 &#215;4</td><td>25</td><td>130 G</td><td>195</td><td>采集免费→130</td><td>烹饪基础</td></tr><tr><td>Grilled Shiitake (烤香菇)</td><td>香菇 &#215;4</td><td>28</td><td>150 G</td><td>225</td><td>采集免费→150</td><td>烹饪基础</td></tr><tr><td>Grilled Button Mushroom (烤白蘑菇)</td><td>白蘑菇 &#215;4</td><td>25</td><td>120 G</td><td>180</td><td>采集免费→120</td><td>烹饪基础</td></tr><tr><td>Grilled Penny Bun (烤牛肝菌)</td><td>牛肝菌 &#215;4</td><td>35</td><td>200 G</td><td>300</td><td>采集免费→200</td><td>烹饪基础</td></tr><tr><td>Fruit Platter (水果拼盘)</td><td>任意水果 &#215;3</td><td>15</td><td>100 G</td><td>150</td><td>水果直接加工</td><td>烹饪解锁后自动获得</td></tr><tr><td>Garden Salad (蔬菜沙拉)</td><td>任意蔬菜 &#215;3 + 柠檬 &#215;1</td><td>30</td><td>160 G</td><td>240</td><td>低成本赚取</td><td>烹饪基础</td></tr><tr><td>House Salad (田园沙拉)</td><td>任意蔬菜 &#215;2</td><td>20</td><td>90 G</td><td>135</td><td>极低成本入门</td><td>烹饪解锁后自动获得</td></tr><tr><td>Fruit Juice (水果果汁)</td><td>任意水果 &#215;2</td><td>20</td><td>80 G</td><td>120</td><td>快速消耗多余水果</td><td>烹饪解锁后自动获得</td></tr><tr><td>Bizarre Food (奇怪的食物)</td><td>任意食谱烹饪时故意QTE失败</td><td>5</td><td>30 G</td><td>45</td><td>任务专用</td><td>烹饪时故意失败</td></tr><tr><td>Bizarre Drink (奇怪的饮料)</td><td>任意饮品制作时故意QTE失败</td><td>5</td><td>30 G</td><td>45</td><td>任务专用</td><td>制作饮品时故意失败</td></tr><tr><td>Fish &amp; Chips (炸鱼薯条)</td><td>任意鱼 &#215;2 + 土豆 &#215;2</td><td>50</td><td>310 G</td><td>465</td><td>成本~100→310</td><td>烹饪等级1&#183;马西莫商店购买</td></tr><tr><td>Fried Crucian Carp (炸鲫鱼)</td><td>鲫鱼 &#215;1 + 面粉 &#215;1</td><td>40</td><td>350 G</td><td>525</td><td>80→350</td><td>烹饪等级1</td></tr><tr><td>Grilled Fish Skewer (烤鱼串)</td><td>任意鱼 &#215;2 + 香草 &#215;1</td><td>40</td><td>180 G</td><td>270</td><td>低成本赚取</td><td>烹饪基础</td></tr><tr><td>Omelette (煎蛋卷)</td><td>鸡蛋 &#215;3 + 奶酪 &#215;1</td><td>45</td><td>200 G</td><td>300</td><td>低成本赚取</td><td>烹饪等级2</td></tr><tr><td>Mashed Potatoes (土豆泥)</td><td>土豆 &#215;3 + 黄油 &#215;1</td><td>35</td><td>180 G</td><td>270</td><td>105→180</td><td>烹饪等级2</td></tr><tr><td>Tomato Soup (番茄浓汤)</td><td>番茄 &#215;3 + 香草 &#215;1</td><td>35</td><td>150 G</td><td>225</td><td>36→150</td><td>烹饪基础</td></tr><tr><td>Rustic Ratatouille (乡村炖菜)</td><td>番茄 &#215;1 + 土豆 &#215;1 + 生菜 &#215;1</td><td>45</td><td>200 G</td><td>300</td><td>灵活搭配&#183;中期赚取</td><td>烹饪等级3&#183;马西莫商店购买</td></tr><tr><td>Coffee (咖啡)</td><td>咖啡豆 &#215;4</td><td>40</td><td>290 G</td><td>435</td><td>咖啡豆→290</td><td>烹饪等级2&#183;马西莫商店购买</td></tr><tr><td>Coffee Latte (咖啡拿铁)</td><td>咖啡豆 &#215;2 + 牛奶 &#215;2</td><td>40</td><td>300 G</td><td>450</td><td>咖啡变体</td><td>咖啡变体</td></tr><tr><td>Cream Of Mushroom Soup (蘑菇奶油汤)</td><td>蘑菇 &#215;3 + 奶油 &#215;1</td><td>50</td><td>230 G</td><td>345</td><td>采集免费→230</td><td>烹饪等级3</td></tr><tr><td>Ratatouille (蔬菜杂烩)</td><td>任意蔬菜 &#215;3</td><td>45</td><td>200 G</td><td>300</td><td>中期赚取</td><td>烹饪等级3</td></tr><tr><td>Fish Curry (鱼肉咖喱)</td><td>任意鱼 &#215;2 + 土豆 &#215;1 + 香草 &#215;1</td><td>55</td><td>260 G</td><td>390</td><td>材料灵活</td><td>烹饪等级4</td></tr><tr><td>Smoked Fish Bagel (熏鱼贝果)</td><td>任意鱼 &#215;1 + 奶酪 &#215;1 + 任意蔬菜 &#215;1 + 小麦 &#215;1</td><td>55</td><td>340 G</td><td>510</td><td>材料灵活</td><td>烹饪等级4&#183;马西莫商店购买</td></tr><tr><td>Meat Sauce Pasta (肉酱意大利面)</td><td>肉 &#215;1 + 番茄 &#215;1 + 小麦 &#215;2</td><td>65</td><td>380 G</td><td>570</td><td>肉+番茄+小麦</td><td>烹饪等级4&#183;马西莫商店购买</td></tr><tr><td>Corn Soup (玉米浓汤)</td><td>玉米 &#215;2 + 牛奶 &#215;1 + 黄油 &#215;1</td><td>55</td><td>280 G</td><td>420</td><td>中期赚取</td><td>烹饪等级5&#183;马西莫商店购买</td></tr><tr><td>Mushroom Pasta (蘑菇意面)</td><td>蘑菇 &#215;3 + 小麦 &#215;2 + 黄油 &#215;1</td><td>55</td><td>280 G</td><td>420</td><td>采集+小麦</td><td>烹饪等级5</td></tr><tr><td>Apple Pie (苹果派)</td><td>苹果 &#215;4 + 小麦 &#215;2 + 鸡蛋 &#215;1 + 黄油 &#215;1</td><td>55</td><td>350 G</td><td>525</td><td>苹果+小麦+鸡蛋</td><td>烹饪等级5&#183;马西莫商店购买</td></tr><tr><td>Carrot Cake (胡萝卜蛋糕)</td><td>胡萝卜 &#215;2 + 小麦 &#215;1 + 鸡蛋 &#215;1 + 奶油 &#215;1</td><td>60</td><td>350 G</td><td>525</td><td>中后期</td><td>烹饪等级5&#183;马西莫商店购买</td></tr><tr><td>Shrimp Tempura (炸虾天妇罗)</td><td>任意虾 &#215;2 + 小麦 &#215;1 + 鸡蛋 &#215;1</td><td>50</td><td>320 G</td><td>480</td><td>虾材料</td><td>烹饪等级6</td></tr><tr><td>Crayfish Sashimi (小龙虾刺身)</td><td>小龙虾 &#215;2 + 柠檬 &#215;1 + 香草 &#215;1</td><td>60</td><td>380 G</td><td>570</td><td>小龙虾材料</td><td>烹饪等级6</td></tr><tr><td>Gratin Vegetables (焗烤蔬菜)</td><td>任意蔬菜 &#215;3 + 奶酪 &#215;1 + 黄油 &#215;1</td><td>60</td><td>320 G</td><td>480</td><td>中期赚取</td><td>烹饪等级6</td></tr><tr><td>Tiramisu (提拉米苏)</td><td>咖啡豆 &#215;1 + 鸡蛋 &#215;1 + 小麦 &#215;1 + 奶酪 &#215;1</td><td>65</td><td>420 G</td><td>630</td><td>咖啡+甜点</td><td>烹饪等级6&#183;马西莫商店购买</td></tr><tr><td>Deluxe Seafood Platter (豪华海鲜拼盘)</td><td>任意鱼 &#215;2 + 北欧螯虾 &#215;2</td><td>65</td><td>410 G</td><td>615</td><td>海鲜组合</td><td>烹饪等级6&#183;马西莫商店购买</td></tr><tr><td>Cheesecake (芝士蛋糕)</td><td>奶酪 &#215;1 + 牛奶 &#215;1 + 小麦 &#215;1</td><td>65</td><td>400 G</td><td>600</td><td>中后期</td><td>烹饪等级7&#183;马西莫商店购买</td></tr><tr><td>Afternoon Tea Set (英式下午茶)</td><td>提拉米苏 &#215;1 + 任意果酱 &#215;1</td><td>55</td><td>600 G</td><td>900</td><td>组合式料理</td><td>烹饪等级7&#183;马西莫商店购买</td></tr><tr><td>Picnic Set (露营套餐)</td><td>咖啡/拿铁 &#215;1 + 海鲜披萨 &#215;1 + 苹果派 &#215;1 + 炸鱼薯条 &#215;1</td><td>120</td><td>1100 G</td><td>1650</td><td>顶级组合餐</td><td>烹饪等级7&#183;马西莫商店购买</td></tr><tr><td>Seafood Pizza (海鲜披萨)</td><td>任意鱼 &#215;1 + 番茄酱 &#215;1 + 奶酪 &#215;1 + 小麦 &#215;1</td><td>70</td><td>420 G</td><td>630</td><td>中后期</td><td>烹饪等级8&#183;马西莫商店购买</td></tr><tr><td>Tuna Sashimi (金枪鱼刺身)</td><td>金枪鱼 &#215;2 + 海苔 &#215;1</td><td>65</td><td>520 G</td><td>780</td><td>300→520</td><td>烹饪等级8</td></tr><tr><td>Meat Burger (鲜肉汉堡)</td><td>肉 &#215;1 + 小麦 &#215;1 + 番茄酱 &#215;1</td><td>60</td><td>380 G</td><td>570</td><td>肉+小麦+番茄酱</td><td>烹饪等级8&#183;马西莫商店购买</td></tr><tr><td>Crayfish Cold Plate (螯虾冷盘)</td><td>北欧螯虾 &#215;3</td><td>55</td><td>430 G</td><td>645</td><td>螯虾&#215;3</td><td>烹饪等级8&#183;马西莫商店购买</td></tr><tr><td>Seafood Risotto (海鲜烩饭)</td><td>任意甲壳/贝类 &#215;2 + 小麦 &#215;1 + 番茄 &#215;1</td><td>70</td><td>450 G</td><td>675</td><td>中后期</td><td>烹饪等级9&#183;马西莫商店购买</td></tr><tr><td>Honey Glazed Ham (蜜汁烤火腿)</td><td>肉 &#215;2 + 蜂蜜 &#215;1 + 黄油 &#215;1</td><td>70</td><td>480 G</td><td>720</td><td>肉材料</td><td>烹饪等级9</td></tr><tr><td>Candlelight Dinner (烛光晚餐)</td><td>田园沙拉 &#215;1 + 熏鱼贝果 &#215;1 + 海鲜烩饭 &#215;1 + 提拉米苏 &#215;1</td><td>130</td><td>1400 G</td><td>2100</td><td>顶级组合餐</td><td>烹饪等级9&#183;马西莫商店购买</td></tr><tr><td>Baked Eggplant With Meat (肉酱焗茄子)</td><td>茄子 &#215;1 + 肉 &#215;1 + 食用油 &#215;1 + 番茄酱 &#215;1</td><td>65</td><td>400 G</td><td>600</td><td>茄子+肉</td><td>烹饪等级9&#183;马西莫商店购买</td></tr><tr><td>Black Truffle Pie (黑松露蘑菇派)</td><td>黑松露 &#215;1 + 蘑菇 &#215;2 + 小麦 &#215;2</td><td>75</td><td>635 G</td><td>952</td><td>后期高利润</td><td>烹饪等级10&#183;完成趣闻任务</td></tr><tr><td>Steamed King Crab (清蒸帝王蟹)</td><td>帝王蟹 &#215;3</td><td>85</td><td>1100 G</td><td>1650</td><td>顶级利润</td><td>烹饪等级10&#183;马西莫商店购买</td></tr><tr><td>Steamed Golden King Crab (清蒸黄金帝王蟹)</td><td>黄金帝王蟹 &#215;3</td><td>100</td><td>1800 G</td><td>2700</td><td>传说级利润</td><td>烹饪等级10&#183;调整食谱变体</td></tr><tr><td>Black Truffle Cream Pasta (黑松露奶油意面)</td><td>黑松露 &#215;1 + 小麦 &#215;2 + 奶油 &#215;1</td><td>80</td><td>900 G</td><td>1350</td><td>顶级利润</td><td>烹饪等级11&#183;马西莫商店购买</td></tr><tr><td>Black Truffle Risotto (黑松露炖饭)</td><td>黑松露 &#215;1 + 小麦 &#215;2 + 奶酪 &#215;1 + 黄油 &#215;1</td><td>75</td><td>820 G</td><td>1230</td><td>后期高利润</td><td>烹饪等级11</td></tr><tr><td>Mellow Black Tea (醇香红茶饮)</td><td>红茶叶 &#215;2</td><td>30</td><td>150 G</td><td>225</td><td>茶叶直接加工</td><td>烹饪等级11&#183;马西莫商店购买</td></tr><tr><td>Milk Tea (香浓奶茶)</td><td>红茶叶 &#215;2 + 牛奶 &#215;2</td><td>35</td><td>220 G</td><td>330</td><td>红茶变体</td><td>红茶变体</td></tr><tr><td>Cocoa Milk Tea (可可奶茶)</td><td>红茶叶 &#215;2 + 牛奶 &#215;1 + 可可豆 &#215;1</td><td>40</td><td>260 G</td><td>390</td><td>红茶变体</td><td>红茶变体</td></tr><tr><td>King Crab Pasta (帝王蟹意面)</td><td>帝王蟹 &#215;1 + 小麦 &#215;2 + 奶油 &#215;1 + 香草 &#215;1</td><td>85</td><td>980 G</td><td>1470</td><td>顶级利润</td><td>烹饪等级12</td></tr><tr><td>Seafood Chowder (海鲜浓汤)</td><td>帝王蟹 &#215;1 + 虾 &#215;1 + 番茄 &#215;1 + 奶油 &#215;1</td><td>80</td><td>750 G</td><td>1125</td><td>后期高利润</td><td>烹饪等级12</td></tr><tr><td>Refreshing Green Tea (清新绿茶饮)</td><td>绿茶叶 &#215;2</td><td>25</td><td>130 G</td><td>195</td><td>茶叶直接加工</td><td>烹饪等级12&#183;马西莫商店购买</td></tr><tr><td>Milk Green Tea (清新奶绿)</td><td>绿茶叶 &#215;2 + 牛奶 &#215;2</td><td>35</td><td>200 G</td><td>300</td><td>绿茶变体</td><td>绿茶变体</td></tr><tr><td>Matcha Milk Green Tea (抹茶奶绿)</td><td>绿茶叶 &#215;2 + 抹茶粉 &#215;1 + 牛奶 &#215;2</td><td>40</td><td>280 G</td><td>420</td><td>绿茶变体</td><td>绿茶变体</td></tr><tr><td>Daisy Tea (雏菊花茶)</td><td>绿茶叶 &#215;2 + 白色雏菊 &#215;2</td><td>35</td><td>250 G</td><td>375</td><td>隐藏配方</td><td>绿茶变体&#183;隐藏</td></tr><tr><td>Rose Tea (玫瑰花茶)</td><td>绿茶叶 &#215;2 + 红玫瑰 &#215;2</td><td>35</td><td>250 G</td><td>375</td><td>隐藏配方</td><td>绿茶变体&#183;隐藏</td></tr><tr><td>Exquisite Afternoon Tea (精致下午茶宴)</td><td>醇香红茶饮 &#215;2 + 芝士蛋糕 &#215;2</td><td>100</td><td>950 G</td><td>1425</td><td>茶叶+甜点组合</td><td>烹饪等级12&#183;马西莫商店购买</td></tr><tr><td>Shrimp Avocado Cup (鲜虾酪梨杯)</td><td>北欧螯虾 &#215;2 + 牛油果 &#215;2</td><td>75</td><td>650 G</td><td>975</td><td>螯虾+牛油果</td><td>烹饪等级13&#183;马西莫商店购买</td></tr><tr><td>Cheesy Shrimp Claw (起司虾仁炸虾钳)</td><td>帝王蟹 &#215;2 + 奶酪 &#215;1 + 小麦 &#215;1</td><td>85</td><td>880 G</td><td>1320</td><td>帝王蟹+奶酪</td><td>烹饪等级13&#183;马西莫商店购买</td></tr><tr><td>Oyster Mushroom Pie (平菇派)</td><td>平菇 &#215;2 + 小麦 &#215;1 + 鸡蛋 &#215;1</td><td>40</td><td>340 G</td><td>510</td><td>平菇+小麦+鸡蛋</td><td>蘑菇派变体</td></tr><tr><td>Penny Bun Pie (牛肝菌派)</td><td>牛肝菌 &#215;2 + 小麦 &#215;1 + 鸡蛋 &#215;1</td><td>45</td><td>420 G</td><td>630</td><td>牛肝菌+小麦+鸡蛋</td><td>蘑菇派变体</td></tr><tr><td>Shiitake Pie (香菇派)</td><td>香菇 &#215;2 + 小麦 &#215;1 + 鸡蛋 &#215;1</td><td>40</td><td>360 G</td><td>540</td><td>香菇+小麦+鸡蛋</td><td>蘑菇派变体</td></tr><tr><td>Button Mushroom Pie (白蘑菇派)</td><td>白蘑菇 &#215;2 + 小麦 &#215;1 + 鸡蛋 &#215;1</td><td>38</td><td>320 G</td><td>480</td><td>白蘑菇+小麦+鸡蛋</td><td>蘑菇派变体</td></tr><tr><td>Original Roll Cake (原味蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 彩虹糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>七彩糖变体系列</td><td>雨天找Dorothy购买</td></tr><tr><td>Red Roll Cake (红色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 红色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>Orange Roll Cake (橙色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 橙色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>Yellow Roll Cake (黄色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 黄色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>Purple Roll Cake (紫色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 紫色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>Green Roll Cake (绿色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 绿色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>Blue Roll Cake (蓝色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 蓝色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>Indigo Roll Cake (靛色蛋糕卷)</td><td>鸡蛋 &#215;1 + 牛奶 &#215;1 + 靛色糖 &#215;2</td><td>42</td><td>550 G</td><td>825</td><td>蛋糕卷变体</td><td>蛋糕卷变体</td></tr><tr><td>My Melody Crepe (美乐蒂可丽饼)</td><td>小麦 &#215;1 + 黄油 &#215;1 + 鸡蛋 &#215;1 + 牛奶 &#215;1</td><td>55</td><td>450 G</td><td>675</td><td>活动限定</td><td>三丽鸥联动&#183;扭蛋机</td></tr><tr><td>Cinnamoroll Crepe (大耳狗可丽饼)</td><td>小麦 &#215;1 + 黄油 &#215;1 + 鸡蛋 &#215;1 + 咖啡豆 &#215;1</td><td>55</td><td>480 G</td><td>720</td><td>活动限定</td><td>三丽鸥联动&#183;扭蛋机</td></tr><tr><td>Kuromi Crepe (酷洛米可丽饼)</td><td>小麦 &#215;1 + 黄油 &#215;1 + 鸡蛋 &#215;1 + 草莓 &#215;1</td><td>55</td><td>500 G</td><td>750</td><td>活动限定</td><td>三丽鸥联动&#183;扭蛋机</td></tr><tr><td>Ocean Ice Drink (海洋冰饮)</td><td>蓝藻粉 &#215;2 + 杨桃 &#215;2</td><td>45</td><td>360 G</td><td>540</td><td>寻鲸季限定</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Tomato Seafood Soup (番茄海鲜浓汤)</td><td>海虾 &#215;1 + 番茄 &#215;1 + 海芦笋 &#215;1 + 小麦 &#215;1</td><td>65</td><td>420 G</td><td>630</td><td>寻鲸季限定</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Shell Pearl Cupcake (贝壳珍珠小蛋糕)</td><td>扇贝 &#215;1 + 小麦 &#215;1 + 牛奶 &#215;1 + 任意水果 &#215;1</td><td>50</td><td>380 G</td><td>570</td><td>寻鲸季限定&#183;水果可变</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Jam Grilled Squid (果酱烤鱿鱼)</td><td>太平洋褐鱿鱼 &#215;1 + 海葡萄 &#215;1 + 裙带菜 &#215;1 + 任意果酱 &#215;1</td><td>60</td><td>460 G</td><td>690</td><td>寻鲸季限定&#183;果酱可变</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Sea Grape Mushroom Steamed Egg (海葡萄香菇茶碗蒸)</td><td>海葡萄 &#215;2 + 香菇 &#215;1 + 无菌蛋 &#215;1</td><td>55</td><td>350 G</td><td>525</td><td>寻鲸季限定</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Wakame Meatball Soup (裙带菜肉丸汤)</td><td>裙带菜 &#215;2 + 肉 &#215;2</td><td>55</td><td>320 G</td><td>480</td><td>寻鲸季限定</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Sea Asparagus Shrimp Fried Rice (海芦笋虾仁炒饭)</td><td>稻谷 &#215;1 + 海芦笋 &#215;2 + 海虾 &#215;1</td><td>70</td><td>480 G</td><td>720</td><td>寻鲸季限定</td><td>寻鲸季&#183;马西莫商店</td></tr><tr><td>Ocean Feast (海洋盛宴)</td><td>贝壳珍珠小蛋糕 &#215;1 + 果酱烤鱿鱼 &#215;1 + 番茄海鲜浓汤 &#215;1 + 海洋冰饮 &#215;1</td><td>150</td><td>1600 G</td><td>2400</td><td>寻鲸季&#183;顶级组合</td><td>寻鲸季&#183;组合食谱</td></tr></tbody></table></section>
 
-  <div id="empty-state" style="display:none;text-align:center;padding:40px 20px;color:var(--text-dim)">
+<div id="empty-state" style="display:none;text-align:center;padding:40px 20px;color:var(--text-dim)">
     <div style="font-size:2.5rem;margin-bottom:8px">🔍</div>
     <p data-i18n="dbrecipes.empty">No matching recipes found. Try another keyword?</p>
   </div>
 </div>
 
-<footer id="site-footer" class="site-footer"></footer>
+<footer id="site-footer" class="site-footer">
+<div class="wrap">
+<div class="footer-grid">
+<div class="footer-brand">
+<img src="images/logo.svg" alt="Heartopia.sbs" class="footer-logo" width="150" height="27">
+<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、交互地图、兑换码与常见问题。</p>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.explore">探索</h4>
+<a href="index.html" data-i18n="nav.home">首页</a>
+<a href="beginner.html" data-i18n="nav.beginner">新手上路</a>
+<a href="map.html" data-i18n="footer.map">互动地图</a>
+<a href="faq.html" data-i18n="nav.faq">常见问题</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.database">数据库</h4>
+<a href="database-fish.html" data-i18n="nav.db.fish">鱼类</a>
+<a href="database-insects.html" data-i18n="nav.db.insects">昆虫</a>
+<a href="database-birds.html" data-i18n="nav.db.birds">鸟类</a>
+<a href="database-recipes.html" data-i18n="nav.db.recipes">食谱</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.about">关于本站</h4>
+<a href="about.html" data-i18n="footer.aboutUs">关于我们</a>
+<a href="contact.html" data-i18n="footer.contact">联系我们</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.legal">法律</h4>
+<a href="privacy.html" data-i18n="footer.privacy">隐私政策</a>
+<a href="terms.html" data-i18n="footer.terms">服务条款</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="footer-disclaimer" data-i18n-html="footer.disclaimer">本站为<strong>粉丝自制的非官方网站</strong>，与 <strong>XD Interactive Entertainment</strong> 及《心动小镇》(Heartopia) 官方团队<strong>无任何关联</strong>，未获官方认可、授权或赞助。游戏名称、商标、图像及内容版权均归其各自所有者所有。</p>
+<p class="footer-copy" data-i18n="footer.copy">© 2026 Heartopia.sbs · 玩家自发整理 · 仅供交流学习使用</p>
+</div>
+</div>
+</footer>
 
 <script src="js/i18n.js"></script>
 <script src="js/i18n-data.js"></script>

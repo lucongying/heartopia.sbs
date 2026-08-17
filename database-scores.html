@@ -53,7 +53,35 @@
 </head>
 <body>
 
-<nav id="site-nav" class="site-nav"></nav>
+<nav id="site-nav" class="site-nav">
+<div class="wrap">
+<a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Heartopia.sbs" class="nav-brand-logo" width="165" height="30"></a>
+<ul class="nav-links">
+<li><a href="index.html" data-i18n="nav.home">首页</a></li>
+<li><a href="beginner.html" data-i18n="nav.beginner">新手上路</a></li>
+<li><a href="progression.html" data-i18n="nav.progression">进阶流程</a></li>
+<li class="nav-dropdown">
+<a href="database.html" class="nav-dropdown-toggle" data-i18n="nav.database">数据库</a>
+<ul class="nav-dropdown-menu">
+<li><a href="database-fish.html"><span class="dd-icon">🎣</span><span data-i18n="nav.db.fish">鱼类</span></a></li>
+<li><a href="database-insects.html"><span class="dd-icon">🦋</span><span data-i18n="nav.db.insects">昆虫</span></a></li>
+<li><a href="database-birds.html"><span class="dd-icon">🐦</span><span data-i18n="nav.db.birds">鸟类</span></a></li>
+<li><a href="database-recipes.html"><span class="dd-icon">🍳</span><span data-i18n="nav.db.recipes">食谱</span></a></li>
+<li><a href="database-crops.html"><span class="dd-icon">🌱</span><span data-i18n="nav.db.crops">作物</span></a></li>
+<li><a href="database-npcs.html"><span class="dd-icon">👥</span><span data-i18n="nav.db.npcs">NPC</span></a></li>
+<li><a href="database-achievements.html"><span class="dd-icon">🏆</span><span data-i18n="nav.db.achievements">成就</span></a></li>
+<li><a href="database-scores.html"><span class="dd-icon">🎵</span><span data-i18n="nav.db.scores">乐谱</span></a></li>
+</ul>
+</li>
+<li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>
+<li><a href="map.html" data-i18n="nav.map">地图</a></li>
+<li><a href="activities.html" data-i18n="nav.activities">活动</a></li>
+<li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>
+<li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>
+</ul>
+<button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch language">🌐 <span>中文</span></button>
+</div>
+</nav>
 
 <header class="page-header">
   <div class="eyebrow" data-i18n="dbscores.eyebrow">🎵 Database · Scores</div>
@@ -186,17 +214,58 @@
     <button class="btn btn-ghost btn-sm" id="clear-search" style="flex-shrink:0" data-i18n="db.clear">Clear</button>
   </div>
 
-  <div id="result-count" class="result-count" data-i18n="db.loading">Loading data…</div>
+  <div id="result-count" class="result-count" data-i18n="db.loading">30 items</div>
 
   <div class="db-card-grid" id="data-grid"></div>
+<section id="db-static" class="db-static">
+  <h2>Sheet Music Database</h2>
+  <p>30 entries listed below. Server-rendered so search engines can read the full reference without JavaScript.</p>
+<table class="static-table"><thead><tr><th>Name</th><th>Source</th><th>Instrument</th><th>Difficulty</th><th>Unlock</th></tr></thead><tbody><tr><td>Heartopia Main Theme (Heartopia 主题曲)</td><td>游戏原声</td><td>钢琴</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>自动解锁</td></tr><tr><td>Adventure March (冒险进行曲)</td><td>主线任务</td><td>小号</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>DG Lv.5</td></tr><tr><td>Dream Departure (梦想启程)</td><td>主线任务</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>DG Lv.10</td></tr><tr><td>Harvest Festival (丰收庆典)</td><td>主线任务</td><td>小提琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>DG Lv.15</td></tr><tr><td>Fishing Village Ditty (渔村小调)</td><td>渔村区域</td><td>吉他</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>到达渔村</td></tr><tr><td>Forest Stroll (森林漫步)</td><td>森林区域</td><td>长笛</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>到达森林</td></tr><tr><td>Hot Spring Serenade (温泉小夜曲)</td><td>温泉区域</td><td>竖琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>到达温泉</td></tr><tr><td>Flower Field Waltz (花田圆舞曲)</td><td>花田区域</td><td>小提琴</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>到达花田</td></tr><tr><td>Beach Afternoon (海滩午后)</td><td>海滩区域</td><td>吉他</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>到达海滩</td></tr><tr><td>Spring Overture (春日序曲)</td><td>春季活动</td><td>小提琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>春季限定</td></tr><tr><td>Cherry Blossom Dance (樱花纷飞)</td><td>春季活动</td><td>长笛</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>春季限定</td></tr><tr><td>Summer Night Serenade (夏夜小夜曲)</td><td>夏季活动</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>夏季限定</td></tr><tr><td>Wave Rhapsody (海浪狂想曲)</td><td>夏季活动</td><td>打击乐</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>夏季限定</td></tr><tr><td>Autumn Whisper (秋日私语)</td><td>秋季活动</td><td>吉他</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>秋季限定</td></tr><tr><td>Red Leaf Concerto (红叶协奏曲)</td><td>秋季活动</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>秋季限定</td></tr><tr><td>Winter Sunshine (冬日暖阳)</td><td>冬季活动</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>冬季限定</td></tr><tr><td>Snow Flower (雪之华)</td><td>冬季活动</td><td>竖琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>冬季限定</td></tr><tr><td>Festival Carol (节日欢歌)</td><td>节日活动</td><td>合奏</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>节日限定</td></tr><tr><td>Starry Lullaby (星空摇篮曲)</td><td>夜间探索</td><td>竖琴</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Dream解锁后</td></tr><tr><td>New Moon Nocturne (新月夜想曲)</td><td>夜间探索</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Dream解锁后</td></tr><tr><td>Firework March (烟花进行曲)</td><td>节日活动</td><td>小号</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>节日限定</td></tr><tr><td>Dorothy&#39;s Fashion Show (多萝西的时装秀)</td><td>Dorothy 友好Lv.5</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Dorothy 好感度Lv.5</td></tr><tr><td>Fisherman&#39;s Song (渔夫之歌)</td><td>Bill 友好Lv.5</td><td>吉他</td><td>&#9733;&#9734;&#9734;&#9734;&#9734;</td><td>Bill 好感度Lv.5</td></tr><tr><td>Gardener&#39;s Tune (园艺小调)</td><td>Blanc 友好Lv.5</td><td>长笛</td><td>&#9733;&#9733;&#9734;&#9734;&#9734;</td><td>Blanc 好感度Lv.5</td></tr><tr><td>Gourmet Waltz (美食家圆舞曲)</td><td>Massimo 友好Lv.5</td><td>小提琴</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>Massimo 好感度Lv.5</td></tr><tr><td>Insect Concerto (虫鸣协奏曲)</td><td>Naniwa 友好Lv.5</td><td>钢琴</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>Naniwa 好感度Lv.5</td></tr><tr><td>Legendary Ballad (传说之歌)</td><td>隐藏探索</td><td>合奏</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>完成所有主线后</td></tr><tr><td>Underwater Fantasy (海底幻想曲)</td><td>隐藏探索</td><td>竖琴</td><td>&#9733;&#9733;&#9733;&#9733;&#9734;</td><td>深海钓鱼成就</td></tr><tr><td>Jazz Caf&#233; (爵士咖啡馆)</td><td>隐藏探索</td><td>萨克斯</td><td>&#9733;&#9733;&#9733;&#9734;&#9734;</td><td>艺术街区域</td></tr><tr><td>Rainbow Bridge (彩虹桥)</td><td>隐藏探索</td><td>合奏</td><td>&#9733;&#9733;&#9733;&#9733;&#9733;</td><td>彩虹出现时</td></tr></tbody></table></section>
 
-  <div id="empty-state" style="display:none;text-align:center;padding:40px 20px;color:var(--text-dim)">
+<div id="empty-state" style="display:none;text-align:center;padding:40px 20px;color:var(--text-dim)">
     <div style="font-size:2.5rem;margin-bottom:8px">🔍</div>
     <p data-i18n="dbscores.empty">No matching scores found. Try another keyword?</p>
   </div>
 </div>
 
-<footer id="site-footer" class="site-footer"></footer>
+<footer id="site-footer" class="site-footer">
+<div class="wrap">
+<div class="footer-grid">
+<div class="footer-brand">
+<img src="images/logo.svg" alt="Heartopia.sbs" class="footer-logo" width="150" height="27">
+<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、交互地图、兑换码与常见问题。</p>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.explore">探索</h4>
+<a href="index.html" data-i18n="nav.home">首页</a>
+<a href="beginner.html" data-i18n="nav.beginner">新手上路</a>
+<a href="map.html" data-i18n="footer.map">互动地图</a>
+<a href="faq.html" data-i18n="nav.faq">常见问题</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.database">数据库</h4>
+<a href="database-fish.html" data-i18n="nav.db.fish">鱼类</a>
+<a href="database-insects.html" data-i18n="nav.db.insects">昆虫</a>
+<a href="database-birds.html" data-i18n="nav.db.birds">鸟类</a>
+<a href="database-recipes.html" data-i18n="nav.db.recipes">食谱</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.about">关于本站</h4>
+<a href="about.html" data-i18n="footer.aboutUs">关于我们</a>
+<a href="contact.html" data-i18n="footer.contact">联系我们</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.legal">法律</h4>
+<a href="privacy.html" data-i18n="footer.privacy">隐私政策</a>
+<a href="terms.html" data-i18n="footer.terms">服务条款</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="footer-disclaimer" data-i18n-html="footer.disclaimer">本站为<strong>粉丝自制的非官方网站</strong>，与 <strong>XD Interactive Entertainment</strong> 及《心动小镇》(Heartopia) 官方团队<strong>无任何关联</strong>，未获官方认可、授权或赞助。游戏名称、商标、图像及内容版权均归其各自所有者所有。</p>
+<p class="footer-copy" data-i18n="footer.copy">© 2026 Heartopia.sbs · 玩家自发整理 · 仅供交流学习使用</p>
+</div>
+</div>
+</footer>
 
 <script src="js/i18n.js"></script>
 <script src="js/i18n-data.js"></script>
