@@ -12,6 +12,17 @@ let dataLoaded = false;
 function _name(item) { return window.I18N ? window.I18N.nameFor(item) : (item && item.name); }
 function _L(v) { return window.I18N ? window.I18N.L(v) : v; }
 function _t(key, params) { return window.I18N ? window.I18N.t(key, params) : key; }
+function _pick(item, field) {
+  if (!item) return '';
+  var isEn = !(window.I18N && window.I18N.getLang) || window.I18N.getLang() !== 'zh';
+  var base = item[field];
+  var en = item[field + '_en'];
+  if (isEn) {
+    if (en !== undefined && en !== null && en !== '') return en;
+    return _L(base);
+  }
+  return (base !== undefined && base !== null) ? base : (en || '');
+}
 function _sub(item) {
   if (!item || !item.enName) return '';
   if (window.I18N && window.I18N.getLang() === 'en') return '';
@@ -145,7 +156,7 @@ function renderRow(tab, item) {
         <td>${item.time}</td>
         <td><span class="stars">${'★'.repeat(item.rarity || 1)}<span>${'☆'.repeat(5-(item.rarity || 1))}</span></span></td>
         <td class="num">${item.sellPrice}</td>
-        <td>${item.cookAdvice || item.note || '—'}</td>
+        <td>${_pick(item, 'cookAdvice') || _pick(item, 'note') || '—'}</td>
       </tr>`;
     case 'insects':
       return `<tr>
@@ -156,7 +167,7 @@ function renderRow(tab, item) {
         <td>${item.time}</td>
         <td><span class="stars">${'★'.repeat(item.rarity || 1)}<span>${'☆'.repeat(5-(item.rarity || 1))}</span></span></td>
         <td class="num">${item.sellPrice > 0 ? item.sellPrice : '—'}</td>
-        <td>${item.note || '—'}</td>
+        <td>${_pick(item, 'note') || '—'}</td>
       </tr>`;
     case 'birds':
       var bRowRarity = item.rarity || 1;
@@ -199,8 +210,8 @@ function renderRow(tab, item) {
         <td>${item.location}</td>
         <td>${item.schedule}</td>
         <td>${item.unlock}</td>
-        <td style="font-size:0.82rem">${item.favoriteGifts}</td>
-        <td style="font-size:0.82rem;max-width:200px">${item.description || '—'}</td>
+        <td style="font-size:0.82rem">${_pick(item, 'favoriteGifts')}</td>
+        <td style="font-size:0.82rem;max-width:200px">${_pick(item, 'description') || '—'}</td>
       </tr>`;
     case 'achievements':
       var aDiff = item.difficulty || 1;
@@ -658,8 +669,8 @@ function renderCard(tab, item) {
     case 'fish':
       var fe = getFishEmoji(item.enName, item.name);
       var rCls = rarityClass(item.rarity || 1);
-      var noteText = item.note || '';
-      var cookText = item.cookAdvice || '';
+      var noteText = _pick(item, 'note');
+      var cookText = _pick(item, 'cookAdvice');
       var footerRight = cookText || noteText || '';
 
       // ---- Shadow size display ----
@@ -707,20 +718,20 @@ function renderCard(tab, item) {
           '</div>' +
         '</div>' +
         // ── Note (if present) ──
-        (noteText ? '<div class="fish-note-strip">💡 ' + _L(noteText) + '</div>' : '') +
+        (noteText ? '<div class="fish-note-strip">💡 ' + noteText + '</div>' : '') +
         // ── Footer: price + advice ──
         '<div class="card-footer">' +
           '<div class="fish-card-footer-left">' +
             '<span style="font-size:0.75rem;color:var(--text-dim)">💰</span>' +
             '<span class="card-price">' + (item.sellPrice > 0 ? item.sellPrice + ' G' : '? G') + '</span>' +
           '</div>' +
-          (footerRight ? '<div class="fish-card-footer-right">' + _L(footerRight) + '</div>' : '') +
+          (footerRight ? '<div class="fish-card-footer-right">' + footerRight + '</div>' : '') +
         '</div>' +
       '</div>';
     case 'insects':
       var ie = getInsectEmoji(item.enName, item.name);
       var irCls = rarityClass(item.rarity || 1);
-      var inoteText = item.note || '';
+      var inoteText = _pick(item, 'note');
 
       return '<div class="db-item-card fish-card ' + irCls + '">' +
         // ── Header: thumbnail + name ──
@@ -749,7 +760,7 @@ function renderCard(tab, item) {
           '</div>' +
         '</div>' +
         // ── Note (if present) ──
-        (inoteText ? '<div class="fish-note-strip">💡 ' + _L(inoteText) + '</div>' : '') +
+        (inoteText ? '<div class="fish-note-strip">💡 ' + inoteText + '</div>' : '') +
         // ── Footer: price (only show if known) ──
         (item.sellPrice > 0 ?
           '<div class="card-footer">' +
@@ -764,7 +775,7 @@ function renderCard(tab, item) {
       var be = getBirdEmoji(item.enName, item.name);
       var bRarity = item.rarity || 1;
       var rCls = rarityClass(bRarity);
-      var bNoteText = item.note || '';
+      var bNoteText = _pick(item, 'note');
 
       return '<div class="db-item-card fish-card ' + rCls + '">' +
         // ── Header: thumbnail + name ──
@@ -795,7 +806,7 @@ function renderCard(tab, item) {
           '</div>' +
         '</div>' +
         // ── Note (if present) ──
-        (bNoteText ? '<div class="fish-note-strip">💡 ' + _L(bNoteText) + '</div>' : '') +
+        (bNoteText ? '<div class="fish-note-strip">💡 ' + bNoteText + '</div>' : '') +
       '</div>';
     case 'recipes':
       var re = getRecipeEmoji(item.enName, item.name, item.category);
@@ -931,9 +942,9 @@ function renderCard(tab, item) {
           '</div>' +
         '</div>' +
         // ── Favorite gifts strip ──
-        (item.favoriteGifts ? '<div class="fish-note-strip npc-gifts-strip">🎁 ' + _L(item.favoriteGifts) + '</div>' : '') +
+        (item.favoriteGifts ? '<div class="fish-note-strip npc-gifts-strip">🎁 ' + _pick(item, 'favoriteGifts') + '</div>' : '') +
         // ── Description strip ──
-        (hasDesc ? '<div class="fish-note-strip npc-desc-strip">💡 ' + _L(item.description) + '</div>' : '') +
+        (hasDesc ? '<div class="fish-note-strip npc-desc-strip">💡 ' + _pick(item, 'description') + '</div>' : '') +
       '</div>';
     case 'achievements':
       var ae = getAchievementEmoji(item.category);

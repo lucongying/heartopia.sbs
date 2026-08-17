@@ -244,7 +244,7 @@
     </g>
 
     <!-- Windmill -->
-    <g transform="translate(600 600)">
+    <g transform="translate(216 642)">
       <rect x="-5" y="0" width="10" height="18" fill="#E0D6BE" stroke="#B9A582" stroke-width="1.2"/>
       <path d="M 0 0 L 0 -16 M 0 0 L 13 -8 M 0 0 L -13 -8 M 0 0 L 0 12"
             stroke="#C0A67C" stroke-width="3" stroke-linecap="round"/>
@@ -271,7 +271,7 @@
       <text x="481" y="588" text-anchor="middle">Suburb Lake</text>
       <text x="774" y="412" text-anchor="middle">Upper Forest Lake</text>
       <text x="394" y="156" text-anchor="middle">Volcano Lake</text>
-      <text x="600" y="620" text-anchor="middle">Windmill</text>
+      <text x="216" y="662" text-anchor="middle">Windmill</text>
       <text x="402" y="706" text-anchor="middle">The Pier</text>
       <text x="602" y="756" text-anchor="middle">East Dock</text>
     </g>

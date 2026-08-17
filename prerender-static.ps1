@@ -60,6 +60,16 @@ function Display-Name($Item) {
   return ''
 }
 
+function Get-Bilingual($Item, [string]$Field) {
+  # English static output: prefer the original <field>_en, fall back to <field>.
+  if ($null -eq $Item) { return '' }
+  $en = $Item.($Field + '_en')
+  if ($null -ne $en -and [string]$en -ne '') { return [string]$en }
+  $cn = $Item.($Field)
+  if ($null -ne $cn) { return [string]$cn }
+  return ''
+}
+
 function Stars($N) {
   $r = 1
   try { if ($null -ne $N) { $r = [int]$N } } catch { $r = 1 }
@@ -83,15 +93,17 @@ function Render-Cell($Item, $Spec) {
       return '&mdash;'
     }
     'Notes' {
-      if ($Item.cookAdvice) { return Enc ([string]$Item.cookAdvice) }
-      elseif ($Item.note) { return Enc ([string]$Item.note) }
+      $advice = Get-Bilingual $Item 'cookAdvice'
+      if ($advice) { return Enc $advice }
+      $note = Get-Bilingual $Item 'note'
+      if ($note) { return Enc $note }
       else { return '&mdash;' }
     }
     'BirdLv' {
       if ($Item.birdLv) { return 'Lv.' + (Enc ([string]$Item.birdLv)) }
       else { return '&mdash;' }
     }
-    default { return Enc ([string]($Item.($Spec.F))) }
+    default { return Enc (Get-Bilingual $Item $Spec.F) }
   }
 }
 
@@ -131,11 +143,11 @@ function Build-MapSection($Markers) {
   [void]$sb.AppendLine('  <ul class="static-list">')
   foreach ($m in $Markers) {
     $emoji = [string]$m.emoji
-    $name = Enc ([string]$m.name)
+    $name = Enc (Get-Bilingual $m 'name')
     $catKey = [string]$m.category
     $catLabel = $MapCatLabels[$catKey]
     if (-not $catLabel) { $catLabel = $catKey }
-    $desc = Enc ([string]$m.desc)
+    $desc = Enc (Get-Bilingual $m 'desc')
     $li = '<li>'
     if ($emoji) { $li += '<strong>' + $emoji + ' ' + $name + '</strong>' } else { $li += '<strong>' + $name + '</strong>' }
     $li += ' <span>(' + $catLabel + ')</span>'
@@ -235,14 +247,37 @@ foreach ($f in $htmlFiles) {
     $changed = $true
   }
 
-  # 3. static map directory (insert before footer placeholder)
-  if ($name -eq 'map.html' -and -not $content.Contains('id="map-static"')) {
+  # 3. map: regenerate inline marker data + static directory (idempotent; JSON is the single source)
+  if ($name -eq 'map.html') {
+    # 3a. inline INLINE_MAP_MARKERS from data/map-markers.json
+    $mapJson = (Read-Utf8 (Join-Path $root 'data/map-markers.json')).Trim()
+    if ($mapJson) {
+      $anchor = 'var INLINE_MAP_MARKERS = '
+      $idx = $content.IndexOf($anchor)
+      if ($idx -ge 0) {
+        $jsonStart = $idx + $anchor.Length
+        # The inline statement is a single line: '<json>;' + newline. Locate the
+        # statement-terminating ';' just before the newline so that ';' characters
+        # inside JSON string values never break the replacement.
+        $nl = $content.IndexOf("`n", $jsonStart)
+        if ($nl -lt 0) { $nl = $content.Length }
+        $semi = $content.LastIndexOf(';', $nl)
+        if ($semi -lt $jsonStart) { $semi = $nl }
+        $tail = $content.Substring($semi)
+        $content = $content.Substring(0, $jsonStart) + $mapJson + $tail
+        $changed = $true
+      }
+    }
+    # 3b. static marker directory (idempotent re-insert before footer)
+    $content = Remove-Section $content 'map-static'
     $markers = Load-DataJs (Join-Path $root 'data/map-markers.json')
     $section = Build-MapSection $markers
     if ($content.Contains($footerPlaceholder)) {
       $content = $content.Replace($footerPlaceholder, $section + "`r`n" + $footerPlaceholder)
-      $changed = $true
+    } else {
+      $content = $content + "`r`n" + $section
     }
+    $changed = $true
   }
 
   # 4. static footer
