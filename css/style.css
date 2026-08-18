@@ -75,10 +75,6 @@ a:hover { color: var(--teal-dark); text-decoration: underline; }
 /* ----- Layout ----- */
 .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
-/* ----- AdSense ad slots ----- */
-.ad-slot { max-width: 1280px; margin: 24px auto; padding: 0 24px; }
-.ad-slot ins { display: block; }
-
 /* ----- Top Navigation ----- */
 .site-nav {
   position: sticky; top: 0; z-index: 100;
