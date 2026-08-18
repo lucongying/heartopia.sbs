@@ -1433,7 +1433,6 @@
       'index.hero.stripTitle': '全图鉴收录',
       'index.hero.stripTotal': '471 项',
       'index.hero.title': '心动小镇<strong>维基百科</strong>',
-      'index.hero.trustChinese': '🇨🇳 <strong>全中文</strong> · 新手也能秒懂',
       'index.hero.trustUpdate': '✅ <strong>持续更新</strong> · 兑换码校验于 2026-08-12',
       'index.hero.trustVerified': '🛠️ <strong>实测验证</strong> · 本站团队原创撰写与维护',
       'index.map.chip.bird': '🐦 鸟类',
