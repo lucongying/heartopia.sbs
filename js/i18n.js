@@ -43,7 +43,7 @@
       'nav.db.achievements': 'Achievements',
       'nav.db.scores': 'Scores',
       // Footer
-      'footer.tagline': 'A player-made strategy guide for Heartopia — beginner guides, a complete database, an interactive map, redeem codes, and FAQ.',
+      'footer.tagline': 'A player-made strategy guide for Heartopia — beginner guides, a complete database, redeem codes, and FAQ.',
       'footer.explore': 'Explore',
       'footer.database': 'Database',
       'footer.about': 'About',
@@ -1820,7 +1820,7 @@
       'index.meta.twitterTitle': 'Heartopia Guide · Beginner Tips &amp; Full Walkthrough',
       'index.meta.twitterDescription': 'Heartopia fan guide: beginner tips, progression routes, money-making guides, item database, interactive map and FAQs — all in one place.',
       'index.hero.title': 'Heartopia&lt;strong&gt; Wiki&lt;/strong&gt;',
-      'index.hero.desc': 'From your first day on the island to max-level graduation, Heartopia.sbs covers the complete journey — &lt;strong&gt;beginner guides, the DG 1→20 progression route, eight databases, money guides, interactive map, event calendar, redeem codes&lt;/strong&gt; and &lt;strong&gt;50+ technical troubleshooting guides&lt;/strong&gt;. Whether you\'re a brand-new player, a stuck mid-game player, or a completionist chasing the full collection, you\'ll find your answers here.',
+      'index.hero.desc': 'From your first day on the island to max-level graduation, Heartopia.sbs covers the complete journey — &lt;strong&gt;beginner guides, the DG 1→20 progression route, eight databases, money guides, event calendar, redeem codes&lt;/strong&gt; and &lt;strong&gt;50+ technical troubleshooting guides&lt;/strong&gt;. Whether you\'re a brand-new player, a stuck mid-game player, or a completionist chasing the full collection, you\'ll find your answers here.',
       'index.hero.searchPlaceholder': 'Search the whole compendium: Blueberry Jam, Tuna, Mrs Joan, Hercules Beetle…',
       'index.hero.searchButton': 'Search',
       'index.hero.stripTitle': 'Full Compendium',
@@ -2649,7 +2649,6 @@
             '</ul>' +
           '</li>' +
           '<li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>' +
-          '<li><a href="map.html" data-i18n="nav.map">地图</a></li>' +
           '<li><a href="activities.html" data-i18n="nav.activities">活动</a></li>' +
           '<li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>' +
           '<li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>' +
@@ -2666,13 +2665,12 @@
         '<div class="footer-grid">' +
           '<div class="footer-brand">' +
             '<img src="images/logo.svg" alt="Heartopia.sbs" class="footer-logo" width="150" height="27">' +
-            '<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、交互地图、兑换码与常见问题。</p>' +
+            '<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、兑换码与常见问题。</p>' +
           '</div>' +
           '<div class="footer-col">' +
             '<h4 data-i18n="footer.explore">探索</h4>' +
             '<a href="index.html" data-i18n="nav.home">首页</a>' +
             '<a href="beginner.html" data-i18n="nav.beginner">新手上路</a>' +
-            '<a href="map.html" data-i18n="footer.map">互动地图</a>' +
             '<a href="faq.html" data-i18n="nav.faq">常见问题</a>' +
           '</div>' +
           '<div class="footer-col">' +

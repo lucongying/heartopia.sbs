@@ -680,53 +680,7 @@ html[lang="en"] .day-card .day-tip { font-size: 0.72rem; }
   color: var(--pb-c, var(--coral)); font-variant-numeric: tabular-nums;
 }
 
-/* Map preview card */
-.map-preview {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  margin-bottom: 18px;
-}
-.map-preview-img {
-  position: relative; display: block; min-height: 260px;
-}
-.map-preview-img img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
-  display: block;
-}
-.map-preview-img::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(61,50,45,0) 55%, rgba(61,50,45,0.32) 100%);
-  pointer-events: none;
-}
-.map-preview-overlay {
-  position: absolute; left: 16px; bottom: 14px; z-index: 2;
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.96); color: var(--teal-dark);
-  font-size: 0.82rem; font-weight: 700; padding: 8px 16px; border-radius: 20px;
-  box-shadow: var(--shadow);
-}
-.map-preview-img:hover .map-preview-overlay { color: var(--coral); }
-.map-preview-body {
-  padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 16px; justify-content: center;
-}
-.map-preview-body h3 { font-size: 1.05rem; }
-
-/* Run route stepper */
-.route-steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.route-step {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.78rem; font-weight: 600; color: var(--text);
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px; padding: 5px 11px; white-space: nowrap;
-}
-.route-arrow { color: var(--text-dim); font-size: 0.78rem; flex-shrink: 0; }
-
 @media (max-width: 800px) {
-  .map-preview { grid-template-columns: 1fr; }
-  .map-preview-img { min-height: 200px; }
   .pb-row { grid-template-columns: 118px 1fr 48px; }
 }
 
@@ -1861,19 +1815,6 @@ html.js .reveal.visible { opacity: 1; transform: translateY(0); }
   .tab-btn { font-size: 0.8rem; padding: 8px 12px; }
 }
 
-/* ----- Leaflet Map overrides ----- */
-.leaflet-container { font-family: var(--font-body); }
-.leaflet-tooltip.route-tooltip {
-  background: var(--teal); color: #fff; font-weight: 700;
-  font-size: 0.72rem; border: none; box-shadow: var(--shadow);
-  padding: 4px 10px; border-radius: 12px;
-}
-.leaflet-tooltip.route-tooltip::before { border-top-color: var(--teal) !important; }
-.leaflet-image-layer { image-rendering: auto; }
-@media (max-width: 860px) {
-  .leaflet-tooltip { font-size: 0.7rem; padding: 3px 8px; }
-}
-
 /* ----- Redeem Code Cards ----- */
 .code-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
 .code-card-top {
@@ -1933,14 +1874,12 @@ a:focus-visible, button:focus-visible, .filter-chip:focus-visible,
 html.js.i18n-pending body { visibility: hidden; }
 
 /* Static (no-JS) fallback content for crawlers and search engines */
-#db-static, #map-static { margin-top: 20px; }
-html.js #db-static, html.js #map-static { display: none; }
+#db-static { margin-top: 20px; }
+html.js #db-static { display: none; }
 #db-static .static-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 #db-static .static-table th, #db-static .static-table td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; }
 #db-static .static-table th { background: var(--surface); }
-#db-static h2, #map-static h2 { margin: 0 0 8px; }
-#map-static .static-list { list-style: none; padding: 0; }
-#map-static .static-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+#db-static h2 { margin: 0 0 8px; }
 
 /* ----- Back to top ----- */
 .back-to-top {

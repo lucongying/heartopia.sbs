@@ -6,7 +6,6 @@
 # executing JavaScript:
 #   * static nav + footer links (About / Contact / Privacy / Terms)
 #   * static data tables on the 8 database-*.html pages
-#   * static marker directory on map.html
 # The interactive JS still enhances the page for real users; the
 # static fallback is hidden via CSS once JS is active (html.js).
 #
@@ -135,31 +134,6 @@ function Build-DbSection($Cat, $Count, $TableHtml) {
   return $sb.ToString()
 }
 
-function Build-MapSection($Markers) {
-  $sb = New-Object System.Text.StringBuilder
-  [void]$sb.AppendLine('<section id="map-static" class="db-static">')
-  [void]$sb.AppendLine('  <h2>Map Marker Directory</h2>')
-  [void]$sb.AppendLine('  <p>' + (@($Markers).Count) + ' locations, NPCs, fishing spots, shops, wildlife and landmarks across the island.</p>')
-  [void]$sb.AppendLine('  <ul class="static-list">')
-  foreach ($m in $Markers) {
-    $emoji = [string]$m.emoji
-    $name = Enc (Get-Bilingual $m 'name')
-    $catKey = [string]$m.category
-    $catLabel = $MapCatLabels[$catKey]
-    if (-not $catLabel) { $catLabel = $catKey }
-    $desc = Enc (Get-Bilingual $m 'desc')
-    $li = '<li>'
-    if ($emoji) { $li += '<strong>' + $emoji + ' ' + $name + '</strong>' } else { $li += '<strong>' + $name + '</strong>' }
-    $li += ' <span>(' + $catLabel + ')</span>'
-    if ($desc) { $li += ' &mdash; ' + $desc }
-    $li += '</li>'
-    [void]$sb.AppendLine('    ' + $li)
-  }
-  [void]$sb.AppendLine('  </ul>')
-  [void]$sb.AppendLine('</section>')
-  return $sb.ToString()
-}
-
 # ---------- section removal (makes re-injection idempotent + self-healing) ----------
 function Remove-Section([string]$Content, [string]$Id) {
   $pattern = '(?s)<section id="' + $Id + '" class="db-static">.*?</section>\s*'
@@ -204,11 +178,6 @@ $Cats = @(
   )}
 )
 
-$MapCatLabels = @{
-  'npc'='NPC'; 'resource'='Resource'; 'fishing'='Fishing Spot'; 'shop'='Shop';
-  'location'='Location'; 'bus'='Bus Stop'; 'animal'='Animal'; 'bird'='Bird Watching'; 'insect'='Insect Spot'
-}
-
 # ---------- run ----------
 $navHtml = (Read-Utf8 (Join-Path $tplDir 'site-nav.html')).Trim()
 $footerHtml = (Read-Utf8 (Join-Path $tplDir 'site-footer.html')).Trim()
@@ -247,40 +216,7 @@ foreach ($f in $htmlFiles) {
     $changed = $true
   }
 
-  # 3. map: regenerate inline marker data + static directory (idempotent; JSON is the single source)
-  if ($name -eq 'map.html') {
-    # 3a. inline INLINE_MAP_MARKERS from data/map-markers.json
-    $mapJson = (Read-Utf8 (Join-Path $root 'data/map-markers.json')).Trim()
-    if ($mapJson) {
-      $anchor = 'var INLINE_MAP_MARKERS = '
-      $idx = $content.IndexOf($anchor)
-      if ($idx -ge 0) {
-        $jsonStart = $idx + $anchor.Length
-        # The inline statement is a single line: '<json>;' + newline. Locate the
-        # statement-terminating ';' just before the newline so that ';' characters
-        # inside JSON string values never break the replacement.
-        $nl = $content.IndexOf("`n", $jsonStart)
-        if ($nl -lt 0) { $nl = $content.Length }
-        $semi = $content.LastIndexOf(';', $nl)
-        if ($semi -lt $jsonStart) { $semi = $nl }
-        $tail = $content.Substring($semi)
-        $content = $content.Substring(0, $jsonStart) + $mapJson + $tail
-        $changed = $true
-      }
-    }
-    # 3b. static marker directory (idempotent re-insert before footer)
-    $content = Remove-Section $content 'map-static'
-    $markers = Load-DataJs (Join-Path $root 'data/map-markers.json')
-    $section = Build-MapSection $markers
-    if ($content.Contains($footerPlaceholder)) {
-      $content = $content.Replace($footerPlaceholder, $section + "`r`n" + $footerPlaceholder)
-    } else {
-      $content = $content + "`r`n" + $section
-    }
-    $changed = $true
-  }
-
-  # 4. static footer
+  # 3. static footer
   if ($content.Contains($footerPlaceholder)) {
     $content = $content.Replace($footerPlaceholder, $footerHtml)
     $changed = $true
@@ -298,14 +234,12 @@ $css = Read-Utf8 $cssPath
 if (-not $css.Contains('#db-static')) {
   $cssRule = @'
 /* Static (no-JS) fallback content for crawlers and search engines */
-#db-static, #map-static { margin-top: 20px; }
-html.js #db-static, html.js #map-static { display: none; }
+#db-static { margin-top: 20px; }
+html.js #db-static { display: none; }
 #db-static .static-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 #db-static .static-table th, #db-static .static-table td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; }
 #db-static .static-table th { background: var(--surface); }
-#db-static h2, #map-static h2 { margin: 0 0 8px; }
-#map-static .static-list { list-style: none; padding: 0; }
-#map-static .static-list li { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+#db-static h2 { margin: 0 0 8px; }
 '@
   Write-Utf8 $cssPath ($css.TrimEnd() + "`r`n`r`n" + $cssRule + "`r`n")
   Write-Host '[injected] css/style.css'

@@ -66,7 +66,6 @@
 </ul>
 </li>
 <li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>
-<li><a href="map.html" data-i18n="nav.map">地图</a></li>
 <li><a href="activities.html" data-i18n="nav.activities">活动</a></li>
 <li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>
 <li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>
@@ -79,7 +78,7 @@
 <header class="page-header page-header-home">
   <div class="eyebrow">🎮 Heartopia.sbs</div>
   <h1 data-i18n-html="index.hero.title">Heartopia<strong> Wiki</strong></h1>
-  <p class="hero-desc" data-i18n-html="index.hero.desc">From your first day on the island to max-level graduation, Heartopia.sbs covers the complete journey — <strong>beginner guides, the DG 1→20 progression route, eight databases, money guides, interactive map, event calendar, redeem codes</strong> and <strong>50+ technical troubleshooting guides</strong>. Whether you're a brand-new player, a stuck mid-game player, or a completionist chasing the full collection, you'll find your answers here.</p>
+  <p class="hero-desc" data-i18n-html="index.hero.desc">From your first day on the island to max-level graduation, Heartopia.sbs covers the complete journey — <strong>beginner guides, the DG 1→20 progression route, eight databases, money guides, event calendar, redeem codes</strong> and <strong>50+ technical troubleshooting guides</strong>. Whether you're a brand-new player, a stuck mid-game player, or a completionist chasing the full collection, you'll find your answers here.</p>
 
   <div class="hero-search" role="search">
     <div class="hero-search-box">
@@ -117,7 +116,6 @@
     <a href="#progression" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navProgression">📈 Progression</a>
     <a href="#database" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navDatabase">📚 Database</a>
     <a href="#money" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navMoney">💰 Money</a>
-    <a href="#map" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navMap">🗺️ Map</a>
     <a href="#activities" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navActivities">📅 Events</a>
     <a href="#redeem" class="filter-chip" style="text-decoration:none" data-i18n="index.hero.navRedeem">🎁 Redeem</a>
     <a href="#faq" class="filter-chip" style="text-decoration:none">🔧 FAQ</a>
@@ -155,11 +153,6 @@
         <div class="feat-icon"><span>💰</span></div>
         <h4 data-i18n="index.features.cardMoney.title">Money Guide</h4>
         <p data-i18n="index.features.cardMoney.desc">Cooking profit ranking + fishing decision tree + Wishing Stars</p>
-      </a>
-      <a href="map.html" class="feat-card" style="--fc:var(--green)">
-        <div class="feat-icon"><span>🗺️</span></div>
-        <h4 data-i18n="index.features.cardMap.title">Interactive Map</h4>
-        <p data-i18n="index.features.cardMap.desc">100+ markers · search &amp; filter · daily route</p>
       </a>
       <a href="activities.html" class="feat-card" style="--fc:var(--coral)">
         <div class="feat-icon"><span>📅</span></div>
@@ -561,78 +554,6 @@
   </div>
 
   <!-- ============================================ -->
-  <!-- 05. Map -->
-  <!-- ============================================ -->
-  <div class="section" id="map">
-    <div class="section-hd reveal">
-      <div class="eyebrow" data-i18n-html="index.map.eyebrow"><span class="section-idx">05</span>Map Atlas</div>
-      <h2 data-i18n="index.map.heading">100+ Markers · Interactive Map</h2>
-      <p class="section-sub" data-i18n="index.map.sub">Powered by Leaflet — NPCs, resources, fishing spots, shops, insects and birds all marked, with real-time search, category filters and a daily route.</p>
-    </div>
-
-    <div class="map-preview reveal">
-      <a href="map.html" class="map-preview-img">
-        <img src="images/map-base.svg" alt="Heartopia interactive map preview" loading="lazy">
-        <span class="map-preview-overlay" data-i18n="index.map.overlay">🗺️ Open the interactive map →</span>
-      </a>
-      <div class="map-preview-body">
-        <div>
-          <h3 data-i18n="index.map.title">Complete Categories · One-Tap Locate</h3>
-          <p style="font-size:0.82rem;color:var(--text-muted);margin-top:4px;line-height:1.6" data-i18n="index.map.desc">Click any category or search a name directly — the map highlights the matching markers in real time, and you can long-press to add custom markers.</p>
-        </div>
-        <div class="milestones" style="margin-bottom:0">
-          <a href="map.html" class="milestone" style="--ms-accent: var(--coral)">👥 NPC</a>
-          <a href="map.html" class="milestone" style="--ms-accent: var(--green)" data-i18n="index.map.chip.resource">🪨 Resources</a>
-          <a href="map.html" class="milestone" style="--ms-accent: var(--teal)" data-i18n="index.map.chip.fishing">🎣 Fishing Spots</a>
-          <a href="map.html" class="milestone" style="--ms-accent: var(--gold)" data-i18n="index.map.chip.shop">🏪 Shops</a>
-          <a href="map.html" class="milestone" style="--ms-accent: var(--green)" data-i18n="index.map.chip.insect">🦋 Insects</a>
-          <a href="map.html" class="milestone" style="--ms-accent: var(--lavender)" data-i18n="index.map.chip.bird">🐦 Birds</a>
-        </div>
-        <div>
-          <h4 style="font-size:0.85rem;margin-bottom:8px" data-i18n="index.map.routeTitle">🚴 15-Minute Route</h4>
-          <div class="route-steps">
-            <span class="route-step" data-i18n="index.map.route.home">🏠 Home</span><span class="route-arrow">→</span>
-            <span class="route-step" data-i18n="index.map.route.meteor">🪨 Meadow Lake</span><span class="route-arrow">→</span>
-            <span class="route-step" data-i18n="index.map.route.town">🏘️ Town</span><span class="route-arrow">→</span>
-            <span class="route-step" data-i18n="index.map.route.village">🎣 Fishing Village</span><span class="route-arrow">→</span>
-            <span class="route-step" data-i18n="index.map.route.backhome">🏠 Back Home</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid-2 reveal">
-      <div class="card card-sm" style="border-left:3px solid var(--coral)">
-        <h4 data-i18n="index.map.npc1.title">🎣 Vanya · Fishing Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc1.desc">Visits you / auto-triggers at Lv.2</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--green)">
-        <h4 data-i18n="index.map.npc2.title">🌱 Blanc · Gardening Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc2.desc">Near town center / Lv.3</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--gold)">
-        <h4 data-i18n="index.map.npc3.title">🍳 Massimo · Cooking Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc3.desc">Café / Lv.5</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--teal)">
-        <h4 data-i18n="index.map.npc4.title">🦋 Naniwa · Bug-Catching Mentor</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc4.desc">Town center / Lv.5/8/11</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--lavender)">
-        <h4 data-i18n="index.map.npc5.title">🐱 Mrs Joan · Pet Adoption</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc5.desc">Adoption center / Lv.12</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--coral)">
-        <h4 data-i18n="index.map.npc6.title">💰 Albert Jr. · Wandering Merchant</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc6.desc">Wanders the whole map / always available</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--green)">
-        <h4 data-i18n="index.map.npc7.title">🪨 Fluorite Mine + 🌳 Tree Spirit Root</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc7.desc">Meadow Lake · refreshes once daily</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid var(--gold)">
-        <h4 data-i18n="index.map.npc8.title">📌 Custom Marker</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="index.map.npc8.desc">Long-press to add a marker · saved locally</p>
-      </div>
-    </div>
-    <div style="margin-top:8px">
-      <a href="map.html" class="btn btn-outline btn-sm" data-i18n="index.map.cta">🗺️ Full map · NPCs + resource spots + fishing spots + route ▸</a>
-    </div>
-  </div>
-
-  <!-- ============================================ -->
   <!-- 06. Event Calendar -->
   <!-- ============================================ -->
   <div class="section" id="activities">
@@ -794,13 +715,12 @@
 <div class="footer-grid">
 <div class="footer-brand">
 <img src="images/logo.svg" alt="Heartopia.sbs" class="footer-logo" width="150" height="27">
-<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、交互地图、兑换码与常见问题。</p>
+<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、兑换码与常见问题。</p>
 </div>
 <div class="footer-col">
 <h4 data-i18n="footer.explore">探索</h4>
 <a href="index.html" data-i18n="nav.home">首页</a>
 <a href="beginner.html" data-i18n="nav.beginner">新手上路</a>
-<a href="map.html" data-i18n="footer.map">互动地图</a>
 <a href="faq.html" data-i18n="nav.faq">常见问题</a>
 </div>
 <div class="footer-col">

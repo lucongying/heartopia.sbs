@@ -1417,7 +1417,7 @@
       'index.hero.birdLabel': '🐦 鸟',
       'index.hero.bugLabel': '🦋 虫',
       'index.hero.cropLabel': '🌱 作物',
-      'index.hero.desc': '从登岛第一天到满级毕业，Heartopia.sbs 覆盖心托邦（心动小镇）的完整旅程——<strong>新手指南、DG 1→20 进阶路线、八大图鉴数据库、赚钱攻略、交互地图、活动日历、兑换码</strong>与 <strong>50+ 技术问题排查</strong>。无论你是刚登岛的萌新、卡关的进阶玩家，还是追求全图鉴的收集党，都能在这里找到答案。',
+      'index.hero.desc': '从登岛第一天到满级毕业，Heartopia.sbs 覆盖心托邦（心动小镇）的完整旅程——<strong>新手指南、DG 1→20 进阶路线、八大图鉴数据库、赚钱攻略、活动日历、兑换码</strong>与 <strong>50+ 技术问题排查</strong>。无论你是刚登岛的萌新、卡关的进阶玩家，还是追求全图鉴的收集党，都能在这里找到答案。',
       'index.hero.fishLabel': '🐟 鱼',
       'index.hero.navActivities': '📅 活动',
       'index.hero.navBeginner': '🆕 新手上路',
