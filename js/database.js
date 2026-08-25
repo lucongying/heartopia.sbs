@@ -446,6 +446,8 @@ function getCropEmoji(enName, name, category) {
   if (cat === '水果') return { emoji: '🍎', label: '水果' };
   if (cat === '花卉') return { emoji: '🌸', label: '花卉' };
   if (cat === '菌类') return { emoji: '🍄', label: '菌类' };
+  if (cat === '香草') return { emoji: '🌿', label: '香草' };
+  if (cat === '特产') return { emoji: '🌰', label: '特产' };
   if (cat === '采集品') return { emoji: '🧺', label: '采集品' };
 
   // 默认

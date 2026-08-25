@@ -11,9 +11,9 @@ var ACHIEVEMENTS_DATA = [
   // ── 🎣 钓鱼 ──
   {"name":"钓鱼新手","category":"钓鱼","enName":"Fishing Novice","description":"钓到第一条鱼","unlock":"解锁钓鱼后","reward":"许愿星 ×20","difficulty":1,"tips":"在任意水域抛竿即可"},
   {"name":"钓鱼达人","category":"钓鱼","enName":"Fishing Expert","description":"钓到50种不同的鱼","unlock":"解锁钓鱼后","reward":"许愿星 ×100","difficulty":3,"tips":"注意不同季节、天气和时间段的鱼种变化"},
-  {"name":"钓鱼大师","category":"钓鱼","enName":"Fishing Master","description":"钓到全部91种鱼类","unlock":"解锁钓鱼后","reward":"称号「鱼王」","difficulty":5,"tips":"部分稀有鱼仅在特定天气出现，参考鱼类图鉴"},
+  {"name":"钓鱼大师","category":"钓鱼","enName":"Fishing Master","description":"钓到全部89种鱼类","unlock":"解锁钓鱼后","reward":"称号「鱼王」","difficulty":5,"tips":"部分稀有鱼仅在特定天气出现，参考鱼类图鉴"},
   {"name":"金色传说","category":"钓鱼","enName":"Golden Legend","description":"钓到10条金色鱼影的鱼","unlock":"钓鱼Lv.5","reward":"许愿星 ×200","difficulty":4,"tips":"金色鱼影出现概率极低，在海洋区域耐心等待"},
-  {"name":"彩虹之约","category":"钓鱼","enName":"Rainbow Catch","description":"在彩虹天气钓到彩虹鱼","unlock":"解锁钓鱼后","reward":"许愿星 ×150","difficulty":3,"tips":"彩虹鱼仅在春季彩虹天气出现于星光海"},
+  
   {"name":"河川征服者","category":"钓鱼","enName":"River Conqueror","description":"钓到全部河流鱼类","unlock":"解锁钓鱼后","reward":"许愿星 ×120","difficulty":3,"tips":"河流鱼类分布在不同河段，注意位置区分"},
 
   // ── 🌱 园艺 ──

@@ -5,8 +5,8 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9565005935296227" crossorigin="anonymous"></script>
 <script>document.documentElement.classList.add('js');(function(){try{if(localStorage.getItem('heartopia-lang')==='zh')document.documentElement.classList.add('i18n-pending');}catch(e){}setTimeout(function(){if(!window.I18N)document.documentElement.classList.remove('i18n-pending');},2000);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title data-i18n="money.title">Heartopia Money Guide · Cooking Profit Table / Fishing Strategy / Wishing Star Guide</title>
-<meta name="description" data-i18n-content="money.meta.description" content="The most complete Heartopia money guide: cooking profit rankings + cost ROI, raw vs processed value comparison, a fishing profit decision tree, daily gold caps, and the best Wishing Star strategy.">
+<title data-i18n="money.title">Heartopia Money Guide · Cooking ROI / Fishing Thresholds / Crop Gold per Hour</title>
+<meta name="description" data-i18n-content="money.meta.description" content="A Heartopia money guide built from our own item database: what cooking really earns over selling raw, the exact ★★/★★★ quality multiplier, the fish price where cooking starts losing money, crop gold-per-hour, and where Wishing Stars pay off.">
 <link rel="stylesheet" href="css/style.css">
 <link rel="canonical" href="https://heartopia.sbs/money.html">
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Heartopia.sbs">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" data-i18n-content="money.meta.ogtitle" content="Heartopia Money Guide · Cooking Profit Table / Fishing Strategy / Wishing Star Guide">
-<meta property="og:description" data-i18n-content="money.meta.ogdesc" content="The most complete Heartopia money guide: cooking profit rankings + cost ROI, raw vs processed value comparison, a fishing profit decision tree, daily gold caps, and the best Wishing Star strategy.">
+<meta property="og:title" data-i18n-content="money.meta.ogtitle" content="Heartopia Money Guide · Cooking ROI / Fishing Thresholds / Crop Gold per Hour">
+<meta property="og:description" data-i18n-content="money.meta.ogdesc" content="A Heartopia money guide built from our own item database: what cooking really earns over selling raw, the exact ★★/★★★ quality multiplier, the fish price where cooking starts losing money, crop gold-per-hour, and where Wishing Stars pay off.">
 <meta property="og:url" content="https://heartopia.sbs/money.html">
 <meta property="og:image" content="https://heartopia.sbs/images/og-image.png">
 <meta property="og:image:type" content="image/png">
@@ -29,8 +29,8 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Heartopia.sbs">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" data-i18n-content="money.meta.twtitle" content="Heartopia Money Guide · Cooking Profit Table / Fishing Strategy / Wishing Star Guide">
-<meta name="twitter:description" data-i18n-content="money.meta.twdesc" content="The most complete Heartopia money guide: cooking profit rankings + cost ROI, raw vs processed value comparison, a fishing profit decision tree, daily gold caps, and the best Wishing Star strategy.">
+<meta name="twitter:title" data-i18n-content="money.meta.twtitle" content="Heartopia Money Guide · Cooking ROI / Fishing Thresholds / Crop Gold per Hour">
+<meta name="twitter:description" data-i18n-content="money.meta.twdesc" content="A Heartopia money guide built from our own item database: what cooking really earns over selling raw, the exact ★★/★★★ quality multiplier, the fish price where cooking starts losing money, crop gold-per-hour, and where Wishing Stars pay off.">
 <meta name="twitter:image" content="https://heartopia.sbs/images/og-image.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1RH7MMXVV"></script>
 <script>
@@ -69,6 +69,7 @@
 </ul>
 </li>
 <li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>
+<li><a href="map.html" data-i18n="nav.map">地图</a></li>
 <li><a href="activities.html" data-i18n="nav.activities">活动</a></li>
 <li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>
 <li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>
@@ -80,7 +81,7 @@
 <header class="page-header">
   <div class="eyebrow" data-i18n="money.eyebrow">Economy</div>
   <h1 data-i18n-html="money.h1">Money<strong style="color:var(--gold)"> Guide</strong></h1>
-  <p class="sub" data-i18n="money.sub">Covering the five core money systems: cooking profit, fishing strategy, daily quests, and Wishing Stars</p>
+  <p class="sub" data-i18n="money.sub">Every price on this page is read straight out of our own crop, fish and recipe database — no estimated incomes, no numbers we cannot show you the source of</p>
 </header>
 
 <!-- ============================================================ -->
@@ -91,10 +92,10 @@
     <div class="filter-row" style="margin:0;justify-content:center">
       <a href="#golden-rule" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.rule">💰 Golden Rule</a>
       <a href="#daily-routine" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.routine">📋 Daily Routine</a>
-      <a href="#recipe-profit" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.recipe">🍳 Cooking Profit Table</a>
-      <a href="#raw-vs-cooked" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.raw">📊 Raw vs Processed</a>
+      <a href="#recipe-profit" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.recipe">🍳 Cooking Prices</a>
+      <a href="#raw-vs-cooked" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.raw">📊 Sell or Cook</a>
       <a href="#fishing-strategy" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.fishing">🎣 Fishing Strategy</a>
-      <a href="#daily-cap" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.daily">💵 Daily Quests</a>
+      <a href="#daily-cap" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.daily">💵 Daily Loop</a>
       <a href="#wishing-star" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.star">⭐ Wishing Stars</a>
       <a href="#key-tips" class="filter-chip" style="text-decoration:none" data-i18n="money.nav.tips">🔥 Key Strategies</a>
     </div>
@@ -112,20 +113,20 @@
     <h2 data-i18n="money.rule.h2">The golden rule of making money</h2>
   </div>
 
-  <div class="highlight-box reveal" style="margin-bottom:20px" data-i18n-html="money.rule.rules"><strong>💰 Three iron rules:</strong> ❶ sell fish above 100 gold directly, cook the rest ≤100 &nbsp; ❷ turn fruit into jam and vegetables into dishes — never sell raw ingredients &nbsp; ❸ wheat is your economic lifeline; plant it whenever you can</div>
+  <div class="highlight-box reveal" style="margin-bottom:20px" data-i18n-html="money.rule.rules"><strong>💰 Three rules the data actually supports:</strong> ❶ every priced crop sells for about 3× its seed price — pineapple 15→52 (3.5×) and carrot 50→155 (3.1×) are the outliers — so growing alone has a fixed ceiling &nbsp; ❷ cooking is only worth it when you hit ★★/★★★ — the multiplier is exactly 1.5× and 2× on all 94 recipes we have recorded &nbsp; ❸ some recipes destroy value: never turn grapes into jam</div>
 
   <div class="grid-3 reveal">
     <div class="card card-sm" style="border-top:3px solid var(--coral)">
-      <h4 style="font-size:1rem" data-i18n="money.rule.c1.h">🔬 Why does processing beat selling raw?</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.rule.c1.p">4 blueberries sold raw = <strong>64 gold</strong><br>Made into blueberry jam = <strong>170-320 gold</strong><br><span style="color:var(--green)">Profit multiplies 2.7-5x</span></p>
+      <h4 style="font-size:1rem" data-i18n="money.rule.c1.h">🔬 Growing has a fixed ceiling</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.rule.c1.p">Almost every crop we have priced sells for <strong>about 3× its seed</strong> — potato 30 → 90, wheat 95 → 285, avocado 180 → 540 — with two exceptions: <strong>pineapple 15 → 52 (3.5×)</strong> and <strong>carrot 50 → 155 (3.1×)</strong>.<br><span style="color:var(--green)">So crop choice is only loosely about margin. The real variable is gold per hour.</span></p>
     </div>
     <div class="card card-sm" style="border-top:3px solid var(--gold)">
-      <h4 style="font-size:1rem" data-i18n="money.rule.c2.h">🐟 The fish dividing line: 100 gold</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.rule.c2.p">Sardine 40G → cook into fish and chips for 310G<br>Tuna 300G → sell directly; cooking loses money<br><span style="color:var(--green)">Remember the key threshold: 100G</span></p>
+      <h4 style="font-size:1rem" data-i18n="money.rule.c2.h">⭐ The star multiplier is the real profit</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.rule.c2.p">★★ = 1.5× and ★★★ = 2× the base price, with <strong>zero exceptions across 94 recipes</strong>.<br><span style="color:var(--green)">Strawberry Jam: 1,580 at ★, 3,160 at ★★★. The ingredients cost the same either way.</span></p>
     </div>
     <div class="card card-sm" style="border-top:3px solid var(--teal)">
-      <h4 style="font-size:1rem" data-i18n="money.rule.c3.h">🌾 Wheat = the economic engine</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.rule.c3.p">Truffle pasta, seafood pizza, fish and chips<br>Almost every high-end recipe consumes wheat<br><span style="color:var(--green)">Plant before bed; a crop every 4 hours</span></p>
+      <h4 style="font-size:1rem" data-i18n="money.rule.c3.h">🌾 Wheat is in more recipes than anything else</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.rule.c3.p">Wheat appears in <strong>25 of our 94 recipes</strong> — pizza, pies, pasta, cakes, bagels and risotto all consume it.<br><span style="color:var(--green)">4 hours to grow, 95 a seed, 285 a harvest. Keep a plot on it permanently.</span></p>
     </div>
   </div>
 </div>
@@ -136,16 +137,16 @@
 <div class="section" id="daily-routine">
   <div class="section-hd reveal">
     <div class="eyebrow" data-i18n="money.routine.eyebrow">Daily routine</div>
-    <h2 data-i18n="money.routine.h2">The 10-minute efficient money loop</h2>
-    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.routine.intro">A standardized routine to run after each login, with an expected yield of 8,000-15,000 gold per round</p>
+    <h2 data-i18n="money.routine.h2">A login loop that follows the numbers</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.routine.intro">Five steps in the order that matters. We deliberately do not quote a gold-per-hour figure — that depends on your farm size, hobby levels and luck, and any number we printed would be made up.</p>
   </div>
   <div class="card reveal">
     <div class="timeline">
-      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t1.h">① Morning: harvest + plant (~2 min)</h4><p data-i18n="money.routine.t1.p">Harvest potatoes/wheat/corn and replant. Prioritize potatoes (3x the yield of tomatoes) and wheat (core ingredient in all late-game high-profit recipes). Plant blueberries and strawberries whenever you have seeds.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t2.h">② Gather: free ingredient sweep (~2 min)</h4><p data-i18n-html="money.routine.t2.p">Run the map collecting berries, mushrooms, fruit, and herbs. In autumn, focus on black truffles (200G each, 3-4x profit after cooking). <strong>Free = zero cost = 100% pure profit.</strong></p></div>
-      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t3.h">③ Fish: filter for high value (~3 min)</h4><p data-i18n-html="money.routine.t3.p">Head to the ocean for high-value fish (tuna 300+, pufferfish 450). Keep low-value fish ≤100G (sardine, crucian carp, sea bass) as cooking material. <strong>Remember the threshold: sell anything above 100 gold, cook anything below.</strong></p></div>
-      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t4.h">④ Cook: four-stove batch production (~3 min)</h4><p data-i18n="money.routine.t4.p">Arrange 4 stoves in a square and stand in the middle to manage 4 dishes at once. Prioritize batch production: jam (fruit → 170G+) + fish and chips (fish + potato → 310G) + vegetable medley (3 vegetables → 200G).</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t5.h">⑤ Sell + villager quests (~2 min)</h4><p data-i18n="money.routine.t5.p">Find the wandering merchant Albert Jr. and batch-sell all finished goods. On the way, complete 5 villager quests — each rewards an extra 1,000-3,000 gold + Wishing Stars + contribution medals.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t1.h">① Harvest and immediately replant</h4><p data-i18n-html="money.routine.t1.p">Empty ground earns nothing, so replant before you do anything else. If you are farming purely for gold, short crops win: <strong>tomato 80/h, pineapple 74/h, tea leaf 66.7/h, potato 60/h</strong>. If you are farming to cook, plant wheat regardless of its 47.5/h — 25 recipes need it.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t2.h">② Sweep the map for foraged ingredients</h4><p data-i18n-html="money.routine.t2.p">Mushrooms, berries and truffles cost nothing but walking time, which makes anything built from them pure profit. Grilled Mushrooms takes <strong>4 mushrooms → 180</strong> (360 at ★★★), and Blueberry Jam takes 4 blueberries → 170.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t3.h">③ Fish, and sort the catch as you go</h4><p data-i18n-html="money.routine.t3.p">58 of the 89 fish we have priced sell for under 125G, so most of what you pull up is cooking stock. The expensive ones go straight to the seller untouched: <strong>tuna 850, golden king crab 750, catfish 610, king crab 535, eel 380</strong>.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t4.h">④ Cook in batches, and chase the star rating</h4><p data-i18n-html="money.routine.t4.p">The same ingredients pay 1.5× at ★★ and 2× at ★★★, so cooking level is worth more than recipe choice. Reliable batches: <strong>Fish &amp; Chips 310</strong> (2 cheap fish + 2 potatoes), <strong>Rustic Ratatouille 640</strong> (tomato + potato + lettuce), <strong>Tomato Sauce 180</strong> from 4 tomatoes.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><h4 data-i18n="money.routine.t5.h">⑤ Sell everything in one trip</h4><p data-i18n="money.routine.t5.p">Albert Jr. is the game's only buying NPC, so there is no shop to price-shop against — the only thing that raises your take is processing and star rating. Save one trip, sell the whole stack, and pick up villager quests while you are there.</p></div>
     </div>
   </div>
 </div>
@@ -155,67 +156,41 @@
 <!-- ============================================================ -->
 <div class="section" id="recipe-profit">
   <div class="section-hd reveal">
-    <div class="eyebrow" data-i18n="money.recipe.eyebrow">Cooking profit table (core)</div>
-    <h2 data-i18n="money.recipe.h2">All recipes · cost, profit, and ROI ranking</h2>
-    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.recipe.intro">Sorted by net profit from high to low. Ingredient costs use the lowest obtainable prices; actual profit varies with ingredient quality.</p>
+    <div class="eyebrow" data-i18n="money.recipe.eyebrow">Cooking prices</div>
+    <h2 data-i18n="money.recipe.h2">What each dish actually sells for</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.recipe.intro">The 22 recipes that matter most for income, sorted by base price. Ingredients and prices are copied from our recipe database — see the full set of 94 on the recipes page.</p>
   </div>
 
-  <div class="highlight-box reveal" style="margin-bottom:24px" data-i18n-html="money.recipe.guide"><strong>📖 How to read this:</strong> "Net profit" = base sell price − total ingredient cost; "ROI" = net profit ÷ ingredient cost × 100%; "hourly wage" is estimated from cooking time. The ★★/★★★ columns assume your Cooking level is high enough to produce quality results.</div>
+  <div class="highlight-box reveal" style="margin-bottom:24px" data-i18n-html="money.recipe.guide"><strong>📖 Before you read the numbers:</strong> we do not print an "ingredient cost" column, because a third of all cooking ingredients — eggs, milk, butter, cheese, cream, herbs — have no price we can verify. Inventing one would make every profit figure on the page fiction. Instead, the costed comparisons live in the four cards below, using only ingredients we can actually price.</div>
 
   <div class="tbl-wrap reveal" style="margin-bottom:12px">
     <table>
       <thead><tr>
-        <th data-i18n="money.recipe.th.rank">Rank</th><th data-i18n="money.recipe.th.recipe">Recipe</th><th data-i18n="money.recipe.th.ingredients">Ingredients</th><th class="num" data-i18n="money.recipe.th.cost">Ingredient cost</th><th class="num" data-i18n="money.recipe.th.base">Base sell price</th><th class="num" data-i18n="money.recipe.th.net">Net profit</th><th class="num" data-i18n="money.recipe.th.roi">ROI</th><th class="num" data-i18n="money.recipe.th.net2">★★ Net profit</th><th class="num" data-i18n="money.recipe.th.net3">★★★ Net profit</th><th data-i18n="money.recipe.th.rating">Rating</th>
+        <th data-i18n="money.recipe.th.recipe">Recipe</th><th data-i18n="money.recipe.th.ingredients">Ingredients</th><th class="num" data-i18n="money.recipe.th.base">★ Base</th><th class="num" data-i18n="money.recipe.th.p2">★★ (1.5×)</th><th class="num" data-i18n="money.recipe.th.p3">★★★ (2×)</th><th data-i18n="money.recipe.th.unlock">Unlocked by</th>
       </tr></thead>
       <tbody>
-        <tr>
-          <td>🥇</td><td><strong data-i18n="money.recipe.r1.name">Truffle cream pasta</strong></td><td data-i18n="money.recipe.r1.ingredients">Black truffle ×1 + wheat ×2 + cream ×1</td><td class="num">270</td><td class="num">900</td><td class="num" style="color:var(--green);font-weight:700">+630</td><td class="num">233%</td><td class="num" style="color:var(--green)">+1,080</td><td class="num" style="color:var(--green)">+1,530</td><td><span class="badge badge-coral" data-i18n="money.recipe.badge.top">Top profit</span></td>
-        </tr>
-        <tr>
-          <td>🥈</td><td><strong data-i18n="money.recipe.r2.name">Steamed king crab</strong></td><td data-i18n="money.recipe.r2.ingredients">King crab ×1 + lemon ×1 + herbs ×1 + butter ×1</td><td class="num">655</td><td class="num">1,100</td><td class="num" style="color:var(--green);font-weight:700">+445</td><td class="num">68%</td><td class="num" style="color:var(--green)">+995</td><td class="num" style="color:var(--green)">+1,545</td><td><span class="badge badge-coral" data-i18n="money.recipe.badge.rare">Very rare ingredients</span></td>
-        </tr>
-        <tr>
-          <td>🥉</td><td><strong data-i18n="money.recipe.r3.name">Truffle mushroom pie</strong></td><td data-i18n="money.recipe.r3.ingredients">Black truffle ×1 + mushrooms ×2 + wheat ×2</td><td class="num">240</td><td class="num">635</td><td class="num" style="color:var(--green);font-weight:700">+395</td><td class="num">165%</td><td class="num" style="color:var(--green)">+712</td><td class="num" style="color:var(--green)">+1,030</td><td><span class="badge badge-coral" data-i18n="money.recipe.badge.late">Late-game pick</span></td>
-        </tr>
-        <tr>
-          <td>4</td><td><strong data-i18n="money.recipe.r4.name">Seafood risotto</strong></td><td data-i18n="money.recipe.r4.ingredients">Any fish ×2 + tomato ×1 + wheat ×2</td><td class="num">132</td><td class="num">450</td><td class="num" style="color:var(--green);font-weight:700">+318</td><td class="num">241%</td><td class="num" style="color:var(--green)">+543</td><td class="num" style="color:var(--green)">+768</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.midlate">Mid-late game</span></td>
-        </tr>
-        <tr>
-          <td>5</td><td><strong data-i18n="money.recipe.r5.name">Cheesecake</strong></td><td data-i18n="money.recipe.r5.ingredients">Cheese ×2 + wheat ×1 + egg ×1</td><td class="num">110</td><td class="num">400</td><td class="num" style="color:var(--green);font-weight:700">+290</td><td class="num">264%</td><td class="num" style="color:var(--green)">+490</td><td class="num" style="color:var(--green)">+690</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.dessert">Dessert pick</span></td>
-        </tr>
-        <tr>
-          <td>6</td><td><strong data-i18n="money.recipe.r6.name">Seafood pizza</strong></td><td data-i18n="money.recipe.r6.ingredients">Any fish ×1 + tomato ×1 + cheese ×1 + wheat ×2</td><td class="num">127</td><td class="num">420</td><td class="num" style="color:var(--green);font-weight:700">+293</td><td class="num">231%</td><td class="num" style="color:var(--green)">+503</td><td class="num" style="color:var(--green)">+713</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.midlate">Mid-late game</span></td>
-        </tr>
-        <tr>
-          <td>7</td><td><strong data-i18n="money.recipe.r7.name">Crayfish sashimi</strong></td><td data-i18n="money.recipe.r7.ingredients">Crayfish ×2 + lemon ×1 + herbs ×1</td><td class="num">125</td><td class="num">380</td><td class="num" style="color:var(--green);font-weight:700">+255</td><td class="num">204%</td><td class="num" style="color:var(--green)">+445</td><td class="num" style="color:var(--green)">+635</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.summer">Summer pick</span></td>
-        </tr>
-        <tr>
-          <td>8</td><td><strong data-i18n="money.recipe.r8.name">Fried crucian carp</strong></td><td data-i18n="money.recipe.r8.ingredients">Crucian carp ×1 + flour ×1</td><td class="num">100</td><td class="num">350</td><td class="num" style="color:var(--green);font-weight:700">+250</td><td class="num">250%</td><td class="num" style="color:var(--green)">+425</td><td class="num" style="color:var(--green)">+600</td><td><span class="badge badge-gold" data-i18n="money.recipe.badge.beginnerPick">Beginner pick</span></td>
-        </tr>
-        <tr>
-          <td>9</td><td><strong data-i18n="money.recipe.r9.name">Smoked fish bagel</strong></td><td data-i18n="money.recipe.r9.ingredients">Any fish ×1 + cheese ×1 + any vegetable ×1 + wheat ×1</td><td class="num">107</td><td class="num">340</td><td class="num" style="color:var(--green);font-weight:700">+233</td><td class="num">218%</td><td class="num" style="color:var(--green)">+403</td><td class="num" style="color:var(--green)">+573</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.flexible">Flexible ingredients</span></td>
-        </tr>
-        <tr>
-          <td>10</td><td><strong data-i18n="money.recipe.r10.name">Fish and chips</strong></td><td data-i18n="money.recipe.r10.ingredients">Any fish ×1 + potato ×1</td><td class="num">75</td><td class="num">310</td><td class="num" style="color:var(--green);font-weight:700">+235</td><td class="num">313%</td><td class="num" style="color:var(--green)">+390</td><td class="num" style="color:var(--green)">+545</td><td><span class="badge badge-gold" data-i18n="money.recipe.badge.valueKing">Value king</span></td>
-        </tr>
-        <tr>
-          <td>11</td><td><strong data-i18n="money.recipe.r11.name">Carrot cake</strong></td><td data-i18n="money.recipe.r11.ingredients">Carrots ×2 + wheat ×2 + egg ×1</td><td class="num">115</td><td class="num">350</td><td class="num" style="color:var(--green);font-weight:700">+235</td><td class="num">204%</td><td class="num" style="color:var(--green)">+410</td><td class="num" style="color:var(--green)">+585</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.midlate">Mid-late game</span></td>
-        </tr>
-        <tr>
-          <td>12</td><td><strong data-i18n="money.recipe.r12.name">Corn chowder</strong></td><td data-i18n="money.recipe.r12.ingredients">Corn ×2 + milk ×1</td><td class="num">105</td><td class="num">280</td><td class="num" style="color:var(--green);font-weight:700">+175</td><td class="num">167%</td><td class="num" style="color:var(--green)">+315</td><td class="num" style="color:var(--green)">+455</td><td><span class="badge badge-teal" data-i18n="money.recipe.badge.mid">Mid game</span></td>
-        </tr>
-        <tr>
-          <td>13</td><td><strong data-i18n="money.recipe.r13.name">Vegetable medley</strong></td><td data-i18n="money.recipe.r13.ingredients">Any vegetables ×3</td><td class="num">36</td><td class="num">200</td><td class="num" style="color:var(--green);font-weight:700">+164</td><td class="num">456%</td><td class="num" style="color:var(--green)">+264</td><td class="num" style="color:var(--green)">+364</td><td><span class="badge badge-gold" data-i18n="money.recipe.badge.roiTop">Highest ROI</span></td>
-        </tr>
-        <tr>
-          <td>14</td><td><strong data-i18n="money.recipe.r14.name">Mixed jam / blueberry jam</strong></td><td data-i18n="money.recipe.r14.ingredients">Any fruit ×4 (blueberry is best)</td><td class="num">64</td><td class="num">170</td><td class="num" style="color:var(--green);font-weight:700">+106</td><td class="num">166%</td><td class="num" style="color:var(--green)">+191</td><td class="num" style="color:var(--green)">+256</td><td><span class="badge badge-gold" data-i18n="money.recipe.badge.beginnerFirst">Beginner first pick</span></td>
-        </tr>
-        <tr>
-          <td>15</td><td><strong data-i18n="money.recipe.r15.name">Roasted mushrooms</strong></td><td data-i18n="money.recipe.r15.ingredients">Mushrooms ×3</td><td class="num">0</td><td class="num">120</td><td class="num" style="color:var(--green);font-weight:700">+120</td><td class="num">∞</td><td class="num" style="color:var(--green)">+180</td><td class="num" style="color:var(--green)">+240</td><td><span class="badge badge-green" data-i18n="money.recipe.badge.zero">Zero cost</span></td>
-        </tr>
-        <tr>
-          <td>16</td><td><strong data-i18n="money.recipe.r16.name">Strawberry/grape jam</strong></td><td data-i18n="money.recipe.r16.ingredients">Strawberries ×4 or grapes ×4</td><td class="num">120-160</td><td class="num">170</td><td class="num" style="color:var(--green);font-weight:700">+10~50</td><td class="num">6-42%</td><td class="num" style="color:var(--green)">+95~135</td><td class="num" style="color:var(--green)">+160~200</td><td><span class="badge badge-lavender" data-i18n="money.recipe.badge.worseBlueberry">Worse than blueberry</span></td>
-        </tr>
+        <tr><td><strong data-i18n="money.recipe.r1.name">Steamed Golden King Crab</strong></td><td data-i18n="money.recipe.r1.ing">Golden king crab ×3</td><td class="num" style="font-weight:700">2,980</td><td class="num">4,470</td><td class="num" style="color:var(--green)">5,960</td><td data-i18n="money.recipe.unlock.lv10var">Cooking Lv.10 · recipe variant</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r2.name">Picnic Set</strong></td><td data-i18n="money.recipe.r2.ing">Coffee/latte ×1 + seafood pizza ×1 + apple pie ×1 + fish &amp; chips ×1</td><td class="num" style="font-weight:700">2,260</td><td class="num">3,390</td><td class="num" style="color:var(--green)">4,520</td><td data-i18n="money.recipe.unlock.lv7shop">Cooking Lv.7 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r3.name">Steamed King Crab</strong></td><td data-i18n="money.recipe.r3.ing">King crab ×3</td><td class="num" style="font-weight:700">1,990</td><td class="num">2,985</td><td class="num" style="color:var(--green)">3,980</td><td data-i18n="money.recipe.unlock.lv10shop">Cooking Lv.10 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r4.name">Candlelight Dinner</strong></td><td data-i18n="money.recipe.r4.ing">Garden salad ×1 + smoked fish bagel ×1 + seafood risotto ×1 + tiramisu ×1</td><td class="num" style="font-weight:700">1,760</td><td class="num">2,640</td><td class="num" style="color:var(--green)">3,520</td><td data-i18n="money.recipe.unlock.lv9shop">Cooking Lv.9 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r5.name">Strawberry Jam</strong></td><td data-i18n="money.recipe.r5.ing">Strawberry ×4</td><td class="num" style="font-weight:700">1,580</td><td class="num">2,370</td><td class="num" style="color:var(--green)">3,160</td><td data-i18n="money.recipe.unlock.auto">Free once cooking is unlocked</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r6.name">Meat Burger</strong></td><td data-i18n="money.recipe.r6.ing">Meat ×1 + wheat ×1 + tomato sauce ×1</td><td class="num" style="font-weight:700">1,350</td><td class="num">2,025</td><td class="num" style="color:var(--green)">2,700</td><td data-i18n="money.recipe.unlock.lv8shop">Cooking Lv.8 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r7.name">Corn Soup</strong></td><td data-i18n="money.recipe.r7.ing">Corn ×2 + milk ×1 + butter ×1</td><td class="num" style="font-weight:700">1,340</td><td class="num">2,010</td><td class="num" style="color:var(--green)">2,680</td><td data-i18n="money.recipe.unlock.lv5shop">Cooking Lv.5 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r8.name">Baked Eggplant with Meat</strong></td><td data-i18n="money.recipe.r8.ing">Eggplant ×1 + meat ×1 + cooking oil ×1 + tomato sauce ×1</td><td class="num" style="font-weight:700">1,230</td><td class="num">1,845</td><td class="num" style="color:var(--green)">2,460</td><td data-i18n="money.recipe.unlock.lv9shop">Cooking Lv.9 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r9.name">King Crab Pasta</strong></td><td data-i18n="money.recipe.r9.ing">King crab ×1 + wheat ×2 + cream ×1 + herbs ×1</td><td class="num" style="font-weight:700">980</td><td class="num">1,470</td><td class="num" style="color:var(--green)">1,960</td><td data-i18n="money.recipe.unlock.lv12">Cooking Lv.12</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r10.name">Black Truffle Cream Pasta</strong></td><td data-i18n="money.recipe.r10.ing">Black truffle ×1 + wheat ×2 + cream ×1</td><td class="num" style="font-weight:700">900</td><td class="num">1,350</td><td class="num" style="color:var(--green)">1,800</td><td data-i18n="money.recipe.unlock.lv11shop">Cooking Lv.11 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r11.name">Cheesy Shrimp Claw</strong></td><td data-i18n="money.recipe.r11.ing">King crab ×2 + cheese ×1 + wheat ×1</td><td class="num" style="font-weight:700">880</td><td class="num">1,320</td><td class="num" style="color:var(--green)">1,760</td><td data-i18n="money.recipe.unlock.lv13shop">Cooking Lv.13 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r12.name">Crayfish Sashimi</strong></td><td data-i18n="money.recipe.r12.ing">Crayfish ×2 + lemon ×1 + herbs ×1</td><td class="num" style="font-weight:700">850</td><td class="num">1,275</td><td class="num" style="color:var(--green)">1,700</td><td data-i18n="money.recipe.unlock.lv6">Cooking Lv.6</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r13.name">Carrot Cake</strong></td><td data-i18n="money.recipe.r13.ing">Carrot ×2 + wheat ×1 + egg ×1 + cream ×1</td><td class="num" style="font-weight:700">840</td><td class="num">1,260</td><td class="num" style="color:var(--green)">1,680</td><td data-i18n="money.recipe.unlock.lv5shop">Cooking Lv.5 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r14.name">Black Truffle Pie</strong></td><td data-i18n="money.recipe.r14.ing">Black truffle ×1 + mushroom ×2 + wheat ×2</td><td class="num" style="font-weight:700">830</td><td class="num">1,245</td><td class="num" style="color:var(--green)">1,660</td><td data-i18n="money.recipe.unlock.lv10quest">Cooking Lv.10 · lore quest</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r15.name">Seafood Pizza</strong></td><td data-i18n="money.recipe.r15.ing">Any fish ×1 + tomato sauce ×1 + cheese ×1 + wheat ×1</td><td class="num" style="font-weight:700">780</td><td class="num">1,170</td><td class="num" style="color:var(--green)">1,560</td><td data-i18n="money.recipe.unlock.lv8shop">Cooking Lv.8 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r16.name">Rustic Ratatouille</strong></td><td data-i18n="money.recipe.r16.ing">Tomato ×1 + potato ×1 + lettuce ×1</td><td class="num" style="font-weight:700">640</td><td class="num">960</td><td class="num" style="color:var(--green)">1,280</td><td data-i18n="money.recipe.unlock.lv3shop">Cooking Lv.3 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r17.name">Smoked Fish Bagel</strong></td><td data-i18n="money.recipe.r17.ing">Any fish ×1 + cheese ×1 + any vegetable ×1 + wheat ×1</td><td class="num" style="font-weight:700">520</td><td class="num">780</td><td class="num" style="color:var(--green)">1,040</td><td data-i18n="money.recipe.unlock.lv4shop">Cooking Lv.4 · Massimo's shop</td></tr>
+        <tr><td><strong data-i18n="money.recipe.r18.name">Cheesecake</strong></td><td data-i18n="money.recipe.r18.ing">Cheese ×1 + milk ×1 + wheat ×1</td><td class="num" style="font-weight:700">480</td><td class="num">720</td><td class="num" style="color:var(--green)">960</td><td data-i18n="money.recipe.unlock.lv7shop">Cooking Lv.7 · Massimo's shop</td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.recipe.r19.name">Fish &amp; Chips</strong></td><td data-i18n="money.recipe.r19.ing">Any fish ×2 + potato ×2</td><td class="num" style="font-weight:700">310</td><td class="num">465</td><td class="num" style="color:var(--green)">620</td><td data-i18n="money.recipe.unlock.lv1shop">Cooking Lv.1 · Massimo's shop</td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.recipe.r20.name">Pineapple Jam</strong></td><td data-i18n="money.recipe.r20.ing">Pineapple ×4</td><td class="num" style="font-weight:700">280</td><td class="num">420</td><td class="num" style="color:var(--green)">560</td><td data-i18n="money.recipe.unlock.auto">Free once cooking is unlocked</td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.recipe.r21.name">Grilled Mushrooms</strong></td><td data-i18n="money.recipe.r21.ing">Any mushroom ×4</td><td class="num" style="font-weight:700">180</td><td class="num">270</td><td class="num" style="color:var(--green)">360</td><td data-i18n="money.recipe.unlock.basic">Cooking basics</td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.recipe.r22.name">Blueberry Jam</strong></td><td data-i18n="money.recipe.r22.ing">Blueberry ×4</td><td class="num" style="font-weight:700">170</td><td class="num">255</td><td class="num" style="color:var(--green)">340</td><td data-i18n="money.recipe.unlock.auto">Free once cooking is unlocked</td></tr>
       </tbody>
     </table>
   </div>
@@ -223,20 +198,20 @@
   <!-- Key Takeaways from the table -->
   <div class="grid-2 reveal">
     <div class="card card-sm" style="border-left:3px solid var(--green)">
-      <h4 data-i18n="money.recipe.c1.h">🏆 Highest net profit</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c1.p">Truffle cream pasta (+630), steamed king crab (+445), truffle mushroom pie (+395) — but ingredients are rare, so <strong>make them whenever you have the materials</strong>.</p>
+      <h4 data-i18n="money.recipe.c1.h">🏆 Biggest gain over selling the ingredients raw</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c1.p">Only 11 recipes have every single ingredient priced in our data. Among those, cooking adds the most here: <strong>Steamed Golden King Crab +730</strong> (3 crabs worth 2,250 → 2,980), <strong>Steamed King Crab +385</strong> (1,605 → 1,990), <strong>Rustic Ratatouille +85</strong>, <strong>Strawberry Jam +80</strong>.<br><span style="color:var(--green)">At ★★★ the same four add +3,710 / +2,375 / +725 / +1,660 instead.</span></p>
     </div>
     <div class="card card-sm" style="border-left:3px solid var(--gold)">
-      <h4 data-i18n="money.recipe.c2.h">📈 Highest ROI</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c2.p">Vegetable medley (456%), fish and chips (313%), cheesecake (264%), fried crucian carp (250%) — <strong>your top picks for daily batch production</strong>.</p>
+      <h4 data-i18n="money.recipe.c2.h">📈 Best return on the seed money</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c2.p">If you grew the crop yourself, the only gold you actually spent was the seed. On that basis: <strong>Pineapple Jam 367%</strong> (60 → 280), <strong>Tomato Sauce 350%</strong> (40 → 180), <strong>Rustic Ratatouille 246%</strong> (185 → 640), <strong>Strawberry Jam 216%</strong> (500 → 1,580).<br><span style="color:var(--green)">Both cards are true at once — they just answer different questions.</span></p>
     </div>
     <div class="card card-sm" style="border-left:3px solid var(--coral)">
-      <h4 data-i18n="money.recipe.c3.h">⭐ Best beginner start</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.recipe.c3.p">Blueberry jam (64→170, a reliable 106) + fried crucian carp (80→350, a reliable 250). Both use easy-to-get ingredients and require a low Cooking level.</p>
+      <h4 data-i18n="money.recipe.c3.h">🎁 The ones that cost nothing at all</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c3.p">Foraged ingredients have no purchase price, so the whole sale is profit: <strong>Mandarin Jam 270</strong>, <strong>Raspberry Jam 250</strong>, <strong>Grilled Mushrooms 180</strong>, <strong>Blueberry Jam 170</strong>, <strong>Mixed Jam 160</strong>, <strong>Fruit Platter 100</strong>.<br><span style="color:var(--green)">All of them are available with no cooking level at all — this is the honest early-game income.</span></p>
     </div>
     <div class="card card-sm" style="border-left:3px solid var(--lavender)">
-      <h4 data-i18n="money.recipe.c4.h">⚠️ Pitfall warning</h4>
-      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c4.p">Strawberries and grapes are better sold raw (30-40G each); jamming them leaves razor-thin profit. <strong>Save high-value fruit for direct sale</strong>, and only make jam from low-value fruit (blueberries at 16G).</p>
+      <h4 data-i18n="money.recipe.c4.h">⚠️ Four recipes that destroy value</h4>
+      <p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.recipe.c4.p"><strong>Grape Jam:</strong> 4 grapes sell for 1,920 raw, the jam for 220. <strong>Chocolate Sauce:</strong> 4 cacao beans 1,320 → 240. <strong>Exquisite Afternoon Tea:</strong> ingredients worth 2,640 → 950. <strong>Tuna Sashimi:</strong> 2 tuna are 1,700 raw → 320.<br><span style="color:var(--coral)">All four are still under water at ★★★. Sell those ingredients instead.</span></p>
     </div>
   </div>
 </div>
@@ -246,56 +221,66 @@
 <!-- ============================================================ -->
 <div class="section" id="raw-vs-cooked">
   <div class="section-hd reveal">
-    <div class="eyebrow" data-i18n="money.raw.eyebrow">Value comparison</div>
-    <h2 data-i18n="money.raw.h2">Sell raw vs sell processed</h2>
-    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.raw.intro">The core question: what to process and what to sell raw? The data below answers it.</p>
+    <div class="eyebrow" data-i18n="money.raw.eyebrow">Sell or cook</div>
+    <h2 data-i18n="money.raw.h2">Which catch to cook, and which crop to plant</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.raw.intro">Two lookup tables straight from the database: what every notable fish is worth, and what every priced crop earns per hour of growing time.</p>
   </div>
 
-  <!-- Fish comparison -->
-  <h3 style="margin-bottom:16px" class="reveal" data-i18n="money.raw.fish.h3">🐟 Fish: sell vs cook decision table</h3>
+  <h3 style="margin-bottom:8px" class="reveal" data-i18n="money.raw.fish.h3">🐟 Fish: sell it or cook it</h3>
+  <p class="reveal" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px" data-i18n-html="money.raw.fish.lead">Fish &amp; Chips takes 2 fish plus 2 potatoes and sells for 310. Potatoes are worth 90 each if you sell them instead, so the dish only breaks even at <strong>65G a fish</strong> — or <strong>125G</strong> if you count potatoes at their 30G seed cost. Either way, the old "cook anything under 100G" rule of thumb lands roughly in the right place by accident. 58 of the 89 fish we have priced fall under 125G.</p>
   <div class="tbl-wrap reveal" style="margin-bottom:28px">
     <table>
-      <thead><tr><th data-i18n="money.raw.fish.th.species">Species</th><th class="num" data-i18n="money.raw.fish.th.sell">Raw sell price</th><th data-i18n="money.raw.fish.th.use">Best cooking use</th><th class="num" data-i18n="money.raw.fish.th.value">Value after cooking</th><th class="num" data-i18n="money.raw.fish.th.gain">Gain</th><th data-i18n="money.raw.fish.th.decision">Decision</th></tr></thead>
+      <thead><tr><th data-i18n="money.raw.fish.th.species">Species</th><th class="num" data-i18n="money.raw.fish.th.sell">Raw price</th><th data-i18n="money.raw.fish.th.where">Where &amp; when</th><th data-i18n="money.raw.fish.th.use">Best cooked use</th><th data-i18n="money.raw.fish.th.decision">Verdict</th></tr></thead>
       <tbody>
-        <tr><td><strong data-i18n="money.raw.fish.f1.name">Sardine</strong></td><td class="num">40</td><td data-i18n="money.raw.fish.f1.use">Fish and chips (+potato 35 = cost 75)</td><td class="num" style="color:var(--green)">310</td><td class="num" style="color:var(--green)">+235</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Must cook</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.fish.f2.name">Crayfish</strong></td><td class="num">45</td><td data-i18n="money.raw.fish.f2.use">Crayfish sashimi (×2 + lemon + herbs)</td><td class="num" style="color:var(--green)">380</td><td class="num" style="color:var(--green)">+130</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Must cook</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.fish.f3.name">Goldfish</strong></td><td class="num">50</td><td data-i18n="money.raw.fish.f3.use">Fish and chips</td><td class="num" style="color:var(--green)">310</td><td class="num" style="color:var(--green)">+225</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Must cook</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.fish.f4.name">Sea bass</strong></td><td class="num">55</td><td data-i18n="money.raw.fish.f4.use">Fish and chips / seafood risotto</td><td class="num" style="color:var(--green)">310-450</td><td class="num" style="color:var(--green)">+220~</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Must cook</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.fish.f5.name">Common carp</strong></td><td class="num">65</td><td data-i18n="money.raw.fish.f5.use">Fish and chips</td><td class="num" style="color:var(--green)">310</td><td class="num" style="color:var(--green)">+210</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Must cook</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.fish.f6.name">Crucian carp</strong></td><td class="num">80</td><td data-i18n="money.raw.fish.f6.use">Fried crucian carp (+flour = cost 100)</td><td class="num" style="color:var(--green)">350</td><td class="num" style="color:var(--green)">+250</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Must cook</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f7.name">Catfish</strong></td><td class="num" style="font-weight:700">110</td><td>——</td><td class="num">110</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f8.name">Salmon</strong></td><td class="num" style="font-weight:700">120</td><td>——</td><td class="num">120</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f9.name">Trout</strong></td><td class="num" style="font-weight:700">250</td><td>——</td><td class="num">250</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f10.name">Eel</strong></td><td class="num" style="font-weight:700">280</td><td>——</td><td class="num">280</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f11.name">Tuna</strong></td><td class="num" style="font-weight:700">300</td><td>——</td><td class="num">300</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f12.name">Pufferfish</strong></td><td class="num" style="font-weight:700">450</td><td>——</td><td class="num">450</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f13.name">King crab</strong></td><td class="num" style="font-weight:700">600</td><td data-i18n="money.raw.fish.f13.use">Steamed king crab (+lemon +herbs +butter)</td><td class="num" style="color:var(--green)">1,100</td><td class="num" style="color:var(--green)">+445</td><td><span class="badge badge-coral" data-i18n="money.raw.fish.decision.make">Make if you have materials</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f14.name">Legendary koi</strong></td><td class="num" style="font-weight:700">2,000</td><td>——</td><td class="num">2,000</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f15.name">Rainbow fish</strong></td><td class="num" style="font-weight:700">5,000</td><td>——</td><td class="num">5,000</td><td class="num">—</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sellExclaim">Sell raw!!!</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.fish.f1.name">Sardine</strong></td><td class="num">50</td><td data-i18n="money.raw.fish.f1.where">Ocean · daytime</td><td data-i18n="money.raw.fish.use.pizza">Seafood Pizza 780 · Fish &amp; Chips 310</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Cook it</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.fish.f2.name">Carp</strong></td><td class="num">65</td><td data-i18n="money.raw.fish.f2.where">Pond · any time</td><td data-i18n="money.raw.fish.use.pizza">Seafood Pizza 780 · Fish &amp; Chips 310</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Cook it</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.fish.f3.name">Crucian Carp</strong></td><td class="num">75</td><td data-i18n="money.raw.fish.f3.where">River · any time</td><td data-i18n="money.raw.fish.use.pizza">Seafood Pizza 780 · Fish &amp; Chips 310</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Cook it</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.fish.f4.name">Bass</strong></td><td class="num">75</td><td data-i18n="money.raw.fish.f4.where">River / Ocean · any time</td><td data-i18n="money.raw.fish.use.bagel">Smoked Fish Bagel 520</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Cook it</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.fish.f5.name">Sea Bass</strong></td><td class="num">75</td><td data-i18n="money.raw.fish.f5.where">Ocean · any time</td><td data-i18n="money.raw.fish.use.bagel">Smoked Fish Bagel 520</td><td><span class="badge badge-gold" data-i18n="money.raw.fish.decision.cook">Cook it</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.fish.f6.name">Crayfish</strong></td><td class="num">100</td><td data-i18n="money.raw.fish.f6.where">River · any time</td><td data-i18n="money.raw.fish.f6.use">Crayfish Sashimi — 2 crayfish → 850</td><td><span class="badge badge-coral" data-i18n="money.raw.fish.decision.best">Best cheap-fish recipe</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f7.name">Salmon</strong></td><td class="num" style="font-weight:700">150</td><td data-i18n="money.raw.fish.f7.where">River / Fishing Village</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f8.name">Burbot</strong></td><td class="num" style="font-weight:700">200</td><td data-i18n="money.raw.fish.f8.where">Tranquil River · day &amp; evening</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f9.name">Pufferfish</strong></td><td class="num" style="font-weight:700">230</td><td data-i18n="money.raw.fish.f9.where">Ocean · daytime only</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f10.name">Rainbow Trout</strong></td><td class="num" style="font-weight:700">230</td><td data-i18n="money.raw.fish.f10.where">Mountain Lake · daytime only</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f11.name">Butterfly Koi</strong></td><td class="num" style="font-weight:700">240</td><td data-i18n="money.raw.fish.f11.where">Meadow Lake · rain or rainbow</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f12.name">Goldfish</strong></td><td class="num" style="font-weight:700">250</td><td data-i18n="money.raw.fish.f12.where">Pond / River · any time</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f13.name">Bluefin Tuna</strong></td><td class="num" style="font-weight:700">300</td><td data-i18n="money.raw.fish.f13.where">Zephyr Sea · rainbow · day &amp; dusk</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f14.name">Eel</strong></td><td class="num" style="font-weight:700">380</td><td data-i18n="money.raw.fish.f14.where">River · rain · night only</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f15.name">King Crab</strong></td><td class="num" style="font-weight:700">535</td><td data-i18n="money.raw.fish.f15.where">Ocean · any time</td><td data-i18n="money.raw.fish.f15.use">Steamed King Crab — 3 crabs → 1,990</td><td><span class="badge badge-coral" data-i18n="money.raw.fish.decision.save3">Save three, then cook</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f16.name">Catfish</strong></td><td class="num" style="font-weight:700">610</td><td data-i18n="money.raw.fish.f16.where">Pond · rain · night only</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f17.name">Golden King Crab</strong></td><td class="num" style="font-weight:700">750</td><td data-i18n="money.raw.fish.f17.where">Sea fishing · rainbow weather</td><td data-i18n="money.raw.fish.f17.use">Steamed Golden King Crab — 3 → 2,980</td><td><span class="badge badge-coral" data-i18n="money.raw.fish.decision.save3">Save three, then cook</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f18.name">Moonfish</strong></td><td class="num" style="font-weight:700">750</td><td data-i18n="money.raw.fish.f18.where">Sea fishing · night &amp; evening</td><td>——</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sell">Sell raw</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.fish.f19.name">Tuna</strong></td><td class="num" style="font-weight:700">850</td><td data-i18n="money.raw.fish.f19.where">Ocean · any time</td><td data-i18n="money.raw.fish.f19.use">None — Tuna Sashimi turns 1,700 into 320</td><td><span class="badge badge-teal" data-i18n="money.raw.fish.decision.sellNever">Sell raw, never cook</span></td></tr>
       </tbody>
     </table>
   </div>
-  <p class="reveal" style="font-size:0.82rem;color:var(--text-dim);margin-top:-12px;margin-bottom:32px" data-i18n="money.raw.fish.note">Yellow-highlighted rows = high-value fish (&gt;100G), which should generally be sold raw. The one exception is king crab — the profit from its rare ingredients is worth the extra effort.</p>
+  <p class="reveal" style="font-size:0.82rem;color:var(--text-dim);margin-top:-16px;margin-bottom:32px" data-i18n-html="money.raw.fish.note">Highlighted rows are above the break-even line and should normally be sold untouched. The two crabs are the exception: their recipes take three of the same crab and still come out ahead. Four more fish tie with Moonfish at 750 — anglerfish, giant oarfish, European flying squid and striped red mullet — all of them sea-fishing catches.</p>
 
-  <!-- Crop comparison -->
-  <h3 style="margin-bottom:16px" class="reveal" data-i18n="money.raw.crop.h3">🌱 Crops &amp; foraged goods: sell vs process</h3>
+  <h3 style="margin-bottom:8px" class="reveal" data-i18n="money.raw.crop.h3">🌱 Crops: gold per hour of growing time</h3>
+  <p class="reveal" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px" data-i18n-html="money.raw.crop.lead">Almost every crop sells for about three times its seed — pineapple (3.5×) and carrot (3.1×) run a little higher — so the margin is roughly the same everywhere and the main thing that varies is how long the plot is tied up. Sorted fastest-earning first. Three more crops — paddy, starfruit and lemon verbena — are event-only and have no confirmed sell price, so they are left out.</p>
   <div class="tbl-wrap reveal" style="margin-bottom:12px">
     <table>
-      <thead><tr><th data-i18n="money.raw.crop.th.material">Material</th><th class="num" data-i18n="money.raw.crop.th.sell">Raw sell price</th><th data-i18n="money.raw.crop.th.use">Best processing</th><th class="num" data-i18n="money.raw.crop.th.value">Finished value</th><th class="num" data-i18n="money.raw.crop.th.multiplier">Value multiplier</th><th data-i18n="money.raw.crop.th.recommend">Recommendation</th></tr></thead>
+      <thead><tr><th data-i18n="money.raw.crop.th.crop">Crop</th><th class="num" data-i18n="money.raw.crop.th.seed">Seed</th><th class="num" data-i18n="money.raw.crop.th.sell">Sells for</th><th data-i18n="money.raw.crop.th.grow">Growth time</th><th class="num" data-i18n="money.raw.crop.th.gph">Gold / hour</th><th data-i18n="money.raw.crop.th.unlock">Unlocked by</th></tr></thead>
       <tbody>
-        <tr><td><strong data-i18n="money.raw.crop.c1.name">Blueberry</strong></td><td class="num" data-i18n="money.raw.crop.c1.sell">16 each (64 per 4)</td><td data-i18n="money.raw.crop.c1.use">Blueberry jam (4 → 170G)</td><td class="num" style="color:var(--green)">170-320</td><td class="num">×2.7-5</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.process">Must process</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c2.name">Potato</strong></td><td class="num">35</td><td data-i18n="money.raw.crop.c2.use">Fish and chips (+any fish → 310G)</td><td class="num" style="color:var(--green)">310-620</td><td class="num">×4-8</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.process">Must process</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c3.name">Wheat</strong></td><td class="num">20</td><td data-i18n="money.raw.crop.c3.use">Truffle pasta / seafood pizza / cake</td><td class="num" style="color:var(--green)">400-1800</td><td class="num">×20-90</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.core">Core ingredient</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c4.name">Mushroom</strong></td><td class="num" data-i18n="money.raw.crop.c4.sell">15 (free to gather)</td><td data-i18n="money.raw.crop.c4.use">Roasted mushrooms (3 → 120G)</td><td class="num" style="color:var(--green)">120-240</td><td class="num" data-i18n="money.raw.crop.c4.multiplier">∞ (zero cost)</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.gather">Profit from gathering</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c5.name">Black truffle</strong></td><td class="num">200</td><td data-i18n="money.raw.crop.c5.use">Truffle cream pasta / mushroom pie</td><td class="num" style="color:var(--green)">635-1800</td><td class="num">×3-9</td><td><span class="badge badge-coral" data-i18n="money.raw.crop.recommend.process">Must process</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c6.name">Corn</strong></td><td class="num">40</td><td data-i18n="money.raw.crop.c6.use">Corn chowder (×2 + milk → 280G)</td><td class="num" style="color:var(--green)">280-560</td><td class="num">×3.5-7</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.advise">Recommended to process</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c7.name">Carrot</strong></td><td class="num">30</td><td data-i18n="money.raw.crop.c7.use">Carrot cake (×2 + wheat + egg → 350G)</td><td class="num" style="color:var(--green)">350-700</td><td class="num">×5.8-11.7</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.advise">Recommended to process</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c8.name">Tomato</strong></td><td class="num">12</td><td data-i18n="money.raw.crop.c8.use">Vegetable medley / seafood pizza topping</td><td class="num" style="color:var(--green)">200-840</td><td class="num">×5-17</td><td><span class="badge badge-gold" data-i18n="money.raw.crop.recommend.topping">Use as topping</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c9.name">Strawberry</strong></td><td class="num" data-i18n="money.raw.crop.c9.sell">30 each (120 per 4)</td><td data-i18n="money.raw.crop.c9.use">Strawberry jam (4 → 170G)</td><td class="num">170-320</td><td class="num">×1.4-2.7</td><td><span class="badge badge-lavender" data-i18n="money.raw.crop.recommend.sellRaw">Better sold raw</span></td></tr>
-        <tr><td><strong data-i18n="money.raw.crop.c10.name">Grape</strong></td><td class="num" data-i18n="money.raw.crop.c10.sell">40 each (160 per 4)</td><td data-i18n="money.raw.crop.c10.use">Grape jam (4 → 170G)</td><td class="num">170-320</td><td class="num">×1.1-2</td><td><span class="badge badge-lavender" data-i18n="money.raw.crop.recommend.sellBetter">Sell raw instead</span></td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c1.name">Tomato</strong></td><td class="num">10</td><td class="num">30</td><td data-i18n="money.raw.crop.time.15m">15 min</td><td class="num" style="color:var(--green);font-weight:700">80</td><td data-i18n="money.raw.crop.unlock.g1">Gardening Lv.1</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c2.name">White Radish</strong></td><td class="num">10</td><td class="num">30</td><td data-i18n="money.raw.crop.time.15m">15 min</td><td class="num" style="color:var(--green);font-weight:700">80</td><td data-i18n="money.raw.crop.unlock.eventFrost">Event only · Winter Frost</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c3.name">Romaine Lettuce</strong></td><td class="num">10</td><td class="num">30</td><td data-i18n="money.raw.crop.time.15m">15 min</td><td class="num" style="color:var(--green);font-weight:700">80</td><td data-i18n="money.raw.crop.unlock.eventMarket">Event only · Patchwork Market</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c4.name">Pineapple</strong></td><td class="num">15</td><td class="num">52</td><td data-i18n="money.raw.crop.time.30m">30 min</td><td class="num" style="color:var(--green);font-weight:700">74</td><td data-i18n="money.raw.crop.unlock.g4">Gardening Lv.4</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c5.name">Tea Leaf</strong></td><td class="num">25</td><td class="num">75</td><td data-i18n="money.raw.crop.time.45m">45 min</td><td class="num" style="color:var(--green)">66.7</td><td data-i18n="money.raw.crop.unlock.g11">Gardening Lv.11</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c6.name">Potato</strong></td><td class="num">30</td><td class="num">90</td><td data-i18n="money.raw.crop.time.1h">1 hour</td><td class="num" style="color:var(--green)">60</td><td data-i18n="money.raw.crop.unlock.g1">Gardening Lv.1</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c7.name">Eggplant</strong></td><td class="num">135</td><td class="num">406</td><td data-i18n="money.raw.crop.time.5h">5 hours</td><td class="num">54.2</td><td data-i18n="money.raw.crop.unlock.g8">Gardening Lv.8</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c8.name">Carrot</strong></td><td class="num">50</td><td class="num">155</td><td data-i18n="money.raw.crop.time.2h">2 hours</td><td class="num">52.5</td><td data-i18n="money.raw.crop.unlock.g5">Gardening Lv.5</td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.raw.crop.c9.name">Wheat</strong></td><td class="num">95</td><td class="num">285</td><td data-i18n="money.raw.crop.time.4h">4 hours</td><td class="num">47.5</td><td data-i18n="money.raw.crop.unlock.g2">Gardening Lv.2</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c10.name">Cacao Bean</strong></td><td class="num">110</td><td class="num">330</td><td data-i18n="money.raw.crop.time.5h">5 hours</td><td class="num">44</td><td data-i18n="money.raw.crop.unlock.g12">Gardening Lv.12</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c11.name">Strawberry</strong></td><td class="num">125</td><td class="num">375</td><td data-i18n="money.raw.crop.time.6h">6 hours</td><td class="num">41.7</td><td data-i18n="money.raw.crop.unlock.g6">Gardening Lv.6</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c12.name">Lettuce</strong></td><td class="num">145</td><td class="num">435</td><td data-i18n="money.raw.crop.time.8h">8 hours</td><td class="num">36.3</td><td data-i18n="money.raw.crop.unlock.g3">Gardening Lv.3</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c13.name">Grape</strong></td><td class="num">160</td><td class="num">480</td><td data-i18n="money.raw.crop.time.10h">10 hours</td><td class="num">32</td><td data-i18n="money.raw.crop.unlock.g7">Gardening Lv.7</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c14.name">Corn</strong></td><td class="num">170</td><td class="num">515</td><td data-i18n="money.raw.crop.time.12h">12 hours</td><td class="num">28.8</td><td data-i18n="money.raw.crop.unlock.g6">Gardening Lv.6</td></tr>
+        <tr><td><strong data-i18n="money.raw.crop.c15.name">Avocado</strong></td><td class="num">180</td><td class="num">540</td><td data-i18n="money.raw.crop.time.13h">13 hours</td><td class="num">27.7</td><td data-i18n="money.raw.crop.unlock.g13">Gardening Lv.13</td></tr>
       </tbody>
     </table>
   </div>
+  <p class="reveal" style="font-size:0.82rem;color:var(--text-dim);margin-bottom:0" data-i18n-html="money.raw.crop.note">Wheat is highlighted because it is the one crop worth planting against its gold-per-hour — 25 recipes consume it. Otherwise: tomatoes and pineapples if you are farming for cash, strawberries if you want Strawberry Jam, and <strong>never turn grapes or cacao beans into jam or sauce</strong> — both lose over a thousand gold a batch.</p>
 </div>
 
 <!-- ============================================================ -->
@@ -304,55 +289,52 @@
 <div class="section" id="fishing-strategy">
   <div class="section-hd reveal">
     <div class="eyebrow" data-i18n="money.fishing.eyebrow">Fishing for money</div>
-    <h2 data-i18n="money.fishing.h2">Fishing strategy · from novice to fishing king</h2>
-    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.fishing.intro">Fish is the most abundant free resource in the game — the key is knowing what to keep and what to sell</p>
+    <h2 data-i18n="money.fishing.h2">Fishing: the weather is worth more than the spot</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.fishing.intro">Our fish data records a location, a weather condition and a time window for every species. Most are "any weather, all day" — the ones that are not are where the money is.</p>
   </div>
 
-  <!-- Strategy cards -->
   <div class="grid-3 reveal" style="margin-bottom:24px">
     <div class="card card-sm" style="border-top:3px solid var(--coral)">
-      <h4 data-i18n="money.fishing.c1.h">🎯 The 100G threshold rule</h4>
-      <p style="font-size:0.83rem;color:var(--text-muted)" data-i18n-html="money.fishing.c1.p"><strong>≤100G → keep for cooking:</strong> sardine (40), crayfish (45), goldfish (50), sea bass (55), common carp (65), crucian carp (80)<br><br><strong>>100G → sell raw:</strong> catfish (110), salmon (120), trout (250), eel (280), tuna (300), pufferfish (450)<br><br><strong>Legendary:</strong> legendary koi (2000) and rainbow fish (5000) — sell them! Cooking is a pure loss.</p>
+      <h4 data-i18n="money.fishing.c1.h">🎯 Where the break-even sits</h4>
+      <p style="font-size:0.83rem;color:var(--text-muted)" data-i18n-html="money.fishing.c1.p"><strong>Under 125G → cooking stock.</strong> Sardine 50, carp 65, crucian carp 75, bass 75, sea bass 75, crayfish 100.<br><br><strong>Over 125G → sell untouched.</strong> Salmon 150, burbot 200, pufferfish 230, goldfish 250, eel 380.<br><br><span style="color:var(--coral)">Two exceptions only: king crab and golden king crab, whose recipes take three of the same crab and still gain.</span></p>
     </div>
     <div class="card card-sm" style="border-top:3px solid var(--gold)">
-      <h4 data-i18n="money.fishing.c2.h">📍 High-profit fishing spots</h4>
-      <p style="font-size:0.83rem;color:var(--text-muted)" data-i18n-html="money.fishing.c2.p">🏆 <strong>Ocean (summer):</strong> tuna 300G + pufferfish 450G → 500-1000G per trip<br>🥈 <strong>Ocean (winter):</strong> king crab 600G → rare but very profitable<br>🥉 <strong>Starlight Sea (spring · rainbow weather):</strong> rainbow fish 5000G → one catch lifts you out of poverty<br>⭐ <strong>Secret pond (night):</strong> legendary koi 2000G → a lucky gamble<br>🌊 <strong>River (all year):</strong> crucian carp 80G → make fried carp for steady profit</p>
+      <h4 data-i18n="money.fishing.c2.h">🌧️ Rain at night is the best window</h4>
+      <p style="font-size:0.83rem;color:var(--text-muted)" data-i18n-html="money.fishing.c2.p">Two of the highest-value freshwater fish share the exact same condition — <strong>rain, at night</strong>:<br>🐟 <strong>Catfish 610</strong> · pond<br>🐍 <strong>Eel 380</strong> · river<br><br>Nothing else inland comes close. If it starts raining after dark, drop what you are doing and go fishing.</p>
     </div>
     <div class="card card-sm" style="border-top:3px solid var(--teal)">
-      <h4 data-i18n="money.fishing.c3.h">📅 Seasonal fishing calendar</h4>
-      <p style="font-size:0.83rem;color:var(--text-muted)" data-i18n-html="money.fishing.c3.p">🌸 <strong>Spring:</strong> trout 250G (mountain lake · daytime), rainbow fish 5000G (Starlight Sea · rainbow weather)<br>☀️ <strong>Summer:</strong> tuna 300G (ocean), pufferfish 450G (ocean · daytime), crayfish 45G (river → make sashimi)<br>🍂 <strong>Autumn:</strong> eel 280G (river · rainy night), salmon 120G (river / fishing village)<br>❄️ <strong>Winter:</strong> king crab 600G (ocean) → use full ingredients for steamed king crab sold at 1100G</p>
+      <h4 data-i18n="money.fishing.c3.h">🌈 Rainbow weather unlocks the rare ones</h4>
+      <p style="font-size:0.83rem;color:var(--text-muted)" data-i18n-html="money.fishing.c3.p">Some species only appear under a rainbow:<br>🦀 <strong>Golden King Crab 750</strong> · sea fishing<br>🐟 <strong>Bluefin Tuna 300</strong> · Zephyr Sea, day &amp; dusk<br>🎏 <strong>Butterfly Koi 240</strong> · Meadow Lake<br>🐟 <strong>Huchen, chum salmon</strong> · rivers, 40-50 each<br><br><span style="color:var(--green)">Rainbow weather is also when the golden crab run is worth 2,980 a dish.</span></p>
     </div>
   </div>
 
-  <!-- Fish decision tree -->
   <div class="card reveal" style="margin-bottom:24px">
-    <h3 style="font-size:1.1rem;margin-bottom:12px" data-i18n="money.fishing.tree.h3">🔀 Fishing decision tree (ask yourself after every catch)</h3>
+    <h3 style="font-size:1.1rem;margin-bottom:12px" data-i18n="money.fishing.tree.h3">🔀 What to do with each catch</h3>
     <div class="stat-row" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
       <div class="stat-card" style="text-align:left">
         <div style="font-size:1.5rem;margin-bottom:6px">❶</div>
-        <div style="font-weight:700" data-i18n="money.fishing.tree.c1.q">Sell price &gt; 100G?</div>
-        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c1.a">Yes → <strong style="color:var(--teal)">sell raw</strong><br>No → go to step ❷</div>
+        <div style="font-weight:700" data-i18n="money.fishing.tree.c1.q">Is it a king crab?</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c1.a">Yes → <strong style="color:var(--coral)">bank it until you have three</strong> (1,990, or 2,980 for golden)<br>No → step ❷</div>
       </div>
       <div class="stat-card" style="text-align:left">
         <div style="font-size:1.5rem;margin-bottom:6px">❷</div>
-        <div style="font-weight:700" data-i18n="money.fishing.tree.c2.q">Is it crucian carp?</div>
-        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c2.a">Yes → <strong style="color:var(--gold)">fried crucian carp</strong> (80→350)<br>No → go to step ❸</div>
+        <div style="font-weight:700" data-i18n="money.fishing.tree.c2.q">Worth more than 125G?</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c2.a">Yes → <strong style="color:var(--teal)">sell it raw</strong>, no recipe beats it<br>No → step ❸</div>
       </div>
       <div class="stat-card" style="text-align:left">
         <div style="font-size:1.5rem;margin-bottom:6px">❸</div>
-        <div style="font-weight:700" data-i18n="money.fishing.tree.c3.q">Is it crayfish?</div>
-        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c3.a">Yes → <strong style="color:var(--gold)">crayfish sashimi</strong> (×2→380)<br>No → go to step ❹</div>
+        <div style="font-weight:700" data-i18n="money.fishing.tree.c3.q">Is it a crayfish?</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c3.a">Yes → <strong style="color:var(--gold)">Crayfish Sashimi</strong>, 2 crayfish → 850<br>No → step ❹</div>
       </div>
       <div class="stat-card" style="text-align:left">
         <div style="font-size:1.5rem;margin-bottom:6px">❹</div>
-        <div style="font-weight:700" data-i18n="money.fishing.tree.c4.q">Any low-value fish</div>
-        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c4.a"><strong style="color:var(--gold)">Fish and chips</strong> (+potato → 310G)<br>or <strong style="color:var(--teal)">seafood risotto</strong> (×2 + wheat → 450G)</div>
+        <div style="font-weight:700" data-i18n="money.fishing.tree.c4.q">Any other cheap fish</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.fishing.tree.c4.a"><strong style="color:var(--gold)">Seafood Pizza</strong> 780 uses just one fish<br><strong style="color:var(--gold)">Smoked Fish Bagel</strong> 520, also one fish<br><strong style="color:var(--teal)">Fish &amp; Chips</strong> 310 for two</div>
       </div>
     </div>
   </div>
 
-  <!-- Fishing income estimate -->
-  <div class="highlight-box reveal" data-i18n-html="money.fishing.estimate"><strong>🎣 Fishing income estimate:</strong> focused on ocean spots, you can catch an average of 15-25 fish per hour. Mixing summer tuna (300G) and sardines (40G → 310G after cooking), the net profit of an hour of fishing + cooking is about <strong style="color:var(--coral)">3,000-5,000 gold</strong>. If you hit rainbow weather and catch a rainbow fish, a single one is worth 5,000G.</div>
+  <div class="highlight-box reveal" data-i18n-html="money.fishing.estimate"><strong>🎣 On "gold per hour of fishing":</strong> this page used to quote one. We took it out. Catch rate depends on your fishing level, rod, bait and plain luck, and we have no way to measure it — so any figure we printed would be invented. What we can tell you is exactly what each fish is worth and which recipe pays most for it, which is the part that actually changes your decisions.</div>
 </div>
 
 <!-- ============================================================ -->
@@ -360,49 +342,40 @@
 <!-- ============================================================ -->
 <div class="section" id="daily-cap">
   <div class="section-hd reveal">
-    <div class="eyebrow" data-i18n="money.daily.eyebrow">Daily income</div>
-    <h2 data-i18n="money.daily.h2">Gold cap &amp; maximizing villager quests</h2>
-    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.daily.intro">Fixed daily income sources — stable, predictable, and unskippable</p>
+    <div class="eyebrow" data-i18n="money.daily.eyebrow">Daily loop</div>
+    <h2 data-i18n="money.daily.h2">Where your daily gold actually comes from</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.daily.intro">This section used to carry a table of estimated daily incomes. Every figure in it was unsourced, so we removed them all rather than dress up guesses as data. What follows is only what we can point at a record for.</p>
   </div>
 
   <div class="grid-2 reveal" style="margin-bottom:24px">
     <div class="card">
-      <h3 style="font-size:1.1rem;margin-bottom:12px" data-i18n="money.daily.villager.h3">📋 The villager quest system</h3>
-      <table style="margin:0">
-        <thead><tr><th data-i18n="money.daily.villager.th.item">Item</th><th data-i18n="money.daily.villager.th.detail">Details</th></tr></thead>
-        <tbody>
-          <tr><td data-i18n="money.daily.villager.r1.item">Daily quest count</td><td class="num"><strong data-i18n="money.daily.villager.r1.detail">5</strong></td></tr>
-          <tr><td data-i18n="money.daily.villager.r2.item">Gold per quest</td><td class="num">1,000 - 3,000</td></tr>
-          <tr><td data-i18n="money.daily.villager.r3.item">Daily gold total</td><td class="num" style="color:var(--green)"><strong>≈5,000-7,000</strong></td></tr>
-          <tr><td data-i18n="money.daily.villager.r4.item">Extra rewards</td><td data-i18n="money.daily.villager.r4.detail">Wishing Stars + contribution medals (needed to raise DG level)</td></tr>
-          <tr><td data-i18n="money.daily.villager.r5.item">Quest types</td><td data-i18n="money.daily.villager.r5.detail">Deliver items, fish, gather, cook, building materials</td></tr>
-          <tr><td data-i18n="money.daily.villager.r6.item">Reset time</td><td data-i18n="money.daily.villager.r6.detail">Every day at 0:00 (game time)</td></tr>
-        </tbody>
-      </table>
+      <h3 style="font-size:1.1rem;margin-bottom:12px" data-i18n="money.daily.villager.h3">📋 Villager quests</h3>
+      <p style="font-size:0.88rem;color:var(--text-muted)" data-i18n-html="money.daily.villager.p1">Villagers post requests that pay gold on top of <strong>Wishing Stars and contribution medals</strong>. The medals are the part that matters most — they gate your Development Guild level, and DG level is what unlocks gardening tiers, free storage expansions and new hobbies.</p>
+      <p style="font-size:0.88rem;color:var(--text-muted)" data-i18n-html="money.daily.villager.p2">Requests fall into a handful of shapes: deliver an item, catch a fish, forage something, cook a dish, or supply building materials. Because they can ask for almost anything, the cheapest way to clear them is breadth — a few plots of several crops rather than one field of the same thing.</p>
+      <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:0" data-i18n-html="money.daily.villager.p3"><em>We previously listed a quest count, a reset time and a gold payout per quest. None of them held up when we went looking for a source, so they are gone.</em></p>
     </div>
     <div class="card">
-      <h3 style="font-size:1.1rem;margin-bottom:12px" data-i18n="money.daily.tips.h3">💡 Tips to maximize quest efficiency</h3>
+      <h3 style="font-size:1.1rem;margin-bottom:12px" data-i18n="money.daily.tips.h3">💡 What to keep in storage</h3>
       <div class="timeline" style="padding-left:24px">
-        <div class="tl-item" style="margin-bottom:12px"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t1.h">Stockpile common items early</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t1.p">Keep in storage: 5-10 each of potatoes, wheat, blueberry jam, fish and chips, and vegetable medley. Hand them in the moment a quest arrives.</p></div>
-        <div class="tl-item" style="margin-bottom:12px"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t2.h">Take quests before heading out</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t2.p">Check what the 5 quests are each login, then head out and complete them in one trip — do not go back and forth.</p></div>
-        <div class="tl-item" style="margin-bottom:12px"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t3.h">Grow multiple crop types</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t3.p">Do not plant just one crop. Keep a few plots each of potatoes, tomatoes, carrots, and corn so you always have what a quest asks for.</p></div>
-        <div class="tl-item"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t4.h">Cooking quests = stacked profit</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t4.p">If a quest needs a cooked dish, make extra: hand in 1 for the quest + sell 4 more = quest reward + sale profit.</p></div>
+        <div class="tl-item" style="margin-bottom:12px"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t1.h">Stock the cheap staples</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t1.p">Potatoes, wheat, tomatoes and a stack of Fish &amp; Chips cover most delivery and cooking requests. All four are cheap to replace and none of them are worth hoarding for their own sale value.</p></div>
+        <div class="tl-item" style="margin-bottom:12px"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t2.h">Read the requests before you leave home</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t2.p">Check what is being asked for first, then plan one loop that covers all of it. The travel time is the expensive part, not the items.</p></div>
+        <div class="tl-item" style="margin-bottom:12px"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t3.h">Plant variety, not volume</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t3.p">Keep a few plots each of potato, tomato, carrot and corn. A request for two carrots you do not have costs a two-hour wait; a request for a crop you already grow costs nothing.</p></div>
+        <div class="tl-item"><div class="tl-dot" style="left:-20px"></div><h4 style="font-size:0.9rem" data-i18n="money.daily.tips.t4.h">Cook the whole batch</h4><p style="font-size:0.8rem;color:var(--text-muted)" data-i18n="money.daily.tips.t4.p">If a request wants one cooked dish, make several while the stove is going. You hand in one and sell the rest, and the ingredients were already gathered.</p></div>
       </div>
     </div>
   </div>
 
-  <!-- Daily gold sources summary -->
-  <h3 style="margin-bottom:16px" class="reveal" data-i18n="money.daily.sources.h3">💰 Daily gold source overview</h3>
+  <h3 style="margin-bottom:16px" class="reveal" data-i18n="money.daily.sources.h3">💰 Each activity's best output</h3>
   <div class="tbl-wrap reveal">
     <table>
-      <thead><tr><th data-i18n="money.daily.sources.th.src">Source</th><th data-i18n="money.daily.sources.th.freq">Frequency</th><th class="num" data-i18n="money.daily.sources.th.income">Est. income</th><th data-i18n="money.daily.sources.th.note">Notes</th></tr></thead>
+      <thead><tr><th data-i18n="money.daily.sources.th.src">Activity</th><th data-i18n="money.daily.sources.th.make">Best thing to do with it</th><th class="num" data-i18n="money.daily.sources.th.value">★ value</th><th class="num" data-i18n="money.daily.sources.th.value3">★★★ value</th><th data-i18n="money.daily.sources.th.note">Notes</th></tr></thead>
       <tbody>
-        <tr><td><strong data-i18n="money.daily.sources.r1.src">Villager quests ×5</strong></td><td data-i18n="money.daily.sources.r1.freq">Daily</td><td class="num" style="color:var(--green)">5,000-7,000</td><td data-i18n="money.daily.sources.r1.note">A must! Also Wishing Stars + medals</td></tr>
-        <tr><td><strong data-i18n="money.daily.sources.r2.src">Crop sales</strong></td><td data-i18n="money.daily.sources.r2.freq">Every 2-4h</td><td class="num">500-2,000</td><td data-i18n="money.daily.sources.r2.note">Depends on farm size</td></tr>
-        <tr><td><strong data-i18n="money.daily.sources.r3.src">Cooked dish sales</strong></td><td data-i18n="money.daily.sources.r3.freq">Daily batch</td><td class="num" style="color:var(--green)">3,000-8,000</td><td data-i18n="money.daily.sources.r3.note">Core income source</td></tr>
-        <tr><td><strong data-i18n="money.daily.sources.r4.src">Fish sold raw</strong></td><td data-i18n="money.daily.sources.r4.freq">Anytime</td><td class="num">1,000-5,000</td><td data-i18n="money.daily.sources.r4.note">Heavily luck-based</td></tr>
-        <tr><td><strong data-i18n="money.daily.sources.r5.src">Foraged goods</strong></td><td data-i18n="money.daily.sources.r5.freq">Daily reset</td><td class="num">200-500</td><td data-i18n="money.daily.sources.r5.note">Secondary income</td></tr>
-        <tr style="background:#FFFDF8"><td><strong data-i18n="money.daily.sources.r6.src">Total daily income</strong></td><td>——</td><td class="num" style="color:var(--coral);font-weight:700">≈10,000-22,000</td><td data-i18n="money.daily.sources.r6.note">Steady cooking-route income</td></tr>
+        <tr><td><strong data-i18n="money.daily.sources.r1.src">Foraging</strong></td><td data-i18n="money.daily.sources.r1.make">Grilled Mushrooms · 4 mushrooms</td><td class="num">180</td><td class="num" style="color:var(--green)">360</td><td data-i18n="money.daily.sources.r1.note">No purchase cost, no cooking level needed</td></tr>
+        <tr><td><strong data-i18n="money.daily.sources.r2.src">Farming for cash</strong></td><td data-i18n="money.daily.sources.r2.make">Sell tomatoes or pineapples raw</td><td class="num" data-i18n="money.daily.sources.r2.value">80 / h</td><td class="num">——</td><td data-i18n="money.daily.sources.r2.note">Highest gold per hour of any crop</td></tr>
+        <tr><td><strong data-i18n="money.daily.sources.r3.src">Farming for cooking</strong></td><td data-i18n="money.daily.sources.r3.make">Rustic Ratatouille · tomato + potato + lettuce</td><td class="num">640</td><td class="num" style="color:var(--green)">1,280</td><td data-i18n="money.daily.sources.r3.note">Ingredients cost 185 in seed</td></tr>
+        <tr><td><strong data-i18n="money.daily.sources.r4.src">Fishing · cheap catch</strong></td><td data-i18n="money.daily.sources.r4.make">Seafood Pizza · one fish of any kind</td><td class="num">780</td><td class="num" style="color:var(--green)">1,560</td><td data-i18n="money.daily.sources.r4.note">Best use of a single 50G fish</td></tr>
+        <tr><td><strong data-i18n="money.daily.sources.r5.src">Fishing · good catch</strong></td><td data-i18n="money.daily.sources.r5.make">Sell it raw, untouched</td><td class="num" data-i18n="money.daily.sources.r5.value">150 – 850</td><td class="num">——</td><td data-i18n="money.daily.sources.r5.note">Cooking a fish this valuable loses money</td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.daily.sources.r6.src">A king crab run</strong></td><td data-i18n="money.daily.sources.r6.make">Steamed King Crab · three crabs</td><td class="num" style="font-weight:700">1,990</td><td class="num" style="color:var(--coral);font-weight:700">3,980</td><td data-i18n="money.daily.sources.r6.note">Golden crabs make it 2,980 / 5,960 instead</td></tr>
       </tbody>
     </table>
   </div>
@@ -414,36 +387,31 @@
 <div class="section" id="wishing-star">
   <div class="section-hd reveal">
     <div class="eyebrow" data-i18n="money.star.eyebrow">Wishing Star economy</div>
-    <h2 data-i18n="money.star.h2">⭐ The smartest way to spend Wishing Stars</h2>
-    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.star.intro">Wishing Stars are the scarcest currency in the game — spending them in the wrong place is costly</p>
+    <h2 data-i18n="money.star.h2">⭐ Where Wishing Stars are actually spent</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.star.intro">Stars buy capacity, and capacity is what lets you batch. Almost everything else people claim about them turns out to be unsourced.</p>
   </div>
 
-  <!-- Priority ranking -->
   <div class="card reveal" style="margin-bottom:24px">
-    <h3 style="font-size:1.1rem;margin-bottom:16px" data-i18n="money.star.priority.h3">🏅 Wishing Star spending priority (high to low)</h3>
+    <h3 style="font-size:1.1rem;margin-bottom:16px" data-i18n="money.star.priority.h3">🏅 Spending priority</h3>
     <div class="timeline" style="padding-left:24px">
-      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--coral)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p1.h">🥇 Top priority: bag &amp; storage expansion (first 5)</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p1.p">The first 5 bag (+10) and storage (+50) expansions cost only <strong>10 Wishing Stars</strong> each (normally 25). It is the best investment in the game — bag space directly affects production efficiency. From the 6th purchase it jumps to 25 stars and becomes far less worth it.<br><span style="color:var(--green)">Advice: buy out the first 5 as soon as possible = 50 stars for +50 bag slots +250 storage slots.</span></p></div>
-      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--gold)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p2.h">🥈 Second priority: hobby unlocks &amp; upgrades</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p2.p">The three money-making hobbies — Fishing (Lv.2), Gardening (Lv.3), and Cooking (Lv.5) — must be unlocked first. Leave bug-catching (Lv.5/8/11) and pets (Lv.12/14) for later — they do not directly produce gold.<br><span style="color:var(--green)">The higher your Cooking level, the better your odds of high-quality dishes — the same ingredients earn 50-100% more.</span></p></div>
-      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--teal)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p3.h">🥉 Third priority: buildings &amp; decorations (functional)</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p3.p">Extra stoves (one more stove = 1.3x cooking efficiency), more fields (higher crop yield), and functional furniture. These directly boost your earning efficiency.<br><span style="color:var(--green)">Decorative furniture is the lowest priority — pretty, but it produces no gold.</span></p></div>
-      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--text-dim)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p4.h">💡 Quick-cash trick: Wishing Star → firecracker → 1100G</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p4.p">Buy a firecracker with 1 Wishing Star → sell it to Albert Jr. = <strong>1,100 gold</strong>. A quick way to cash out when you need money — but in the long run, Wishing Stars are far more precious than gold, so <strong>do not do this often</strong>.</p></div>
-      <div class="tl-item"><div class="tl-dot" style="left:-20px;background:var(--coral)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p5.h">⚠️ Never spend Wishing Stars on these</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p5.p">❌ Speeding up crop growth (waiting 2h is not worth 1 star)&nbsp; ❌ Buying base ingredients (grow/fish/gather them free)&nbsp; ❌ Pure decoration (only buy later with spare stars)</p></div>
+      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--coral)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p1.h">🥇 Buy the first five expansions of each, and stop to think after that</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p1.p">The first five bag expansions (+10 slots) and the first five storage expansions (+50 slots) cost <strong>10 Wishing Stars each</strong>. From the sixth onward the price is <strong>25 stars</strong> — and it stays at 25, it does not climb further.<br><span style="color:var(--green)">100 stars gets you +50 bag and +250 storage. That is the single best rate in the game and it never comes back.</span></p></div>
+      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--gold)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p2.h">🥈 Do not buy what your DG level hands you free</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p2.p">Storage expands on its own at <strong>DG Lv.2, 7, 13, 17 and 19</strong> — +50 slots each time, +250 in total, at no cost. The free ceiling is <strong>400 slots</strong>.<br><span style="color:var(--green)">Bag capacity also grows with DG on its own, from roughly 20 slots at Lv.1 to about 52 by Lv.20. Check what is coming before you spend.</span></p></div>
+      <div class="tl-item" style="margin-bottom:16px"><div class="tl-dot" style="left:-20px;background:var(--teal)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p3.h">🥉 Hobbies are not bought with stars</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p3.p">Fishing opens at <strong>DG Lv.2</strong> and gardening at <strong>DG Lv.3</strong>. Beyond those, new hobbies come from <strong>Hobby Expansion Tickets awarded at DG Lv.5, 8 and 11</strong> — three of them, for seven hobbies.<br><span style="color:var(--green)">Spend the first ticket on cooking. It is the only hobby that multiplies the output of the other two.</span></p></div>
+      <div class="tl-item"><div class="tl-dot" style="left:-20px;background:var(--coral)"></div><h4 style="font-size:1rem" data-i18n="money.star.priority.p4.h">⚠️ A popular trick that does not exist</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n-html="money.star.priority.p4.p">You will find guides claiming that one Wishing Star buys a firecracker you can resell for 1,100 gold. <strong>We could not find any support for it.</strong> One star does buy a colourful skyrocket, but it is a one-shot consumable and there is no such resale price. This page carried that claim until we checked it; it is gone now.</p></div>
     </div>
   </div>
 
-  <!-- Wish star ROI table -->
-  <h3 style="margin-bottom:16px" class="reveal" data-i18n="money.star.roi.h3">📊 Wishing Star spending ROI comparison</h3>
+  <h3 style="margin-bottom:16px" class="reveal" data-i18n="money.star.roi.h3">📊 What capacity costs</h3>
   <div class="tbl-wrap reveal">
     <table>
-      <thead><tr><th data-i18n="money.star.roi.th.use">Use</th><th class="num" data-i18n="money.star.roi.th.stars">Stars spent</th><th data-i18n="money.star.roi.th.value">Value gained</th><th data-i18n="money.star.roi.th.return">Return per star</th><th data-i18n="money.star.roi.th.priority">Priority</th></tr></thead>
+      <thead><tr><th data-i18n="money.star.roi.th.use">Purchase</th><th class="num" data-i18n="money.star.roi.th.stars">Cost</th><th data-i18n="money.star.roi.th.value">What you get</th><th data-i18n="money.star.roi.th.priority">Verdict</th></tr></thead>
       <tbody>
-        <tr><td><strong data-i18n="money.star.roi.r1.use">Bag +10 slots (first 5)</strong></td><td class="num">10</td><td data-i18n="money.star.roi.value.bag10">+10 bag slots permanently</td><td class="num" style="color:var(--green)" data-i18n="money.star.roi.return.highest">Very high</td><td><span class="badge badge-coral" data-i18n="money.star.roi.badge.top">Top priority</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r2.use">Storage +50 slots (first 5)</strong></td><td class="num">10</td><td data-i18n="money.star.roi.value.storage50">+50 storage slots permanently</td><td class="num" style="color:var(--green)" data-i18n="money.star.roi.return.highest">Very high</td><td><span class="badge badge-coral" data-i18n="money.star.roi.badge.top">Top priority</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r3.use">Hobby unlock</strong></td><td class="num" data-i18n="money.star.roi.stars.varies">Varies</td><td data-i18n="money.star.roi.r3.value">New skill tree + new income source</td><td class="num" style="color:var(--green)" data-i18n="money.star.roi.return.high">High</td><td><span class="badge badge-gold" data-i18n="money.star.roi.badge.priority">Priority</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r4.use">Hobby upgrade</strong></td><td class="num" data-i18n="money.star.roi.stars.varies">Varies</td><td data-i18n="money.star.roi.r4.value">Higher quality-craft chance</td><td class="num" style="color:var(--green)" data-i18n="money.star.roi.return.midhigh">Mid-high</td><td><span class="badge badge-gold" data-i18n="money.star.roi.badge.recommend">Recommended</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r5.use">Extra stove</strong></td><td class="num">15-25</td><td data-i18n="money.star.roi.r5.value">Cook more dishes at once</td><td class="num" style="color:var(--green)" data-i18n="money.star.roi.return.midhigh">Mid-high</td><td><span class="badge badge-teal" data-i18n="money.star.roi.badge.worth">Worth it</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r6.use">Bag +10 slots (6th+)</strong></td><td class="num">25</td><td data-i18n="money.star.roi.value.bag10">+10 bag slots permanently</td><td class="num" data-i18n="money.star.roi.return.mid">Mid</td><td><span class="badge badge-teal" data-i18n="money.star.roi.badge.optional">Optional</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r7.use">Firecracker → sell for gold</strong></td><td class="num">1</td><td data-i18n="money.star.roi.r7.value">1,100 gold (one-time)</td><td class="num" data-i18n="money.star.roi.return.low">Low</td><td><span class="badge badge-lavender" data-i18n="money.star.roi.badge.emergency">Emergency</span></td></tr>
-        <tr><td><strong data-i18n="money.star.roi.r8.use">Pure decoration</strong></td><td class="num">5-50</td><td data-i18n="money.star.roi.r8.value">Looks only (no economic return)</td><td class="num">0</td><td><span class="badge badge-lavender" data-i18n="money.star.roi.badge.last">Last</span></td></tr>
+        <tr><td><strong data-i18n="money.star.roi.r1.use">Bag expansion, purchases 1-5</strong></td><td class="num" data-i18n="money.star.roi.stars10">10 stars</td><td data-i18n="money.star.roi.r1.value">+10 bag slots each, +50 in total</td><td><span class="badge badge-coral" data-i18n="money.star.roi.badge.top">Buy immediately</span></td></tr>
+        <tr><td><strong data-i18n="money.star.roi.r2.use">Storage expansion, purchases 1-5</strong></td><td class="num" data-i18n="money.star.roi.stars10">10 stars</td><td data-i18n="money.star.roi.r2.value">+50 storage slots each, +250 in total</td><td><span class="badge badge-coral" data-i18n="money.star.roi.badge.top">Buy immediately</span></td></tr>
+        <tr><td><strong data-i18n="money.star.roi.r3.use">Bag expansion, 6th onward</strong></td><td class="num" data-i18n="money.star.roi.stars25">25 stars</td><td data-i18n="money.star.roi.r3.value">+10 bag slots, at 2.5× the old price</td><td><span class="badge badge-teal" data-i18n="money.star.roi.badge.optional">Only when it hurts</span></td></tr>
+        <tr><td><strong data-i18n="money.star.roi.r4.use">Storage expansion, 6th onward</strong></td><td class="num" data-i18n="money.star.roi.stars25">25 stars</td><td data-i18n="money.star.roi.r4.value">+50 storage slots, flat forever after this</td><td><span class="badge badge-teal" data-i18n="money.star.roi.badge.optional">Only when it hurts</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.star.roi.r5.use">Storage at DG Lv.2 / 7 / 13 / 17 / 19</strong></td><td class="num" data-i18n="money.star.roi.stars0">Free</td><td data-i18n="money.star.roi.r5.value">+50 slots each time, +250 in total</td><td><span class="badge badge-green" data-i18n="money.star.roi.badge.wait">Wait for it</span></td></tr>
+        <tr style="background:#FFFDF8"><td><strong data-i18n="money.star.roi.r6.use">Bag growth with DG level</strong></td><td class="num" data-i18n="money.star.roi.stars0">Free</td><td data-i18n="money.star.roi.r6.value">Roughly 20 slots at Lv.1 rising to about 52 by Lv.20</td><td><span class="badge badge-green" data-i18n="money.star.roi.badge.wait">Wait for it</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -454,18 +422,18 @@
 <!-- ============================================================ -->
 <div class="section" id="key-tips">
   <div class="section-hd reveal">
-    <div class="eyebrow" data-i18n="money.tips.eyebrow">Advanced tips</div>
-    <h2 data-i18n="money.tips.h2">Key strategies quick reference</h2>
+    <div class="eyebrow" data-i18n="money.tips.eyebrow">Quick reference</div>
+    <h2 data-i18n="money.tips.h2">Eight things the numbers tell you</h2>
   </div>
   <div class="grid-2 reveal">
-    <div class="card card-sm"><h4 data-i18n="money.tips.c1.h">🔥 The four-stove method</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c1.p">Arrange 4 stoves in a square and stand in the middle to manage 4 dishes at once. 4x output with overlapping cooking times for maximum efficiency.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c2.h">🛒 First 5 expansions for only 10 stars</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c2.p">The first 5 purchases of bag +10 and storage +50 cost only 10 Wishing Stars (normally 25) — always buy them all. 50 stars total.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c3.h">🌾 Plant wheat heavily, sow before bed</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c3.p">Almost every high-profit recipe consumes wheat. Plant wheat before bed and harvest 4 hours later when you wake. Grow it in bulk.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c4.h">🚀 Trade Wishing Stars for firecrackers</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c4.p">Buy a firecracker with 1 Wishing Star → sell it for 1,100 gold. A quick cash-out for emergencies, but do not use it often.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c5.h">🍳 Push Cooking level first</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c5.p">The higher your Cooking level, the better your odds of ★★/★★★ results — the same ingredients sell for double. Lv.12, which unlocks truffle cream pasta, is the key milestone.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c6.h">🧠 Batch-production mindset</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c6.p">Do not cook piecemeal — stockpile a batch of ingredients and run 4 stoves at once. Also batch-sell to Albert Jr. to save travel time.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c7.h">📦 Storage management rules</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c7.p">Sell high-value fish (&gt;100G) the same day, and keep at most 10 low-value fish as backup. Stockpile jam and dishes and sell them in bulk once you have enough.</p></div>
-    <div class="card card-sm"><h4 data-i18n="money.tips.c8.h">🔄 Crop rotation strategy</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c8.p">Grow wheat (4h) long-term, rotate potatoes (2h) during the day, and plant blueberries (6h) before bed. Ensure you always have crops growing.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c1.h">⭐ Cooking level beats recipe choice</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c1.p">★★ pays 1.5× and ★★★ pays 2× the base price, on all 94 recipes with no exceptions. Moving a dish from ★ to ★★★ is worth more than switching to a fancier dish, and it costs no extra ingredients.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c2.h">🌾 Keep one plot on wheat permanently</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c2.p">Wheat is in 25 of our 94 recipes — pizza, pies, pasta, cakes, bagels, risotto. Its 47.5 gold per hour is mid-table, but running out of it blocks more recipes than any other shortage.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c3.h">🐟 The fish line is 125, not 100</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c3.p">Fish &amp; Chips takes two fish and two potatoes for 310. Counting potatoes at their 30G seed price, cooking stops paying once a fish is worth more than 125G. Counting them at their 90G sale price, the line drops to 65G.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c4.h">🦀 Bank king crabs in threes</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c4.p">Steamed King Crab needs three king crabs and nothing else: 1,605 of raw fish becomes 1,990, or 3,980 at ★★★. The golden version takes three golden king crabs, 2,250 raw, and sells for 2,980.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c5.h">🚫 Never jam grapes or cacao beans</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c5.p">Four grapes sell for 1,920 raw and Grape Jam sells for 220. Four cacao beans are 1,320 and Chocolate Sauce is 240. Both stay deep in the red even at ★★★. Sell the fruit.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c6.h">🍍 Pineapple is the best jam by return</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c6.p">Four pineapple seeds cost 60 and the jam sells for 280 — a 367% return on what you spent, the highest of anything we can fully price. Pineapples also grow in 30 minutes.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c7.h">🌧️ Fish when it rains after dark</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c7.p">Catfish (610, pond) and eel (380, river) both require rain and night together. They are the two most valuable inland fish, and the window is narrow enough that most players never see it.</p></div>
+    <div class="card card-sm"><h4 data-i18n="money.tips.c8.h">🔄 Match crop length to how long you are away</h4><p style="font-size:0.85rem;color:var(--text-muted)" data-i18n="money.tips.c8.p">Tomatoes finish in 15 minutes and pay 80 an hour; avocados take 13 hours and pay 27.7. Short crops win only if you are there to replant. Sow the long ones before you log off.</p></div>
   </div>
 </div>
 
@@ -474,27 +442,27 @@
 <!-- ============================================================ -->
 <div class="section">
   <div class="section-hd reveal">
-    <div class="eyebrow" data-i18n="money.ref.eyebrow">Quick reference</div>
-    <h2 data-i18n="money.ref.h2">Beginner → pro money roadmap</h2>
+    <div class="eyebrow" data-i18n="money.ref.eyebrow">Roadmap</div>
+    <h2 data-i18n="money.ref.h2">What to make at each cooking level</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem" data-i18n="money.ref.intro">Most recipes are gated behind a cooking level and bought from Massimo's shop. Here is the order they become worth your time. We have not put daily income targets on these — see the section above for why.</p>
   </div>
   <div class="grid-3 reveal">
     <a href="#recipe-profit" class="card card-sm" style="text-decoration:none;color:inherit;border-top:3px solid var(--coral)">
-      <h4 style="font-size:1rem" data-i18n="money.ref.card1.h">🌱 Beginner phase (DG 1-5)</h4>
-      <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.ref.card1.p">✅ Plant potatoes + blueberries<br>✅ Catch crucian carp → fried carp (80→350)<br>✅ Batch-make blueberry jam (64→170)<br>✅ Roast mushrooms (free gathering → 120)<br>✅ Always do the 5 daily villager quests<br><strong style="color:var(--green)">Daily income goal: 3,000-5,000G</strong></p>
+      <h4 style="font-size:1rem" data-i18n="money.ref.card1.h">🌱 Before you have a cooking level</h4>
+      <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.ref.card1.p">✅ Grilled Mushrooms 180 — foraged, free, no level needed<br>✅ Blueberry, raspberry and mandarin jam, 170-270 — also free<br>✅ Fish &amp; Chips 310 at cooking Lv.1<br>✅ Plant tomatoes and potatoes and sell them raw<br><strong style="color:var(--green)">Everything here costs nothing but walking time.</strong></p>
     </a>
     <a href="#recipe-profit" class="card card-sm" style="text-decoration:none;color:inherit;border-top:3px solid var(--gold)">
-      <h4 style="font-size:1rem" data-i18n="money.ref.card2.h">⚡ Growth phase (DG 5-12)</h4>
-      <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.ref.card2.p">✅ Four-stove method is live<br>✅ Batch fish and chips (75→310)<br>✅ Vegetable medley (ROI 456%)<br>✅ Large-scale wheat farming<br>✅ Ocean fishing for tuna (300G)<br><strong style="color:var(--green)">Daily income goal: 8,000-15,000G</strong></p>
+      <h4 style="font-size:1rem" data-i18n="money.ref.card2.h">⚡ Cooking Lv.3 to Lv.8</h4>
+      <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.ref.card2.p">✅ Rustic Ratatouille 640 at Lv.3 — 185 of seed<br>✅ Smoked Fish Bagel 520 at Lv.4, one fish of any kind<br>✅ Cheesecake 480 at Lv.7<br>✅ Seafood Pizza 780 at Lv.8 — the best use of a 50G fish<br><strong style="color:var(--green)">Wheat becomes the bottleneck here. Plant more of it.</strong></p>
     </a>
     <a href="#recipe-profit" class="card card-sm" style="text-decoration:none;color:inherit;border-top:3px solid var(--teal)">
-      <h4 style="font-size:1rem" data-i18n="money.ref.card3.h">🎯 Late game (DG 12-20)</h4>
-      <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.ref.card3.p">✅ Truffle cream pasta (+630 each)<br>✅ Truffle mushroom pie (+395 each)<br>✅ Steamed king crab (+445 each)<br>✅ Cheesecake (+290 each)<br>✅ Focus on gathering black truffles in autumn/winter<br><strong style="color:var(--green)">Daily income goal: 15,000-25,000G</strong></p>
+      <h4 style="font-size:1rem" data-i18n="money.ref.card3.h">🎯 Cooking Lv.9 and beyond</h4>
+      <p style="font-size:0.82rem;color:var(--text-muted)" data-i18n-html="money.ref.card3.p">✅ Steamed King Crab 1,990 at Lv.10<br>✅ Black Truffle Pie 830 at Lv.10, from a lore quest<br>✅ King Crab Pasta 980 at Lv.12<br>✅ Picnic Set 2,260 at Lv.7, once you can supply its four dishes<br><strong style="color:var(--green)">At this point star rating matters more than which dish you pick.</strong></p>
     </a>
   </div>
 </div>
 
 </div>
-
 <footer id="site-footer" class="site-footer">
 <div class="wrap">
 <div class="footer-grid">

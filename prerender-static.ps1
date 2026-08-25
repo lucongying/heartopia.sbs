@@ -143,8 +143,13 @@ function Remove-Section([string]$Content, [string]$Id) {
 # ---------- data loader (reads the inline data/*.js files) ----------
 function Load-DataJs([string]$Path) {
   $txt = Read-Utf8 $Path
-  $txt = $txt -replace '^\s*var\s+\w+\s*=\s*', ''
-  $txt = $txt -replace '(?m)^\s*//[^\r\n]*', ''
+  $txt = $txt -replace '(?s)/\*.*?\*/', ''            # strip /* */ block comments
+  $txt = $txt -replace '(?m)^\s*//[^\r\n]*', ''        # strip // line comments
+  $txt = $txt -replace '^\s*var\s+\w+\s*=\s*', ''      # strip leading `var X = `
+  $txt = $txt.Trim()
+  # crops.js also defines FORAGE_DATA after CROPS_DATA; keep only the first array
+  $m = [regex]::Match($txt, '^\s*\[[\s\S]*?\]')
+  if ($m.Success) { $txt = $m.Value }
   $txt = $txt.Trim()
   $txt = $txt -replace ';+$', ''
   return ($txt | ConvertFrom-Json)

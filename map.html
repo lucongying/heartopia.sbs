@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9565005935296227" crossorigin="anonymous"></script>
+<script>document.documentElement.classList.add('js');(function(){try{if(localStorage.getItem('heartopia-lang')==='zh')document.documentElement.classList.add('i18n-pending');}catch(e){}setTimeout(function(){if(!window.I18N)document.documentElement.classList.remove('i18n-pending');},2000);})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="map.metaTitle">Heartopia Interactive Map · 100+ Markers · Search, Filter, Run Routes</title>
+<meta name="description" content="Heartopia full-featured interactive map: powered by Leaflet, 100+ markers, live search, category filters, daily run route — NPCs, resources, fishing spots, shops, insects and birds all marked." data-i18n-content="map.metaDesc">
+<link rel="stylesheet" href="css/style.css">
+<link rel="canonical" href="https://heartopia.sbs/map.html">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="images/favicon-16.png" type="image/png" sizes="16x16">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#DF7560">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Heartopia.sbs">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Heartopia Interactive Map · 100+ Markers · Search, Filter, Run Routes" data-i18n-content="map.metaTitle">
+<meta property="og:description" content="Heartopia full-featured interactive map: powered by Leaflet, 100+ markers, live search, category filters, daily run route — NPCs, resources, fishing spots, shops, insects and birds all marked." data-i18n-content="map.metaDesc">
+<meta property="og:url" content="https://heartopia.sbs/map.html">
+<meta property="og:image" content="https://heartopia.sbs/images/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Heartopia.sbs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Heartopia Interactive Map · 100+ Markers · Search, Filter, Run Routes" data-i18n-content="map.metaTitle">
+<meta name="twitter:description" content="Heartopia full-featured interactive map: powered by Leaflet, 100+ markers, live search, category filters, daily run route — NPCs, resources, fishing spots, shops, insects and birds all marked." data-i18n-content="map.metaDesc">
+<meta name="twitter:image" content="https://heartopia.sbs/images/og-image.png">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+/* ============================================================
+   Map Page — Leaflet Overrides & Layout
+   ============================================================ */
+
+/* -- Page shell — framed atlas box that contains both sidebar and map -- */
+.map-page {
+  max-width: 1280px; width: calc(100% - 32px);
+  height: calc(100vh - 56px - 32px - 115px); max-height: 880px;
+  min-height: 560px;
+  /* Flex layout: sidebar | map, side by side inside a single frame */
+  display: flex; flex-direction: row;
+  position: relative; /* anchor for the popup bubble */
+	  z-index: 0;         /* stay below sticky nav (z-index:100) */
+  overflow: hidden;   /* clip everything to the frame */
+  margin: 16px auto;
+  /* The frame itself */
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 20px rgba(61,50,45,0.08), 0 0 0 6px var(--surface);
+}
+.wrap-map { max-width: none; padding: 0; }
+/* Compact page header — eyebrow above title, matching other subpages */
+.page-header {
+  display: block;
+  padding: 16px 0 8px;
+}
+.page-header .eyebrow { margin-bottom: 12px; }
+/* Footer — contained below the frame, not fixed overlay */
+.site-footer {
+  position: static;
+  text-align: center; padding: 10px 24px; margin: 0;
+  border-top: 1px solid var(--border);
+  background: transparent;
+  font-size: 0.7rem;
+}
+
+/* -- Sidebar — flex child inside the frame, no longer absolutely positioned -- */
+.map-sidebar {
+  flex: 0 0 264px;       /* fixed width, never shrink */
+  width: 264px; min-width: 264px; max-width: 264px;
+  background: rgba(236,243,240,0.94); /* light sea-glass — contrasts with warm page bg */ backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-right: 1px solid var(--border); /* divider between sidebar and map */
+  display: flex; flex-direction: column; z-index: 500;
+  overflow: hidden;
+  /* No outer border-radius — the frame handles that; match left side */
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+.sidebar-header {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  flex-shrink: 0;
+}
+.sidebar-header h3 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+
+/* Sidebar search */
+.sidebar-search {
+  padding: 8px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.sidebar-search .search-wrap {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px;
+  padding: 6px 12px; transition: border-color var(--ease);
+}
+.sidebar-search .search-wrap:focus-within { border-color: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
+.sidebar-search input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--font-body); font-size: 0.82rem; color: var(--text);
+  min-width: 0;
+}
+.sidebar-search input::placeholder { color: var(--text-dim); font-size: 0.75rem; }
+.sidebar-search .search-icon { color: var(--text-dim); font-size: 0.85rem; flex-shrink: 0; }
+.search-clear { display: none; cursor: pointer; color: var(--text-dim); font-size: 0.8rem; padding: 2px 4px; border-radius: 50%; border: none; background: none; }
+.search-clear:hover { color: var(--coral); }
+.search-clear.visible { display: block; }
+
+/* Search results dropdown */
+.search-results {
+  display: none; position: absolute; top: 100%; left: 0; right: 0;
+  background: var(--card); border: 1px solid var(--border); border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow-lg); z-index: 60; max-height: 320px; overflow-y: auto;
+  margin-top: 2px;
+}
+.search-results.show { display: block; }
+.search-result-group {
+  padding: 5px 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+.search-result-item {
+  padding: 7px 12px; cursor: pointer; font-size: 0.8rem;
+  display: flex; align-items: center; gap: 8px;
+  transition: background var(--ease); border-bottom: 1px solid transparent;
+}
+.search-result-item:hover { background: var(--coral-light); }
+.search-result-item .sri-icon { font-size: 1rem; flex-shrink: 0; }
+.search-result-item .sri-name { flex: 1; font-weight: 500; }
+.search-result-item .sri-cat { font-size: 0.68rem; color: var(--text-dim); }
+
+/* Sidebar category list */
+.sidebar-cats {
+  flex: 1; overflow-y: auto; padding: 8px 0;
+  -ms-overflow-style: none; scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.sidebar-cats::-webkit-scrollbar { width: 4px; }
+.sidebar-cats::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.cat-section { margin-bottom: 0; }
+.cat-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; cursor: pointer; user-select: none;
+  transition: background var(--ease); font-weight: 600; font-size: 0.92rem;
+  border-left: 3px solid transparent;
+}
+.cat-header:hover { background: #FAF9F7; }
+.cat-header .cat-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.cat-header .cat-name { flex: 1; }
+.cat-header .cat-count {
+  font-size: 0.75rem; font-weight: 700; color: var(--text-dim);
+  background: var(--surface); padding: 2px 8px; border-radius: 10px;
+}
+.cat-header .cat-arrow { font-size: 0.6rem; color: var(--text-dim); transition: transform 0.25s; }
+.cat-header .cat-toggle {
+  font-size: 0.85rem; cursor: pointer; padding: 2px 4px; opacity: 0.6;
+  transition: opacity var(--ease); flex-shrink: 0;
+}
+.cat-header .cat-toggle:hover { opacity: 1; }
+.cat-section.collapsed .cat-arrow { transform: rotate(-90deg); }
+.cat-section.collapsed .cat-items { display: none; }
+.cat-section.hidden-all { opacity: 0.4; }
+
+.cat-items { padding: 0 0 2px 0; }
+.cat-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 12px 5px 28px; cursor: pointer; font-size: 0.88rem;
+  transition: background var(--ease); color: var(--text-muted);
+  border-left: 3px solid transparent;
+}
+.cat-item:hover { background: #FAF9F7; color: var(--text); }
+.cat-item.active { background: var(--coral-light); color: var(--coral); border-left-color: var(--coral); font-weight: 600; }
+.cat-item .ci-emoji { font-size: 0.85rem; flex-shrink: 0; width: 20px; text-align: center; }
+.cat-item .ci-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Resource sub-filters */
+.subfilter-row { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 12px 4px 28px; }
+.subfilter-chip {
+  font-size: 0.68rem; padding: 3px 10px; border-radius: 12px;
+  border: 1.2px solid var(--border); cursor: pointer; user-select: none;
+  background: var(--card); color: var(--text-muted); transition: all var(--ease);
+}
+.subfilter-chip:hover { border-color: var(--green); color: var(--green); }
+.subfilter-chip.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* -- Map container — flex child fills remaining space beside the sidebar -- */
+.map-container {
+  flex: 1 1 auto;          /* fill remaining space */
+  min-width: 0;            /* allow flex shrink below content size */
+  position: relative;      /* anchor for internal absolute elements (zoom, buttons, forms) */
+  background: #C5DDE8; overflow: hidden;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0; /* match right side of the frame */
+}
+.map-container .leaflet-container { background: #C5DDE8; }
+
+/* Leaflet overrides */
+.leaflet-control-attribution { display: none !important; }
+.leaflet-tooltip {
+  font-family: var(--font-body); font-size: 0.75rem; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; border: none;
+  background: var(--text); color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.leaflet-tooltip::before { border-top-color: var(--text) !important; }
+
+/* Marker animation */
+@keyframes markerBounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  50% { transform: translateY(0); }
+}
+.marker-highlight { animation: markerBounce 0.5s ease; z-index: 1000 !important; }
+
+/* -- Zoom controls -- */
+.map-zoom-ctrl {
+  position: absolute; right: 14px; top: 14px; z-index: 1000;
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--card); border-radius: 12px; border: 1px solid var(--border);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.map-zoom-ctrl button {
+  width: 36px; height: 36px; border: none; background: none;
+  cursor: pointer; font-size: 1.2rem; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--ease);
+}
+.map-zoom-ctrl button:hover { background: var(--coral-light); color: var(--coral); }
+.map-zoom-ctrl button:active { background: var(--coral); color: #fff; }
+.map-zoom-ctrl .zoom-divider { height: 1px; background: var(--border); }
+.map-zoom-ctrl .zoom-level {
+  font-size: 0.65rem; font-weight: 700; color: var(--text-dim);
+  text-align: center; padding: 4px 0; letter-spacing: 0.03em;
+}
+
+/* -- Floating map buttons -- */
+.map-float-btn {
+  position: absolute; z-index: 1000;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid var(--border); background: var(--card);
+  cursor: pointer; font-size: 1rem; display: flex; align-items: center;
+  justify-content: center; box-shadow: var(--shadow);
+  transition: all var(--ease); color: var(--text);
+}
+.map-float-btn:hover { border-color: var(--coral); color: var(--coral); background: var(--coral-light); }
+.map-float-btn.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+.map-btn-route { right: 14px; top: 120px; }
+.map-btn-locate { right: 14px; top: 166px; }
+/* -- Map Popup Bubble (replaces slide-in info panel) -- */
+.map-popup-bubble {
+  position: absolute; z-index: 600;
+  background: var(--text); border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  width: 300px; max-width: calc(100vw - 28px);
+  max-height: 380px;
+  pointer-events: none;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: flex; flex-direction: column;
+  color: #fff;
+}
+.popup-body {
+  padding: 10px 14px 14px;
+  overflow-y: auto; flex: 1; min-height: 0;
+  -ms-overflow-style: none; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;
+  font-size: 0.8rem; line-height: 1.55;
+  border-radius: 0 0 8px 8px;
+}
+.popup-body::-webkit-scrollbar { width: 4px; }
+.popup-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 4px; }
+.map-popup-bubble.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* Arrow — matches Leaflet tooltip triangle style */
+.map-popup-bubble .popup-arrow {
+  position: absolute; left: 50%; margin-left: -7px;
+  width: 0; height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  transition: all 0.2s ease;
+}
+.map-popup-bubble .popup-arrow.arrow-down {
+  bottom: -7px;
+  border-top: 7px solid var(--text);
+}
+.map-popup-bubble .popup-arrow.arrow-up {
+  top: -7px;
+  border-bottom: 7px solid var(--text);
+}
+.popup-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.15);
+  position: sticky; top: 0; background: var(--text); z-index: 1;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.85rem; font-weight: 700;
+}
+.popup-header h3 { font-size: 0.88rem; display: flex; align-items: center; gap: 6px; color: #fff; }
+.popup-close {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3); background: none;
+  font-size: 0.8rem; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; color: rgba(255,255,255,0.7); transition: all var(--ease);
+  flex-shrink: 0;
+}
+.popup-close:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
+.popup-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.popup-desc { font-size: 0.82rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+.popup-creatures { margin-top: 10px; }
+.popup-creatures h4 { font-size: 0.76rem; font-weight: 700; margin-bottom: 6px; color: rgba(255,255,255,0.9); }
+.popup-creature-table { width: 100%; font-size: 0.72rem; border-collapse: collapse; }
+.popup-creature-table th { font-size: 0.65rem; padding: 3px 6px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.55); background: transparent; }
+.popup-creature-table td { padding: 3px 6px; border-bottom: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+.popup-creature-table tr:last-child td { border-bottom: none; }
+.popup-creature-table tr:hover td { background: rgba(255,255,255,0.08); }
+.popup-detail-box { margin-top: 10px; font-size: 0.78rem; padding: 8px 12px; background: rgba(255,255,255,0.08); border-radius: 6px; color: rgba(255,255,255,0.75); line-height: 1.5; }
+
+/* -- Custom marker form -- */
+.custom-marker-form {
+  position: absolute; z-index: 1001; background: var(--card);
+  border-radius: var(--radius); border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg); padding: 14px; width: 240px;
+  display: none;
+}
+.custom-marker-form.show { display: block; }
+.custom-marker-form input {
+  width: 100%; padding: 7px 10px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-family: var(--font-body); font-size: 0.8rem;
+  margin-bottom: 8px; outline: none;
+}
+.custom-marker-form input:focus { border-color: var(--coral); }
+.custom-marker-form .emoji-grid {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;
+}
+.custom-marker-form .emoji-grid button {
+  width: 30px; height: 30px; border: 1.5px solid var(--border);
+  border-radius: 8px; background: var(--surface); cursor: pointer;
+  font-size: 1rem; transition: all var(--ease);
+}
+.custom-marker-form .emoji-grid button:hover { border-color: var(--coral); background: var(--coral-light); }
+.custom-marker-form .emoji-grid button.selected { border-color: var(--coral); background: var(--coral); }
+.custom-marker-form .form-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+/* -- Route highlight -- */
+.route-active .leaflet-interactive.route-poly { stroke-width: 4 !important; }
+
+/* -- Loading -- */
+.map-loading {
+  position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; background: #C5DDE8; z-index: 10;
+  font-family: var(--font-display); color: var(--text-muted); font-size: 1rem;
+}
+.map-loading.hidden { display: none; }
+.map-loading .pulse { animation: markerPulse 1.5s ease-in-out infinite; font-size: 2rem; }
+
+/* -- Mobile bottom bar -- */
+.map-mobile-bar {
+  display: none; position: absolute; bottom: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--card); border-top: 1px solid var(--border);
+  padding: 8px 12px; gap: 6px; align-items: center;
+}
+.map-mobile-bar button {
+  flex: 1; font-size: 0.72rem; font-weight: 600; padding: 8px 6px;
+  border-radius: 18px; border: 1.5px solid var(--border);
+  background: var(--card); color: var(--text-muted); cursor: pointer;
+  transition: all var(--ease); white-space: nowrap;
+}
+.map-mobile-bar button.active { background: var(--coral); color: #fff; border-color: var(--coral); }
+
+/* -- Sidebar backdrop (removed — sidebar always visible) -- */
+
+/* -- Responsive -- */
+@media (max-width: 860px) {
+  .map-page {
+    width: calc(100% - 16px); height: calc(100vh - 56px - 16px - 115px);
+    max-height: none; margin: 8px auto;
+    box-shadow: 0 2px 12px rgba(61,50,45,0.06), 0 0 0 4px var(--surface);
+  }
+  .map-sidebar {
+    flex: 0 0 220px; width: 220px; min-width: 220px; max-width: 220px;
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  }
+  .map-popup-bubble { width: 280px; max-height: 320px; }
+  .map-mobile-bar { display: flex; }
+  .map-zoom-ctrl { right: 8px; top: 8px; }
+  .map-btn-route { right: 8px; top: 110px; }
+  .map-btn-locate { right: 8px; top: 156px; }
+  .map-float-btn { width: 34px; height: 34px; font-size: 0.9rem; }
+  /* Footer inline on mobile */
+  .site-footer { padding: 6px 12px; font-size: 0.65rem; }
+}
+
+@media (max-width: 540px) {
+  .map-page {
+    width: calc(100% - 8px); height: calc(100vh - 56px - 8px - 115px);
+    margin: 4px auto; min-height: 480px;
+    flex-direction: column; /* stack sidebar above map */
+  }
+  .map-sidebar {
+    flex: 0 0 auto; width: 100%; min-width: 100%; max-width: 100%;
+    max-height: 45%; /* sidebar takes at most 45% of the frame height */
+    border-right: none; border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .map-container {
+    flex: 1 1 auto; min-height: 0;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+  .map-zoom-ctrl button { width: 32px; height: 32px; font-size: 1rem; }
+  .map-popup-bubble { width: calc(100vw - 16px); left: 8px !important; right: 8px !important; }
+}
+
+/* ============================================================
+   Map Info Section — explorer's logbook spread
+   A curated introduction to the interactive map: what it covers,
+   how to use it, and the palette of markers that bring it to life.
+   ============================================================ */
+
+/* -- Section shell: wider breathing room, separated from the map frame -- */
+.map-info-section {
+  max-width: 1280px; width: calc(100% - 32px);
+  margin: 36px auto 0;
+  padding: 40px 0 10px;
+  position: relative;
+}
+/* Decorative horizon line — a gradient strip echoing the map marker palette */
+.map-info-section::before {
+  content: '';
+  display: block; width: 200px; height: 4px; margin: 0 auto 32px;
+  border-radius: 2px;
+  background: linear-gradient(90deg,
+    var(--coral) 0%, var(--coral) 11%,
+    var(--green) 11%, var(--green) 22%,
+    var(--teal) 22%, var(--teal) 33%,
+    var(--gold) 33%, var(--gold) 44%,
+    var(--lavender) 44%, var(--lavender) 55%,
+    #7BA89E 55%, #7BA89E 66%,
+    #C9956B 66%, #C9956B 77%,
+    #8C9898 77%, #8C9898 88%,
+    #C75E4A 88%, #C75E4A 100%
+  );
+}
+
+.map-info-section .section-hd { text-align: center; margin-bottom: 14px; }
+.map-info-section .section-hd .eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.map-info-section .section-hd h2 { font-size: 1.55rem; }
+
+/* -- Intro paragraph — set as a single well-spaced statement -- */
+.map-info-intro {
+  max-width: 620px; margin: 0 auto 38px; text-align: center;
+  font-size: 0.95rem; line-height: 1.8; color: var(--text-muted);
+}
+.map-info-intro strong { color: var(--text); font-weight: 650; }
+
+/* ============================================================
+   Feature entries — 2×2 logbook spread
+   Each card pairs a numbered color badge with descriptive text.
+   The four badge colors are drawn from the map marker palette,
+   so the features feel like they belong to the map itself.
+   ============================================================ */
+.map-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.map-feature-card {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 22px 20px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.map-feature-card:hover {
+  box-shadow: 0 6px 24px rgba(61,50,45,0.10);
+  transform: translateY(-2px);
+}
+
+/* The numbered badge — each card gets its own accent color */
+.map-feature-badge {
+  flex-shrink: 0;
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+}
+.map-feature-card:hover .map-feature-badge { transform: scale(1.08); }
+.map-feature-badge.coral  { background: var(--coral); }
+.map-feature-badge.teal   { background: var(--teal); }
+.map-feature-badge.green  { background: var(--green); }
+.map-feature-badge.gold   { background: var(--gold); }
+
+.map-feature-text { min-width: 0; }
+.map-feature-text h4 {
+  font-size: 0.92rem; font-weight: 700; margin: 0 0 4px;
+  color: var(--text); line-height: 1.3;
+}
+.map-feature-text p {
+  font-size: 0.78rem; color: var(--text-muted);
+  line-height: 1.6; margin: 0;
+}
+
+/* ============================================================
+   Category color key — a painter's swatch strip
+   Each marker category rendered as a larger color chip with its
+   label, so readers can decode the map at a glance.
+   ============================================================ */
+.map-category-legend {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 20px; row-gap: 14px;
+  padding: 22px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.map-category-legend .legend-chip {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 7px; min-width: 52px;
+}
+.map-category-legend .legend-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 2px 6px rgba(0,0,0,0.10);
+}
+.map-category-legend .legend-label {
+  font-size: 0.68rem; color: var(--text-muted);
+  white-space: nowrap; text-align: center;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   Stats banner — dashboard ribbon below the legend
+   ============================================================ */
+.map-stats {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  align-items: baseline; gap: 0;
+  margin-top: 24px;
+}
+.map-stat {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 20px;
+}
+/* Vertical divider between stat columns */
+.map-stat + .map-stat {
+  border-left: 1px solid var(--border);
+}
+.map-stat .stat-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem; font-weight: 750;
+  color: var(--coral);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.map-stat .stat-label {
+  font-size: 0.7rem; color: var(--text-dim);
+  letter-spacing: 0.04em; margin-top: 2px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 860px) {
+  .map-features { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .map-feature-card { padding: 16px 14px; gap: 12px; }
+  .map-feature-badge { width: 42px; height: 42px; font-size: 1.1rem; }
+  .map-info-section { width: calc(100% - 16px); margin-top: 24px; padding-top: 28px; }
+  .map-info-section::before { width: 160px; margin-bottom: 24px; }
+  .map-info-section .section-hd h2 { font-size: 1.3rem; }
+  .map-info-intro { font-size: 0.88rem; margin-bottom: 28px; }
+  .map-category-legend { gap: 14px; row-gap: 10px; padding: 16px 14px; }
+  .map-stat { padding: 0 14px; }
+}
+@media (max-width: 540px) {
+  .map-features { grid-template-columns: 1fr; gap: 10px; }
+  .map-feature-card { padding: 14px 12px; gap: 12px; }
+  .map-feature-badge { width: 40px; height: 40px; font-size: 1rem; }
+  .map-info-section { width: calc(100% - 12px); margin-top: 16px; padding-top: 20px; }
+  .map-info-section::before { width: 120px; height: 3px; margin-bottom: 20px; }
+  .map-info-intro { font-size: 0.82rem; margin-bottom: 24px; }
+  .map-category-legend { gap: 10px; row-gap: 8px; padding: 12px 10px; }
+  .map-category-legend .legend-dot { width: 14px; height: 14px; }
+  .map-category-legend .legend-label { font-size: 0.62rem; }
+  .map-stats { gap: 0; }
+  .map-stat { padding: 0 10px; }
+  .map-stat .stat-num { font-size: 1.25rem; }
+  .map-stat .stat-label { font-size: 0.64rem; }
+}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M1RH7MMXVV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-M1RH7MMXVV');
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Heartopia.sbs","url":"https://heartopia.sbs/","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://heartopia.sbs/?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://heartopia.sbs/"},{"@type":"ListItem","position":2,"name":"Interactive Map","item":"https://heartopia.sbs/map.html"}]}
+</script>
+</head>
+<body>
+
+<nav id="site-nav" class="site-nav">
+<div class="wrap">
+<a href="index.html" class="nav-brand"><img src="images/logo.svg" alt="Heartopia.sbs" class="nav-brand-logo" width="165" height="30"></a>
+<ul class="nav-links">
+<li><a href="index.html" data-i18n="nav.home">首页</a></li>
+<li><a href="beginner.html" data-i18n="nav.beginner">新手上路</a></li>
+<li><a href="progression.html" data-i18n="nav.progression">进阶流程</a></li>
+<li class="nav-dropdown">
+<a href="database.html" class="nav-dropdown-toggle" data-i18n="nav.database">数据库</a>
+<ul class="nav-dropdown-menu">
+<li><a href="database-fish.html"><span class="dd-icon">🎣</span><span data-i18n="nav.db.fish">鱼类</span></a></li>
+<li><a href="database-insects.html"><span class="dd-icon">🦋</span><span data-i18n="nav.db.insects">昆虫</span></a></li>
+<li><a href="database-birds.html"><span class="dd-icon">🐦</span><span data-i18n="nav.db.birds">鸟类</span></a></li>
+<li><a href="database-recipes.html"><span class="dd-icon">🍳</span><span data-i18n="nav.db.recipes">食谱</span></a></li>
+<li><a href="database-crops.html"><span class="dd-icon">🌱</span><span data-i18n="nav.db.crops">作物</span></a></li>
+<li><a href="database-npcs.html"><span class="dd-icon">👥</span><span data-i18n="nav.db.npcs">NPC</span></a></li>
+<li><a href="database-achievements.html"><span class="dd-icon">🏆</span><span data-i18n="nav.db.achievements">成就</span></a></li>
+<li><a href="database-scores.html"><span class="dd-icon">🎵</span><span data-i18n="nav.db.scores">乐谱</span></a></li>
+</ul>
+</li>
+<li><a href="money.html" data-i18n="nav.money">赚钱攻略</a></li>
+<li><a href="map.html" data-i18n="nav.map">地图</a></li>
+<li><a href="activities.html" data-i18n="nav.activities">活动</a></li>
+<li><a href="redeem-code.html" data-i18n="nav.redeem">兑换码</a></li>
+<li><a href="faq.html" data-i18n="nav.faq">常见问题</a></li>
+</ul>
+<button type="button" class="lang-toggle" id="lang-toggle" aria-label="Switch language">🌐 <span>中文</span></button>
+</div>
+</nav>
+
+<header class="page-header">
+  <div class="eyebrow" data-i18n="map.eyebrow">Interactive Map</div>
+  <h1 data-i18n-html="map.heading">Heartopia<strong style="color:var(--teal)">Map</strong></h1>
+</header>
+
+<div class="map-page">
+  <!-- Sidebar — always visible -->
+  <aside class="map-sidebar" id="map-sidebar">
+    <div class="sidebar-header">
+      <h3 data-i18n="map.sidebarTitle">🗺️ Map Navigation</h3>
+    </div>
+    <div class="sidebar-search" style="position:relative">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="map-search" placeholder="Search markers… NPCs, locations, resources, fish…" data-i18n-placeholder="map.searchPlaceholder" autocomplete="off">
+        <button class="search-clear" id="search-clear" title="Clear" data-i18n-title="map.searchClear">✕</button>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <div class="sidebar-cats" id="sidebar-cats">
+      <!-- Populated by JS -->
+    </div>
+  </aside>
+
+  <!-- Map -->
+  <div class="map-container" id="map-container">
+    <div class="map-loading" id="map-loading" data-i18n-html="map.loading"><span class="pulse">🗺️</span>&nbsp; Loading map…</div>
+
+    <!-- Zoom controls -->
+    <div class="map-zoom-ctrl" id="zoom-ctrl">
+      <button id="zoom-in" title="Zoom in" data-i18n-title="map.zoomIn">+</button>
+      <div class="zoom-divider"></div>
+      <div class="zoom-level" id="zoom-level">1×</div>
+      <div class="zoom-divider"></div>
+      <button id="zoom-out" title="Zoom out" data-i18n-title="map.zoomOut">−</button>
+    </div>
+
+    <!-- Floating buttons -->
+    <button class="map-float-btn map-btn-route" id="btn-route" title="Route" data-i18n-title="map.btnRoute">🚶</button>
+    <button class="map-float-btn map-btn-locate" id="btn-locate" title="Back to full map" data-i18n-title="map.btnLocate">🏠</button>
+
+    <!-- Mobile bottom bar -->
+    <div class="map-mobile-bar" id="mobile-bar">
+      <button id="mbtn-search" data-i18n="map.mbtnSearch">🔍 Search</button>
+      <button id="mbtn-filter" data-i18n="map.mbtnFilter">📋 Filter</button>
+      <button id="mbtn-route" data-i18n="map.mbtnRoute">🚶 Route</button>
+    </div>
+
+    <!-- Custom marker form -->
+    <div class="custom-marker-form" id="custom-form">
+      <div class="emoji-grid" id="emoji-grid"></div>
+      <input type="text" id="custom-name" placeholder="Marker name…" data-i18n-placeholder="map.customNamePlaceholder" maxlength="30">
+      <div class="form-actions">
+        <button class="btn btn-ghost btn-sm" id="custom-cancel" data-i18n="map.customCancel">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="custom-save" data-i18n="map.customSave">Save</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Map Popup Bubble — direct child of map-page so it stacks above sidebar -->
+  <div class="map-popup-bubble" id="map-popup">
+    <div class="popup-arrow" id="popup-arrow"></div>
+    <div class="popup-header">
+      <h3 id="popup-title"></h3>
+      <button class="popup-close" id="popup-close" aria-label="Close" data-i18n-aria-label="map.popupClose">✕</button>
+    </div>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- Map intro & features — Explorer's Log -->
+<!-- ============================================================ -->
+<div class="map-info-section">
+  <div class="section-hd">
+    <div class="eyebrow" data-i18n="map.infoEyebrow">Map Intro &amp; Features</div>
+    <h2 data-i18n-html="map.infoHeading">Island<strong style="color:var(--teal)"> Exploration Guide</strong></h2>
+  </div>
+
+  <p class="map-info-intro" data-i18n-html="map.infoIntro">A full-featured interactive Heartopia map built on <strong>Leaflet.js</strong>, with <strong>100+</strong> accurate markers across <strong>9 categories</strong>: NPCs, resources, fishing spots, shops, insects, birds, animals, landmarks and bus stops. Whether you're a beginner running routes or a completionist filling every encyclopedia, this one map has the whole island covered.</p>
+
+  <!-- Core features -->
+  <div class="map-features">
+    <div class="map-feature-card">
+      <div class="map-feature-badge coral">🔍</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature1.title">Live Search</h4>
+        <p data-i18n="map.feature1.desc">Type to instantly match every marker name, description and category — find anything in a flash.</p>
+      </div>
+    </div>
+    <div class="map-feature-card">
+      <div class="map-feature-badge teal">🏷️</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature2.title">Category Filters</h4>
+        <p data-i18n="map.feature2.desc">Toggle 9 categories independently; resources also filter by berry, fruit, mushroom, ore and wood subtypes.</p>
+      </div>
+    </div>
+    <div class="map-feature-card">
+      <div class="map-feature-badge green">🚶</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature3.title">Run Route</h4>
+        <p data-i18n="map.feature3.desc">Built-in daily route: Home → Meadow Lake → Central Plaza → Fishing Village → Home. One tap for efficient gathering.</p>
+      </div>
+    </div>
+    <div class="map-feature-card">
+      <div class="map-feature-badge gold">📌</div>
+      <div class="map-feature-text">
+        <h4 data-i18n="map.feature4.title">Custom Markers</h4>
+        <p data-i18n="map.feature4.desc">Right-click anywhere to add personal markers — 20 icons to choose from, saved to your browser's local storage.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category color legend -->
+  <div class="map-category-legend">
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#DF7560"></div>
+      <span class="legend-label" data-i18n="map.legend.npc">NPCs</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#6E9E70"></div>
+      <span class="legend-label" data-i18n="map.legend.resource">Resources</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#3E737A"></div>
+      <span class="legend-label" data-i18n="map.legend.fishing">Fishing</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#E9B040"></div>
+      <span class="legend-label" data-i18n="map.legend.shop">Shops</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#9B8EC4"></div>
+      <span class="legend-label" data-i18n="map.legend.insect">Insects</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#7BA89E"></div>
+      <span class="legend-label" data-i18n="map.legend.bird">Birds</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#C9956B"></div>
+      <span class="legend-label" data-i18n="map.legend.animal">Animals</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#8C9898"></div>
+      <span class="legend-label" data-i18n="map.legend.location">Landmarks</span>
+    </div>
+    <div class="legend-chip">
+      <div class="legend-dot" style="background:#C75E4A"></div>
+      <span class="legend-label" data-i18n="map.legend.bus">Bus Stops</span>
+    </div>
+  </div>
+
+  <!-- Data stats -->
+  <div class="map-stats">
+    <div class="map-stat">
+      <div class="stat-num">100+</div>
+      <div class="stat-label" data-i18n="map.stat.markers">Markers</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label" data-i18n="map.stat.categories">Categories</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">80+</div>
+      <div class="stat-label" data-i18n="map.stat.fish">Fish species</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">60+</div>
+      <div class="stat-label" data-i18n="map.stat.insects">Insect species</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">70+</div>
+      <div class="stat-label" data-i18n="map.stat.birds">Bird species</div>
+    </div>
+    <div class="map-stat">
+      <div class="stat-num">8</div>
+      <div class="stat-label" data-i18n="map.stat.bus">Bus stops</div>
+    </div>
+  </div>
+</div>
+
+<footer id="site-footer" class="site-footer">
+<div class="wrap">
+<div class="footer-grid">
+<div class="footer-brand">
+<img src="images/logo.svg" alt="Heartopia.sbs" class="footer-logo" width="150" height="27">
+<p class="footer-tagline" data-i18n="footer.tagline">Heartopia（心动小镇 / 心托邦）玩家自建攻略站 —— 新手指南、全图鉴数据库、交互地图、兑换码与常见问题。</p>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.explore">探索</h4>
+<a href="index.html" data-i18n="nav.home">首页</a>
+<a href="beginner.html" data-i18n="nav.beginner">新手上路</a>
+<a href="map.html" data-i18n="footer.map">互动地图</a>
+<a href="faq.html" data-i18n="nav.faq">常见问题</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.database">数据库</h4>
+<a href="database-fish.html" data-i18n="nav.db.fish">鱼类</a>
+<a href="database-insects.html" data-i18n="nav.db.insects">昆虫</a>
+<a href="database-birds.html" data-i18n="nav.db.birds">鸟类</a>
+<a href="database-recipes.html" data-i18n="nav.db.recipes">食谱</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.about">关于本站</h4>
+<a href="about.html" data-i18n="footer.aboutUs">关于我们</a>
+<a href="contact.html" data-i18n="footer.contact">联系我们</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.legal">法律</h4>
+<a href="privacy.html" data-i18n="footer.privacy">隐私政策</a>
+<a href="terms.html" data-i18n="footer.terms">服务条款</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="footer-disclaimer" data-i18n-html="footer.disclaimer">本站为<strong>粉丝自制的非官方网站</strong>，与 <strong>XD Interactive Entertainment</strong> 及《心动小镇》(Heartopia) 官方团队<strong>无任何关联</strong>，未获官方认可、授权或赞助。游戏名称、商标、图像及内容版权均归其各自所有者所有。</p>
+<p class="footer-copy" data-i18n="footer.copy">© 2026 Heartopia.sbs · 玩家自发整理 · 仅供交流学习使用</p>
+</div>
+</div>
+</footer>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js"></script>
+<!-- Inline map marker data so the map works even without a web server -->
+<script>
+var INLINE_MAP_MARKERS = [{"id":"vanya","category":"npc","name":"Vanya","emoji":"🎣","x":551,"y":-455,"desc":"钓鱼入门的引路人。DG 升到 Lv.2 时她会主动登门，送上一根钓鱼竿并解锁钓鱼爱好——之后全岛的河流、湖泊与海域都能随时下竿。","detail":"解锁：DG Lv.2（自动登门）","schedule":"全天","unlockDg":2,"desc_en":"Your guide to fishing. Once your DG reaches Lv.2 she stops by your home with a free rod and unlocks the hobby, after which you can cast a line in any river, lake or stretch of sea on the island.","detail_en":"Unlock: DG Lv.2 (automatic home visit)"},{"id":"blanc","category":"npc","name":"Blanc","emoji":"🌱","x":562,"y":-530,"desc":"园艺导师。DG 达到 Lv.3 后跟他交谈即可开启园艺。起步时强烈建议先种土豆——收益约为番茄的三倍，是新手阶段回报最高的作物。","detail":"解锁：DG Lv.3 · 位置：花园街一带","schedule":"全天","unlockDg":3,"desc_en":"Your gardening mentor. Talk to him at DG Lv.3 to unlock gardening. Start with potatoes — they return roughly three times what tomatoes do, the best early-game crop by value.","detail_en":"Unlock: DG Lv.3 · near Garden Street"},{"id":"massimo","category":"npc","name":"Massimo","emoji":"🍳","x":495,"y":-448,"desc":"驻守咖啡馆的烹饪导师。DG Lv.5 拿到爱好扩展券后，建议优先解锁烹饪——它能把手头的渔获和收成加工成 2–5 倍的利润。","detail":"解锁：DG Lv.5 + 爱好扩展券 · 位置：咖啡馆","schedule":"全天","unlockDg":5,"desc_en":"The cooking mentor who works out of the café. Once you hold a Hobby Expansion Ticket at DG Lv.5, cooking is a strong first pick — it turns your catches and harvests into 2–5x the profit.","detail_en":"Unlock: DG Lv.5 + Hobby Expansion Ticket · at the café"},{"id":"naniwa","category":"npc","name":"Naniwa","emoji":"🦋","x":584,"y":-504,"desc":"捕虫导师。店里出售充气昆虫诱捕器和捕虫网，同时也是 16 块拼图梦（Dream 升级材料）的购入处。","detail":"解锁：DG Lv.5/8/11 · 位置：城镇中心","schedule":"全天","unlockDg":5,"desc_en":"Your insect-catching mentor. She sells inflatable insect traps and bug nets, and is also where you can buy the 16 Dream Puzzles used to level up Dream.","detail_en":"Unlock: DG Lv.5/8/11 · Town Center"},{"id":"bailey-j","category":"npc","name":"Bailey J","emoji":"🔭","x":527,"y":-497,"desc":"观鸟导师。提升观鸟等级的小技巧：反复拍摄同一只鸟同样能累积进度，不必满地图追赶新鸟种。","detail":"解锁：DG Lv.5/8/11 · 位置：城镇中心","schedule":"全天","unlockDg":5,"desc_en":"Your birdwatching mentor. A handy leveling tip: photographing the same bird repeatedly still fills the progress bar, so you never have to chase new species across the map.","detail_en":"Unlock: DG Lv.5/8/11 · Town Center"},{"id":"mrs-joan","category":"npc","name":"琼夫人","emoji":"🐱","x":517,"y":-504,"desc":"宠物领养中心负责人。DG Lv.12 开放养猫。要注意的是，想养狗必须先完成基础的猫护理教程——这是硬性前置条件。","detail":"解锁：DG Lv.12 · 位置：宠物领养中心","schedule":"全天","unlockDg":12,"name_en":"Mrs. Joan","desc_en":"Runs the pet adoption center. Cat care opens at DG Lv.12. Note that before you can own a dog, you must finish the basic cat-care tutorial first — it is a hard prerequisite.","detail_en":"Unlock: DG Lv.12 · Pet Adoption Center"},{"id":"albert-jr","category":"npc","name":"Albert Jr.","emoji":"💰","x":633,"y":-530,"desc":"居无定所的流浪商人，会在全岛随机游走。他收购物品的出价高于商店，长按物品即可批量售出。每天跑图时多留意他的身影。","detail":"随时可用 · 全图随机游走","schedule":"随机游走","unlockDg":0,"desc_en":"A wandering merchant with no fixed stall who roams the island at random. He pays more for items than the shops do, and long-pressing an item lets you sell it in bulk. Watch for him on your daily rounds.","detail_en":"Always available · roams the map at random"},{"id":"ka-ching","category":"npc","name":"Ka Ching","emoji":"🎒","x":417,"y":-411,"desc":"负责背包与仓库扩容的 NPC。前 5 次扩容只需 10 许愿星（原价 25），务必先把折扣次数买满。DG 到达 2/7/13/17/19 级还会额外赠送免费扩容。","detail":"随时可用 · 位置：城镇西北（住宅街外围）","schedule":"全天","unlockDg":0,"desc_en":"Handles backpack and storage upgrades. The first five expansions cost only 10 Wish Stars (normally 25), so it pays to max out those discounted slots first. You also get free expansions at DG Lv.2/7/13/17/19.","detail_en":"Always available · northwest of town (outside Residential Street)"},{"id":"annie","category":"npc","name":"Annie","emoji":"💤","x":497,"y":-502,"desc":"负责开启 Dream 功能的角色，DG Lv.16 后找她触发。若她迟迟不出现，重新登录即可。快速升级 Dream 的捷径是去捕虫商店买满 16 块拼图梦。","detail":"解锁：DG Lv.16 · 位置：城镇中心","schedule":"全天","unlockDg":16,"desc_en":"Unlocks the Dream feature once you reach DG Lv.16. If she does not appear, just log back in. The quickest way to level Dream is to buy all 16 Dream Puzzles from the bug shop.","detail_en":"Unlock: DG Lv.16 · Town Center"},{"id":"dorothee","category":"npc","name":"Dorothy","emoji":"👗","x":489,"y":-467,"desc":"每日食物任务的发布者，同时也是服装店店主。她常年待在服装店里，随时都能找到。","detail":"随时可用 · 位置：服装店","schedule":"全天","unlockDg":0,"desc_en":"Posts the daily food quest and also owns the clothing shop. She is always inside the clothing store, so you can find her any time.","detail_en":"Always available · at the clothing shop"},{"id":"bob","category":"npc","name":"Bob","emoji":"🏪","x":500,"y":-473,"desc":"中心商店街的杂货店老板，出售各类基础物资。","detail":"商店 · 位置：中心商店街","schedule":"全天","unlockDg":0,"desc_en":"The general-store owner on the main shopping street, selling a range of basic supplies.","detail_en":"Shop · Central Shopping Street"},{"id":"atara","category":"npc","name":"Atara","emoji":"📋","x":498,"y":-528,"desc":"活动与周常任务的 NPC。完成周常任务可领取额外奖励。","detail":"活动 NPC","schedule":"全天","unlockDg":0,"desc_en":"Handles event and weekly quests. Clearing the weekly quests earns you extra rewards.","detail_en":"Event NPC"},{"id":"collector","category":"npc","name":"收藏家","emoji":"🗃️","x":492,"y":-479,"desc":"收集品兑换 NPC，可用你收集来的物品换取奖励。","detail":"收集品兑换处","schedule":"全天","unlockDg":0,"name_en":"Collector","desc_en":"Exchanges collectibles for rewards — bring the items you have gathered to trade them in.","detail_en":"Collectible exchange"},{"id":"andrew","category":"npc","name":"Andrew","emoji":"🔧","x":593,"y":-401,"desc":"工具相关的特殊 NPC，位于城镇东侧。","detail":"特殊 · 城镇东侧","schedule":"全天","unlockDg":0,"desc_en":"A specialist NPC on the east side of town who handles tool services.","detail_en":"Special · east side of town"},{"id":"eric","category":"npc","name":"Eric","emoji":"👤","x":524,"y":-261,"desc":"住在温泉山一带的居民。","detail":"温泉山一带","schedule":"全天","unlockDg":0,"desc_en":"A resident who lives around Onsen Mountain.","detail_en":"Onsen Mountain area"},{"id":"will","category":"npc","name":"Will","emoji":"👤","x":420,"y":-809,"desc":"住在西南海岸灯塔旁的居民，也是灯塔的建造者。","detail":"灯塔一带","schedule":"全天","unlockDg":0,"desc_en":"A resident of the southwest coast who built the Lighthouse.","detail_en":"Lighthouse area"},{"id":"patti","category":"npc","name":"Patti","emoji":"👤","x":785,"y":-505,"desc":"森林护林员，驻守在鹿塔/森林入口附近。","detail":"森林·鹿塔一带","schedule":"全天","unlockDg":0,"desc_en":"A forest ranger stationed near the Deer Tower at the forest entrance.","detail_en":"Forest · Deer Tower area"},{"id":"vernie","category":"npc","name":"Vernie","emoji":"👤","x":223,"y":-651,"desc":"花田管理员，常在风车花田的风车旁露营。","detail":"风车花田·山丘露营","schedule":"全天","unlockDg":0,"desc_en":"The flower-field caretaker who camps on the hill by the windmill.","detail_en":"Windmill Flower Fields · hill campsite"},{"id":"bill","category":"npc","name":"Bill","emoji":"🎣","x":448,"y":-736,"desc":"渔村一带的活动相关 NPC。","detail":"活动 NPC","schedule":"全天","unlockDg":0,"desc_en":"An event NPC found around Fisherman Village.","detail_en":"Event NPC"},{"id":"doris","category":"npc","name":"Doris","emoji":"👤","x":413,"y":-507,"desc":"艺术街附近的特殊 NPC。","detail":"特殊 · 艺术街","schedule":"全天","unlockDg":0,"desc_en":"A specialist NPC near Arts Street.","detail_en":"Special · Arts Street"},{"id":"fluorite-mine","category":"resource","subcategory":"stone","name":"萤石矿","emoji":"🪨","x":420,"y":-210,"desc":"每天刷新一次，产出用于建筑的萤石，位于温泉山/火山湖一带的巨石阵。","detail":"每天刷新 · 温泉山巨石阵","season":"全年","name_en":"Fluorite Mine","desc_en":"Respawns once a day and yields fluorite for building, found at the stone formation near Onsen Mountain / Volcano Lake.","detail_en":"Respawns daily · Onsen Mountain stone formation"},{"id":"bigtree-spot","category":"resource","subcategory":"tree","name":"大树采集点","emoji":"🌳","x":422,"y":-610,"desc":"每日刷新的大树资源，可收获木材与若干特殊材料。","detail":"每天刷新 · 分散于多个区域","season":"全年","name_en":"Big Tree Spot","desc_en":"A large tree resource that respawns daily, giving wood and a few special materials.","detail_en":"Respawns daily · scattered across regions"},{"id":"stone-spot1","category":"resource","subcategory":"stone","name":"矿石点","emoji":"⛏️","x":318,"y":-616,"desc":"可采集石头与矿物，每日刷新，用于建造与制作。","detail":"每天刷新一次","season":"全年","name_en":"Ore Deposit","desc_en":"Yields stone and ore that respawn daily, used for building and crafting.","detail_en":"Respawns daily"},{"id":"stone-spot2","category":"resource","subcategory":"stone","name":"矿石点","emoji":"⛏️","x":369,"y":-253,"desc":"可采集石头与矿物，位于遗迹一带。","detail":"每天刷新一次","season":"全年","name_en":"Ore Deposit","desc_en":"A spot for stone and ore, located near the Ruins.","detail_en":"Respawns daily"},{"id":"stone-spot3","category":"resource","subcategory":"stone","name":"矿石点","emoji":"⛏️","x":695,"y":-444,"desc":"能采到石头和矿物，位置在森林一带。","detail":"每天刷新一次","season":"全年","name_en":"Ore Deposit","desc_en":"A spot for stone and ore, located in the forest.","detail_en":"Respawns daily"},{"id":"mushroom-forest1","category":"resource","subcategory":"mushroom","name":"蘑菇采集点","emoji":"🍄","x":794,"y":-614,"desc":"森林里的蘑菇群，秋季产量最丰。属于免费食材，烤蘑菇几乎零成本就能赚钱，每天跑图时顺路采上一把即可。","detail":"最佳季节：秋 · 森林一带","season":"秋","name_en":"Mushroom Patch","desc_en":"A mushroom cluster in the forest that peaks in autumn. These free ingredients make roast mushrooms an almost zero-cost earner, so it is worth grabbing a handful on your daily rounds.","detail_en":"Best season: autumn · forest area"},{"id":"mushroom-forest2","category":"resource","subcategory":"mushroom","name":"蘑菇采集点","emoji":"🍄","x":774,"y":-544,"desc":"密林深处的蘑菇群，秋天产量最高。","detail":"最佳季节：秋 · 密林深处","season":"秋","name_en":"Mushroom Patch","desc_en":"A mushroom cluster deep in the forest that peaks in autumn.","detail_en":"Best season: autumn · deep forest"},{"id":"mushroom-shore","category":"resource","subcategory":"mushroom","name":"蘑菇采集点","emoji":"🍄","x":540,"y":-688,"desc":"水边的蘑菇点，雨过之后出现几率更高。","detail":"最佳季节：秋 · 水边一带","season":"秋","name_en":"Mushroom Patch","desc_en":"A waterside mushroom patch that appears more often after rain.","detail_en":"Best season: autumn · waterside"},{"id":"berry1","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":328,"y":-678,"desc":"散布在全地图各处。免费水果，4 颗做成果酱可卖 170 金币，每天跑一圈就能全部采完。","detail":"全岛散落 · 4 颗可制果酱售 170 金币","season":"全年","name_en":"Berry Bush","desc_en":"Scattered all over the map. These free fruit sell for 170 gold when four are made into jam, and a single daily loop clears them all.","detail_en":"Scattered island-wide · 4 berries → 170G jam"},{"id":"berry2","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":255,"y":-570,"desc":"长在花田旁的浆果丛，顺路做任务时就能随手采。","detail":"花田旁","season":"全年","name_en":"Berry Bush","desc_en":"A berry bush near the Flower Fields you can pick on your way to quests.","detail_en":"Near Flower Fields"},{"id":"berry3","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":240,"y":-501,"desc":"城镇周边的浆果丛，做任务途中可以顺手摘。","detail":"城镇周边","season":"全年","name_en":"Berry Bush","desc_en":"A berry bush near town you can pick on your way to quests.","detail_en":"Near town"},{"id":"berry4","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":223,"y":-454,"desc":"郊区的浆果丛，刷新速度很快。","detail":"郊区一带","season":"全年","name_en":"Berry Bush","desc_en":"A berry bush in the Suburbs that respawns very often.","detail_en":"Suburbs"},{"id":"berry5","category":"resource","subcategory":"berry","name":"浆果灌木","emoji":"🫐","x":245,"y":-396,"desc":"河对岸的浆果丛，容易被忽略，但刷新量相当可观。","detail":"河对岸一侧","season":"全年","name_en":"Berry Bush","desc_en":"A berry bush across the river that is easy to miss but respawns a generous amount.","detail_en":"Across the river"},{"id":"orchard1","category":"resource","subcategory":"fruit","name":"果树群","emoji":"🍎","x":678,"y":-504,"desc":"森林边缘的果树群。每棵树敲一下就能摘果，约 2 分钟后重新长。注意第一下必掉水果，后两下只掉木材。","detail":"位置：森林边缘 · 约 2 分钟刷新","season":"全年","name_en":"Fruit Grove","desc_en":"A grove at the forest edge. Shake each tree once to pick fruit; it refreshes in about 2 minutes. Note that the first shake always drops fruit, while the next two only give wood.","detail_en":"Location: forest edge · ~2 min respawn"},{"id":"orchard2","category":"resource","subcategory":"fruit","name":"果树群","emoji":"🍊","x":675,"y":-593,"desc":"森林南缘的果树，每棵树敲一下即可摘果。","detail":"位置：森林南缘 · 约 2 分钟刷新","season":"全年","name_en":"Fruit Grove","desc_en":"Fruit trees on the south edge of the forest — shake each once to pick fruit.","detail_en":"Location: south forest edge · ~2 min respawn"},{"id":"orchard3","category":"resource","subcategory":"fruit","name":"果树","emoji":"🍋","x":742,"y":-457,"desc":"路旁的柠檬树，柠檬是好几种食谱的配料。","detail":"位置：路边 · 约 2 分钟刷新","season":"全年","name_en":"Fruit Tree","desc_en":"A lemon tree by the road; lemons are an ingredient in several recipes.","detail_en":"Location: roadside · ~2 min respawn"},{"id":"orchard4","category":"resource","subcategory":"fruit","name":"果树群","emoji":"🍑","x":622,"y":-631,"desc":"森林湖边的野生果树。","detail":"位置：森林湖边","season":"全年","name_en":"Fruit Grove","desc_en":"Wild fruit trees near Forest Lake.","detail_en":"Location: near Forest Lake"},{"id":"bubble1","category":"resource","subcategory":"other","name":"金色泡泡","emoji":"✨","x":499,"y":-498,"desc":"会在地图各处随机冒出，里面装着能量、材料、服装等奖励。经过时记得捡，是免费拿稀有物品的重要来源。","detail":"全岛随机刷新","name_en":"Golden Bubble","desc_en":"Appears at random across the map and can hold energy, materials, clothing and more. Always pick these up as you pass — they are a key free source of rare items.","detail_en":"Respawns randomly across the map"},{"id":"bubble2","category":"resource","subcategory":"other","name":"金色泡泡","emoji":"✨","x":698,"y":-602,"desc":"随机出现在地图各处，装着能量、材料、服装等奖励，路过记得顺手捡。","detail":"全岛随机刷新","name_en":"Golden Bubble","desc_en":"Appears at random across the map with energy, materials, clothing and other rewards — grab them as you pass.","detail_en":"Respawns randomly across the map"},{"id":"bubble3","category":"resource","subcategory":"other","name":"金色泡泡","emoji":"✨","x":349,"y":-401,"desc":"随机出现在地图各处，装着能量、材料、服装等奖励，路过记得顺手捡。","detail":"全岛随机刷新","name_en":"Golden Bubble","desc_en":"Appears at random across the map with energy, materials, clothing and other rewards — grab them as you pass.","detail_en":"Respawns randomly across the map"},{"id":"meadow-lake-fish","category":"fishing","name":"Meadow湖","emoji":"🏞️","x":234,"y":-538,"desc":"Meadow 湖钓点，蝴蝶锦鲤、胡瓜鱼、金鱼在此出没。全年全天都能下竿，是新手最便捷的日常钓点。","detail":"鱼种：蝴蝶锦鲤/胡瓜鱼/金鱼","fishIds":["虹鳟鱼","胡瓜鱼","蝴蝶锦鲤","欧鲶","欧鲌","食用蛙","圆鳍雅罗鱼"],"name_en":"Meadow Lake","desc_en":"A fishing spot on Meadow Lake where Butterfly Koi, Smelt and Goldfish turn up. It can be fished all year, all day, making it the most convenient daily spot for beginners.","detail_en":"Fish: Butterfly Koi · Smelt · Goldfish"},{"id":"forest-lake-fish","category":"fishing","name":"森林湖","emoji":"🌲","x":749,"y":-599,"desc":"森林湖钓点，鲈鱼、小龙虾、红点鲑在此出没，旁边也是蘑菇采集地。","detail":"鱼种：鲈鱼/小龙虾/红点鲑","fishIds":["北极红点鲑","大口黑鲈","大珍珠蚌","丁鱥","蓝鳌虾","泥太阳鱼","欧洲鳌虾"],"name_en":"Forest Lake","desc_en":"A fishing spot on Forest Lake where Bass, Crayfish and Char appear, next to a mushroom-picking area.","detail_en":"Fish: Bass · Crayfish · Char"},{"id":"suburb-lake-fish","category":"fishing","name":"郊区湖","emoji":"🏘️","x":483,"y":-607,"desc":"郊区湖钓点，鲫鱼、鲷鱼、白鱼在此出没。紧邻农地，做完日常采集顺路来钓最方便。","detail":"鱼种：鲫鱼/鲷鱼/白鱼","fishIds":["白斑狗鱼","地中海鳉鱼","河蚌","河蟹","红眼鱼","茴鱼","鲫鱼","欧洲泥鳉","施氏鱥","条鳅"],"name_en":"Suburban Lake","desc_en":"A fishing spot on Suburban Lake with Crucian Carp, Seabream and Whitefish. Right next to the farm fields, so it is an easy stop after your daily gathering.","detail_en":"Fish: Crucian Carp · Seabream · Whitefish"},{"id":"hot-spring-lake-fish","category":"fishing","name":"温泉山湖","emoji":"♨️","x":538,"y":-266,"desc":"温泉山湖钓点，蓝鳃太阳鱼、杜父鱼在此出没。位置稍偏，但鱼种别具特色。","detail":"鱼种：蓝鳃太阳鱼/杜父鱼","fishIds":["白鱼","斑杜父鱼","蝌蚪","蓝鳃太阳鱼","梅花鲈","太阳鱼"],"name_en":"Onsen Mountain Lake","desc_en":"A fishing spot on Onsen Mountain Lake with Bluegill and Sculpin. A little out of the way, but the species are distinctive.","detail_en":"Fish: Bluegill · Sculpin"},{"id":"volcano-lake-fish","category":"fishing","name":"火山湖","emoji":"🌋","x":396,"y":-174,"desc":"火山湖钓点，有特色鱼种出没，想集齐图鉴一定要来。","detail":"火山湖 · 特色鱼类","fishIds":[],"name_en":"Volcano Lake","desc_en":"A fishing spot on Volcano Lake with some unique species — a must if you want a complete collection log.","detail_en":"Volcano Lake · distinctive species"},{"id":"aurora-river-fish","category":"fishing","name":"极光河","emoji":"🌌","x":321,"y":-338,"desc":"极光河沿岸的一个钓鱼位置。","detail":"河道钓点","fishIds":[],"name_en":"Aurora River","desc_en":"A fishing spot along the Aurora River.","detail_en":"River fishing spot"},{"id":"shallow-river-fish","category":"fishing","name":"浅滩河","emoji":"🏖️","x":651,"y":-343,"desc":"浅滩河段，这里能钓到鲃鱼。","detail":"鱼种：鲃鱼","fishIds":["鲃鱼","三刺鱼"],"name_en":"Shallow River","desc_en":"A stretch of the Shallow River where Barbel appear.","detail_en":"Fish: Barbel"},{"id":"quiet-river-fish","category":"fishing","name":"静谧河","emoji":"🍃","x":366,"y":-667,"desc":"静谧河段，江鱈、鲑鱼在这里出没。沿河道一路边走边钓，效率很高。","detail":"鱼种：江鱈/鲑鱼","fishIds":["狗鲑","江鱈","鳉鱼"],"name_en":"Tranquil River","desc_en":"A stretch of the Tranquil River with Burbot and Salmon. Work your way along the bank and you will haul them in fast.","detail_en":"Fish: Burbot · Salmon"},{"id":"giant-tree-river-fish","category":"fishing","name":"巨树河","emoji":"🌳","x":628,"y":-675,"desc":"巨树河段，这里能钓到多瑙哲罗鱼。","detail":"鱼种：多瑙哲罗鱼","fishIds":["多瑙哲罗鱼","红腹食人鱼","花鳅","梭鲈"],"name_en":"Giant Tree River","desc_en":"A stretch of the Giant Tree River where Huchen appear.","detail_en":"Fish: Huchen"},{"id":"fisherman-dock-fish","category":"fishing","name":"渔村码头","emoji":"⛵","x":508,"y":-691,"desc":"渔村码头的海钓点，全年全天都能钓到鲑鱼、沙丁鱼。紧邻渔具店方便补给，是日常海钓的首选。","detail":"鱼种：鲑鱼/沙丁鱼及多种海鱼","fishIds":["海鲈鱼","鲣鱼","兔子鱼"],"name_en":"Fisherman Village Dock","desc_en":"A sea-fishing spot at the Fisherman Village dock where you can catch Salmon and Sardine all year, all day. Right next to the tackle shop for easy resupply, it is the go-to spot for daily sea fishing.","detail_en":"Fish: Salmon · Sardine · assorted sea fish"},{"id":"east-dock-fish","category":"fishing","name":"东码头","emoji":"🚢","x":604,"y":-735,"desc":"东码头的海钓点，能钓到不少海鱼。","detail":"海上钓点","fishIds":["翻车鱼","鲂鱼","黑线鳕","寄居蟹","普通虾","虾虎鱼"],"name_en":"East Dock","desc_en":"A sea-fishing spot at the East Dock with a variety of saltwater fish.","detail_en":"Sea fishing spot"},{"id":"whale-sea-fish","category":"fishing","name":"鲸鱼海","emoji":"🐋","x":94,"y":-535,"desc":"鲸鱼海的钓点，鲭鱼、大西洋鲑鱼在这里出没。","detail":"鱼种：鲭鱼/大西洋鲑鱼","fishIds":["大西洋鲑鱼","大西洋鲭鱼","帝王蟹","海马","竹荚鱼"],"name_en":"Whale Sea","desc_en":"A fishing spot in Whale Sea where Mackerel and Atlantic Salmon appear.","detail_en":"Fish: Mackerel · Atlantic Salmon"},{"id":"ancient-sea-fish","category":"fishing","name":"古海","emoji":"🏛️","x":499,"y":-66,"desc":"古海海域上的一个抛竿位置。","detail":"海上钓点","fishIds":["海刺鱼","欧鲽","欧洲鳗鱼","小丑鱼"],"name_en":"Ancient Sea","desc_en":"A fishing spot in the Ancient Sea.","detail_en":"Sea fishing spot"},{"id":"calm-sea-fish","category":"fishing","name":"静海","emoji":"🌊","x":479,"y":-784,"desc":"静海海域上的一个抛竿位置。","detail":"海上钓点","fishIds":[],"name_en":"Calm Sea","desc_en":"A fishing spot in the Calm Sea.","detail_en":"Sea fishing spot"},{"id":"sea-fishing","category":"fishing","name":"远洋活动区","emoji":"🎣","x":598,"y":-781,"desc":"海上钓鱼活动的专用区域，出金枪鱼（夏）、帝王蟹（冬）、月鱼（夜间）。注意同一周重复参加费用会一次比一次高。","detail":"仅活动周 · 金枪鱼/帝王蟹/月鱼","fishIds":["鮟鱇鱼","大菱鲆","护士鲨","皇带鱼","黄金帝王蟹","欧洲飞鱿","普通章鱼","条纹绯鲤","月鱼"],"name_en":"Ocean Event Area","desc_en":"A dedicated zone for the ocean fishing event, yielding Tuna (summer), King Crab (winter) and Moonfish (night). Note that repeat entries in the same week cost progressively more.","detail_en":"Event weeks only · Tuna · King Crab · Moonfish"},{"id":"clothes-shop","category":"shop","name":"Dorothy服装店","emoji":"👚","x":488,"y":-471,"desc":"位于城镇中心的服装店，服装库存每日刷新。Dorothy 同时还是每日食物任务的发布者。","detail":"位置：城镇中心 · Dorothy","name_en":"Dorothy\u0027s Clothing Shop","desc_en":"The clothing shop in Town Center with a stock that refreshes daily. Dorothy also posts the daily food quest from here.","detail_en":"Location: Town Center · Dorothy"},{"id":"furniture-shop","category":"shop","name":"家具市场","emoji":"🏠","x":505,"y":-473,"desc":"拥有 2000 多种可交互组件，按现代、田园、海洋、童话等主题分类。DG 等级决定可解锁的种类，DG Lv.15 会开放高级建造模式。","detail":"2000+ 组件 · 可解锁种类随 DG 等级提升","name_en":"Furniture Market","desc_en":"Boasts 2,000+ interactive pieces organized into themes like Modern, Countryside, Ocean and Fairy Tale. Your DG level decides which categories unlock, and DG Lv.15 opens the advanced build mode.","detail_en":"2,000+ pieces · unlocks scale with DG level"},{"id":"pets-shop","category":"shop","name":"宠物商店","emoji":"🐾","x":523,"y":-497,"desc":"卖宠物相关物品，就在宠物领养中心旁边。","detail":"位置：宠物领养中心旁","name_en":"Pet Shop","desc_en":"Sells pet supplies and sits right next to the pet adoption center.","detail_en":"Location: next to the Pet Adoption Center"},{"id":"bookstore-shop","category":"shop","name":"书店","emoji":"📚","x":468,"y":-439,"desc":"卖蓝图和配方书，少数稀有蓝图要 DG 达到一定等级才会开放。","detail":"位置：城镇中心 · 蓝图/配方书","name_en":"Bookstore","desc_en":"Sells blueprints and recipe books; some rare blueprints only unlock at certain DG levels.","detail_en":"Location: Town Center · blueprints \u0026 recipe books"},{"id":"central-shops","category":"shop","name":"中心商店街","emoji":"🏪","x":493,"y":-473,"desc":"城镇中心的主街，服装店、家具店、杂货铺都开在这里。货品每天补新，值得天天来逛。","detail":"位置：城镇中心主街 · 每日补货","name_en":"Central Shopping Street","desc_en":"The main street in Town Center, home to the clothing, furniture and general stores. Stock refreshes daily, so it is worth a visit every day.","detail_en":"Location: main street, Town Center · daily restock"},{"id":"massimo-cafe","category":"shop","name":"Massimo咖啡馆","emoji":"☕","x":495,"y":-447,"desc":"出售肉、奶酪、奶油、黄油等烹饪材料。冬季限定：企鹅炉灶（做冰饮必备，普通炉灶做不了冰咖啡）。","detail":"位置：城镇中心 · 企鹅炉灶（仅冬季）","name_en":"Massimo\u0027s Café","desc_en":"Sells meat, cheese, cream, butter and other cooking ingredients. Winter exclusive: the Penguin Stove — essential for iced drinks, since a normal stove cannot make iced coffee.","detail_en":"Location: Town Center · Penguin Stove (winter only)"},{"id":"bug-shop","category":"shop","name":"捕虫商店","emoji":"🦋","x":579,"y":-503,"desc":"在 Naniwa 处购买。卖充气昆虫诱捕器和捕虫网，16 块拼图梦（升级 Dream 的素材）也在这里。","detail":"NPC：Naniwa · 诱捕器/捕虫网/拼图梦","name_en":"Bug Shop","desc_en":"Run by Naniwa. Sells inflatable insect traps and bug nets, and is also where you can buy the 16 Dream Puzzles used to level up Dream.","detail_en":"NPC: Naniwa · traps · nets · Dream Puzzles"},{"id":"fish-shop","category":"shop","name":"渔具店","emoji":"🎣","x":512,"y":-692,"desc":"开在渔村一带，卖鱼饵和修理工具。海上钓鱼活动期间还会上架限定商品。","detail":"位置：渔村一带","name_en":"Tackle Shop","desc_en":"In the Fisherman Village area, selling bait and repair tools. During ocean fishing events it also stocks limited-time items.","detail_en":"Location: Fisherman Village area"},{"id":"gilded","category":"shop","name":"镀金橡果展览","emoji":"🎪","x":512,"y":-491,"desc":"扭蛋/抽卡系统。展览票券能跨池保留，别急着花掉——先攒着，等想要的物品轮换进池子再集中抽。精密乐器和稀有家具主要从这里出。","detail":"票券跨池保留 · 稀有家具/精密乐器","name_en":"Gilded Acorn Exhibition","desc_en":"A gacha-style draw system. Exhibition tickets carry over between pools, so do not spend them in a hurry — save up and pull in bulk once an item you want rotates in. It is the source of precision instruments and rare furniture.","detail_en":"Tickets carry over between pools · rare furniture \u0026 instruments"},{"id":"central-plaza","category":"location","name":"中央广场","emoji":"🏘️","x":493,"y":-539,"desc":"岛屿的心脏地带，商店街、咖啡馆、广场都聚在这里，多数 NPC 也在此活动。","detail":"核心区域 · NPC 聚集","name_en":"Central Plaza","desc_en":"The heart of the island, home to the shopping street, café and plaza. Most NPCs hang around here.","detail_en":"Central hub · dense with NPCs"},{"id":"oak-forest","category":"location","name":"灵橡松林","emoji":"🌲","x":804,"y":-530,"desc":"东边的森林，昆虫、蘑菇、木材主要都从这里获取，也是捕虫和观鸟的重点地带。","detail":"森林地带 · 昆虫/蘑菇/木材","name_en":"Oak Pine Forest","desc_en":"The eastern forest, a main source of insects, mushrooms and wood, and a key area for both insect catching and birdwatching.","detail_en":"Forest area · insects · mushrooms · wood"},{"id":"fisherman-village","category":"location","name":"渔村","emoji":"⚓","x":504,"y":-693,"desc":"位于南边的渔村，有渔具店和码头。海钓首选这里，全年全天都能下竿。","detail":"渔具店/码头/海钓","name_en":"Fisherman Village","desc_en":"A village in the south with a tackle shop and dock. It is the top choice for sea fishing, available all year, all day.","detail_en":"Tackle shop · dock · sea fishing"},{"id":"flower-fields","category":"location","name":"花田","emoji":"🌷","x":183,"y":-648,"desc":"西北边的花田，花种很多，适合捕虫和观鸟。","detail":"花田 · 昆虫/花卉","name_en":"Flower Fields","desc_en":"A flower-filled area in the northwest with many bloom varieties, great for insect catching and birdwatching.","detail_en":"Flower fields · insects \u0026 flowers"},{"id":"hot-spring-mountain","category":"location","name":"温泉山","emoji":"♨️","x":503,"y":-224,"desc":"东北部的温泉山区，山湖就在此地。视野开阔，可俯瞰整座岛。","detail":"温泉山 · 山湖钓鱼区","name_en":"Onsen Mountain","desc_en":"A hot-spring mountain in the northeast, home to the mountain lake. The wide-open view overlooks the whole island.","detail_en":"Onsen Mountain · mountain lake fishing"},{"id":"whale-mountain","category":"location","name":"鲸鱼山","emoji":"🐋","x":183,"y":-438,"desc":"北边的一片山区。","detail":"山区一带","name_en":"Whale Mountain","desc_en":"A mountainous area in the north.","detail_en":"Mountain area"},{"id":"rocky-cliff","category":"location","name":"岩石崖","emoji":"🪨","x":625,"y":-229,"desc":"东海岸的悬崖地带，风景很有特色。","detail":"海边悬崖","name_en":"Rocky Cliff","desc_en":"A cliff along the east coast with distinctive scenery.","detail_en":"Coastal cliff"},{"id":"the-pier","category":"location","name":"码头","emoji":"⚓","x":403,"y":-689,"desc":"西边的一处码头。","detail":"码头一带","name_en":"The Pier","desc_en":"A pier on the west side of the island.","detail_en":"Pier area"},{"id":"lighthouse","category":"location","name":"灯塔","emoji":"🔦","x":385,"y":-782,"desc":"西南海岸的灯塔，风景漂亮，很适合拍照。","detail":"灯塔 · 地标建筑","name_en":"Lighthouse","desc_en":"A lighthouse on the southwest coast with lovely views — a great photo spot.","detail_en":"Lighthouse · landmark"},{"id":"suburbs","category":"location","name":"郊区","emoji":"🌾","x":408,"y":-585,"desc":"西边的郊区，可以种地，Ka Ching 的背包扩容店也开在这里。","detail":"郊区 · 农业地带","name_en":"Suburbs","desc_en":"The western Suburbs, where you can grow crops. Ka Ching\u0027s storage-upgrade shop is here too.","detail_en":"Suburbs · farming area"},{"id":"forest-island","category":"location","name":"森林岛","emoji":"🏝️","x":935,"y":-340,"desc":"东部的一座离岛，覆盖着森林。","detail":"离岛 · 森林带","name_en":"Forest Island","desc_en":"A forested offshore island to the east.","detail_en":"Offshore island · forest"},{"id":"violet-beach","category":"location","name":"紫罗兰海滩","emoji":"🏖️","x":210,"y":-724,"desc":"一处海滩地带。","detail":"海滩地带","name_en":"Violet Beach","desc_en":"A stretch of beach.","detail_en":"Beach"},{"id":"arts-street","category":"location","name":"艺术街","emoji":"🎨","x":428,"y":-492,"desc":"以艺术为主题的街区。","detail":"艺术街区","name_en":"Arts Street","desc_en":"An arts district.","detail_en":"Arts Street"},{"id":"garden-street","category":"location","name":"花园街","emoji":"🌻","x":556,"y":-511,"desc":"花园街区，Blanc 就在附近，常有昆虫和鸟类出没。","detail":"花园街 · Blanc 附近","name_en":"Garden Street","desc_en":"A garden district where Blanc lives nearby, with insects and birds often about.","detail_en":"Garden Street · Blanc"},{"id":"townsfolk-street","category":"location","name":"居民街","emoji":"🏠","x":514,"y":-440,"desc":"居民区，好几位 NPC 的家都在这条街上。","detail":"居民区一带","name_en":"Townsfolk Street","desc_en":"A residential street that is home to several NPCs.","detail_en":"Residential area"},{"id":"diving-board","category":"location","name":"潜水板","emoji":"🤿","x":784,"y":-689,"desc":"跳水的位置，就在熊猫旁边。","detail":"跳水地点","name_en":"Diving Board","desc_en":"A diving spot, right near the panda.","detail_en":"Diving spot"},{"id":"east-dock","category":"location","name":"东码头","emoji":"🚢","x":603,"y":-735,"desc":"东侧的大码头，海钓和出海活动都从这里出发。","detail":"东码头 · 海钓区","name_en":"East Dock","desc_en":"A large dock on the east side, the starting point for sea fishing and boat trips.","detail_en":"East Dock · sea fishing"},{"id":"player-home","category":"location","name":"玩家家园","emoji":"🏡","x":509,"y":-511,"desc":"你的家园！种田、烹饪、建造都在这里完成，也是每天跑图的起点和终点。","detail":"种田/烹饪/建造/起始点","name_en":"Player Home","desc_en":"Your home! Farming, cooking and building all happen here, and it is where every run around the map starts and ends.","detail_en":"Farming · cooking · building · starting point"},{"id":"windmill-flower","category":"location","name":"风车花田","emoji":"🌾","x":216,"y":-642,"desc":"风车和花田组成的景观地带。","detail":"风车/花田","name_en":"Windmill Flower Fields","desc_en":"A scenic area made up of windmills and flower fields.","detail_en":"Windmill \u0026 flower fields"},{"id":"bus-central","category":"bus","name":"巴士站·中央广场","emoji":"🚌","x":480,"y":-495,"desc":"中央广场的巴士站，可快速赶往其他车站。","detail":"快速传送点","name_en":"Bus Stop · Central Plaza","desc_en":"The Central Plaza bus stop, which lets you fast-travel to the other stops.","detail_en":"Fast-travel point"},{"id":"bus-fisherman","category":"bus","name":"巴士站·渔村","emoji":"🚌","x":480,"y":-653,"desc":"渔村的巴士站，从城镇过来很方便。","detail":"快速传送点","name_en":"Bus Stop · Fisherman Village","desc_en":"The Fisherman Village bus stop, a quick ride from town to the village.","detail_en":"Fast-travel point"},{"id":"bus-suburbs","category":"bus","name":"巴士站·郊区","emoji":"🚌","x":342,"y":-531,"desc":"西部郊区的巴士站，紧挨着农田。","detail":"快速传送点","name_en":"Bus Stop · Suburbs","desc_en":"A bus stop in the western Suburbs, right by the farm fields.","detail_en":"Fast-travel point"},{"id":"bus-flower","category":"bus","name":"巴士站·花田","emoji":"🚌","x":216,"y":-534,"desc":"花田旁的巴士站。","detail":"快速传送点","name_en":"Bus Stop · Flower Fields","desc_en":"A bus stop at the Flower Fields.","detail_en":"Fast-travel point"},{"id":"bus-forest","category":"bus","name":"巴士站·森林","emoji":"🚌","x":797,"y":-502,"desc":"森林的巴士站，离灵橡松林入口不远。","detail":"快速传送点","name_en":"Bus Stop · Forest","desc_en":"A bus stop in the forest, near the entrance to Oak Pine Forest.","detail_en":"Fast-travel point"},{"id":"bus-hotspring","category":"bus","name":"巴士站·温泉山","emoji":"🚌","x":510,"y":-223,"desc":"温泉山的巴士站，去山湖钓鱼的出发点。","detail":"快速传送点","name_en":"Bus Stop · Onsen Mountain","desc_en":"A bus stop on Onsen Mountain, the starting point for mountain-lake fishing.","detail_en":"Fast-travel point"},{"id":"bus-north","category":"bus","name":"巴士站·北郊","emoji":"🚌","x":482,"y":-375,"desc":"北郊的一处巴士站。","detail":"快速传送点","name_en":"Bus Stop · North Suburbs","desc_en":"A bus stop in the north suburbs.","detail_en":"Fast-travel point"},{"id":"bus-suburb-village","category":"bus","name":"巴士站·郊区村","emoji":"🚌","x":641,"y":-518,"desc":"郊区村的一处巴士站。","detail":"快速传送点","name_en":"Bus Stop · Suburb Village","desc_en":"A bus stop in the suburb village.","detail_en":"Fast-travel point"},{"id":"animal-bunny","category":"animal","name":"野兔","emoji":"🐰","x":339,"y":-534,"desc":"常在郊区和农田一带活动，拂晓与黄昏时段最常现身。","detail":"郊区/农田 · 晨昏活跃","name_en":"Rabbit","desc_en":"Appears near the Suburbs and farm fields, most active at dawn and dusk.","detail_en":"Suburbs \u0026 fields · dawn/dusk"},{"id":"animal-fox","category":"animal","name":"狐狸","emoji":"🦊","x":184,"y":-651,"desc":"花田周边能碰到它，是比较少见的野外动物。","detail":"花田一带 · 稀有","name_en":"Fox","desc_en":"Appears near the Flower Fields; a rare wild animal.","detail_en":"Flower Fields · rare"},{"id":"animal-deer","category":"animal","name":"小鹿","emoji":"🦌","x":803,"y":-530,"desc":"偶尔在密林深处露面，身形矫健，人一靠近就会受惊逃开。","detail":"密林深处 · 稀有","name_en":"Deer","desc_en":"Occasionally appears deep in the forest. It is skittish and bolts if you get too close.","detail_en":"Deep forest · rare"},{"id":"animal-panda","category":"animal","name":"熊猫","emoji":"🐼","x":782,"y":-690,"desc":"南部竹林里能看到它，就在跳跳乐楼梯旁；喂竹子可以和它互动。","detail":"南部竹林 · 跳跳乐旁","name_en":"Panda","desc_en":"Appears in the southern bamboo grove, right by the jump-puzzle staircase; feed it bamboo to interact.","detail_en":"Southern bamboo · near the jump puzzle"},{"id":"animal-capybara","category":"animal","name":"水豚","emoji":"🦫","x":293,"y":-182,"desc":"活动范围在遗迹一带。","detail":"遗迹一带","name_en":"Capybara","desc_en":"Appears around the Ruins.","detail_en":"Ruins area"},{"id":"animal-sea-otter","category":"animal","name":"海獭","emoji":"🦦","x":510,"y":-736,"desc":"活动在渔村周边的水域。","detail":"渔村附近水域","name_en":"Sea Otter","desc_en":"Appears in the waters near Fisherman Village.","detail_en":"Fisherman Village waters"},{"id":"animal-ferret","category":"animal","name":"雪貂","emoji":"🦡","x":275,"y":-355,"desc":"只出现在个别区域，相当罕见。","detail":"相当稀有","name_en":"Ferret","desc_en":"Only appears in specific areas and is very rare.","detail_en":"Rare"},{"id":"animal-llama","category":"animal","name":"羊驼","emoji":"🦙","x":210,"y":-724,"desc":"出没地点在紫罗兰海滩附近。","detail":"海滩一带","name_en":"Llama","desc_en":"Appears near Violet Beach.","detail_en":"Beach area"},{"y":-502,"id":"bird-event","x":499,"category":"bird","birdIds":[],"season":"活动期间","name":"活动限定观鸟","desc":"只在百巢活动等特殊事件中出现的稀有鸟类，例如孔雀、金刚鹦鹉等。","detail":"仅活动期间 · 平时看不到","emoji":"🎪","name_en":"Event Birdwatching","desc_en":"Rare birds such as peacocks and macaws that only show up during special events like the Hundred-Nest event.","detail_en":"Event only · not visible otherwise"},{"y":-651,"id":"bird-waterside","x":372,"category":"bird","birdIds":["斑头秋沙鸭","赤颈鸭","大红鹳","绿头鸭","王绒鸭","小红鹳"],"season":"全年","name":"水边观鸟区","desc":"栖息于河流、湖泊等水域的水鸟，以鸭类、火烈鸟等为主。","detail":"观鸟等级需求：1-5 · 多为鸭类与涉禽","emoji":"💧","name_en":"Waterside Birdwatching","desc_en":"Water birds that live along rivers and lakes, mostly ducks, flamingos and similar.","detail_en":"Birdwatching Lv.1-5 · mostly ducks and waders"},{"y":-638,"id":"bird-flower","x":188,"category":"bird","birdIds":["苍头燕雀","橙腹果鸠","粉颈绿鸠","黄嘴朱顶雀","蓝山雀","美洲火烈鸟"],"season":"全年","name":"花田观鸟区","desc":"花田地区鸟种丰富，火烈鸟、果鸠等都在此出没。","detail":"观鸟等级需求：1-9 · 种类最丰富的地点之一","emoji":"🌷","name_en":"Flower Fields Birdwatching","desc_en":"A bird-rich area in the Flower Fields, with flamingos, fruit doves and more.","detail_en":"Birdwatching Lv.1-9 · one of the most diverse spots"},{"y":-699,"id":"bird-village","x":502,"category":"bird","birdIds":["斑皇鸠","桂红地鸠","黄腹鹟","欧亚䴓","普氏鸦雀","双斑草雀"],"season":"全年","name":"渔村观鸟区","desc":"渔村、灯塔和码头周围的海鸟与水边鸟类。","detail":"观鸟等级需求：1-6","emoji":"⚓","name_en":"Fisherman Village Birdwatching","desc_en":"Sea and waterside birds around Fisherman Village, the lighthouse and the dock.","detail_en":"Birdwatching Lv.1-6"},{"y":-749,"id":"bird-ocean","x":548,"category":"bird","birdIds":["奥氏鸥","白燕鸥","帝鸬鹚","红脸鸬鹚"],"season":"全年","name":"远洋观鸟区","desc":"远洋与离岛一带的珍稀海鸟，有鸬鹚、燕鸥等。","detail":"观鸟等级需求：3-9 · 珍稀海鸟","emoji":"🌊","name_en":"Open Ocean Birdwatching","desc_en":"Rare sea birds of the open ocean and islands, including cormorants and terns.","detail_en":"Birdwatching Lv.3-9 · rare sea birds"},{"y":-529,"id":"bird-forest-oak","x":801,"category":"bird","birdIds":["白腰朱顶雀","北美黑啄木鸟","红腹灰雀","红脚隼","鹪鹩","金色园丁鸟","巨果鸠","摄政园丁鸟","铜蓝鹟"],"season":"全年","name":"灵橡松林观鸟区","desc":"灵橡松林中心地带的鸟类，有啄木鸟、园丁鸟等。","detail":"观鸟等级需求：1-7","emoji":"🌲","name_en":"Oak Pine Forest Birdwatching","desc_en":"Birds of the core Oak Pine Forest, including woodpeckers and bowerbirds.","detail_en":"Birdwatching Lv.1-7"},{"y":-181,"id":"bird-crater","x":402,"category":"bird","birdIds":["白头硬尾鸭","黄喉蜂虎","锡嘴雀"],"season":"全年","name":"火山口湖观鸟区","desc":"火山口湖和遗迹一带的高地鸟类。","detail":"观鸟等级需求：5-6","emoji":"🌋","name_en":"Crater Lake Birdwatching","desc_en":"Highland birds of the crater lake and Ruins area.","detail_en":"Birdwatching Lv.5-6"},{"y":-632,"id":"bird-windmill","x":205,"category":"bird","birdIds":["粉红鸽","灰蓝山雀"],"season":"全年","name":"风车花田观鸟区","desc":"风车花田和鲸鱼山周边的特有鸟种。","detail":"观鸟等级需求：1-7","emoji":"🌾","name_en":"Windmill Birdwatching","desc_en":"Birds unique to the windmill flower fields and the Whale Mountain area.","detail_en":"Birdwatching Lv.1-7"},{"y":-578,"id":"bird-suburbs","x":401,"category":"bird","birdIds":["斑胸草雀","赤麻鸭","东方蓝鸲","粉头果鸠","黄眼鸽","灰冠红雀","林䳭伯劳","绿头唐纳雀","欧亚红腹灰雀","天堂唐纳雀"],"season":"全年","name":"郊区观鸟区","desc":"郊区和农田一带的鸟类，有蓝鸲、朱顶雀等，是鸟种最密集的观鸟地点。","detail":"观鸟等级需求：2-9 · 鸟种最丰富","emoji":"🌻","name_en":"Suburbs Birdwatching","desc_en":"Birds of the Suburbs and farmlands, including bluebirds and redpolls — the most diverse birdwatching area.","detail_en":"Birdwatching Lv.2-9 · most diverse area"},{"y":-518,"id":"bird-home","x":502,"category":"bird","birdIds":["灰斑鸠","灰头斑鸠","金黄鹂","欧鸽","欧亚灰斑鸠","欧亚鸲(知更鸟)","珠颈斑鸠"],"season":"全年","name":"家园/中心区观鸟","desc":"家园与中央广场附近的常见鸟类，最适合新手观测。","detail":"观鸟等级需求：1-3","emoji":"🏡","name_en":"Home \u0026 Center Birdwatching","desc_en":"Common birds around your home and Central Plaza — the best place for beginners to start.","detail_en":"Birdwatching Lv.1-3"},{"y":-351,"id":"bird-forest-island","x":899,"category":"bird","birdIds":["松雀"],"season":"全年","name":"森林岛观鸟区","desc":"只有森林岛才有的鸟种。","detail":"观鸟等级需求：4","emoji":"🏝️","name_en":"Forest Island Birdwatching","desc_en":"Birds found only on Forest Island.","detail_en":"Birdwatching Lv.4"},{"y":-739,"id":"bird-coast","x":251,"category":"bird","birdIds":["白鹡鸰","褐燕鸥","黑头鸥","燕鸥"],"season":"全年","name":"海岸观鸟区","desc":"栖居在海滩与岸边的海鸟，主要有鸥类、燕鸥等。","detail":"观鸟等级需求：2-7","emoji":"🏖️","name_en":"Coast Birdwatching","desc_en":"Sea birds along the beach and shore, including gulls and terns.","detail_en":"Birdwatching Lv.2-7"},{"y":-229,"id":"bird-onsen","x":509,"category":"bird","birdIds":["大山雀","非洲橄榄鸽","欧亚雕鸮","文须雀","游隼","长耳鸮"],"season":"全年","name":"温泉山观鸟区","desc":"温泉山一带的鸟类，有山雀、雕鸮等。","detail":"观鸟等级需求：1-7 · 山雀与猛禽较多","emoji":"♨️","name_en":"Onsen Mountain Birdwatching","desc_en":"Birds of the Onsen Mountain area, including tits and eagle-owls.","detail_en":"Birdwatching Lv.1-7 · several tits and raptors"},{"y":-511,"id":"bird-forest-deer","x":781,"category":"bird","birdIds":["红隼","红隼(赤隼)"],"season":"全年","name":"鹿塔观鸟区","desc":"鹿塔周围可见猛禽和一些特有鸟种。","detail":"观鸟等级需求：5-8 · 有红隼等猛禽","emoji":"🦌","name_en":"Deer Tower Birdwatching","desc_en":"Birds of prey and unique species near the forest Deer Tower.","detail_en":"Birdwatching Lv.5-8 · raptors like the kestrel"},{"y":-652,"id":"bird-forest-jump","x":781,"category":"bird","birdIds":["欧鸬鹚","银喉山雀"],"season":"全年","name":"跳跃谜题观鸟区","desc":"森林跳跃谜题与跳水板附近的鸟类。","detail":"观鸟等级需求：3-4","emoji":"🪜","name_en":"Jump Puzzle Birdwatching","desc_en":"Birds near the forest jump puzzle and diving board.","detail_en":"Birdwatching Lv.3-4"},{"y":-656,"id":"insect-windmill","x":225,"category":"insect","insectIds":["孔雀蛱蝶","珍珠蝶"],"name":"风车花田捕虫区","desc":"风车花田一带，有珍珠蝶、孔雀蛱蝶、展足木蜂出没。","detail":"捕捉等级需求：4-8","emoji":"🌾","name_en":"Windmill Flower Fields Insect Spot","desc_en":"The windmill flower fields, where Mother-of-Pearl, Peacock Butterfly and Splay-footed Carpenter Bee appear.","detail_en":"Catching Lv.4-8"},{"y":-338,"id":"insect-forest-island","x":928,"category":"insect","insectIds":["高山天牛"],"name":"森林岛捕虫区","desc":"森林岛上的高山天牛，只在彩虹天气才会现身。","detail":"捕捉等级需求：5 · 仅限彩虹天气","emoji":"🏝️","name_en":"Forest Island Insect Spot","desc_en":"The Alpine Longhorn Beetle on Forest Island, which only shows up in rainbow weather.","detail_en":"Catching Lv.5 · rainbow weather only"},{"y":-521,"id":"insect-forest-oak","x":801,"category":"insect","insectIds":["蜂形天牛","金锹甲","西班牙月蛾"],"name":"灵橡松林捕虫区","desc":"灵橡松林核心区域，闪蝶、锹甲、凤蝶等稀有品种在此出没。","detail":"捕捉等级需求：2-8 · 蝴蝶和甲虫居多","emoji":"🌲","name_en":"Oak Pine Forest Insect Spot","desc_en":"The core Oak Pine Forest, home to rare morpho butterflies, stag beetles and swallowtails.","detail_en":"Catching Lv.2-8 · mostly butterflies and beetles"},{"y":-498,"id":"insect-forest-deer","x":789,"category":"insect","insectIds":["蓑蛾","瓦鲁纳杜鹃蜂","异色瓢虫"],"name":"鹿塔捕虫区","desc":"鹿塔附近，异色瓢虫、蓑蛾、杜鹃蜂等在这里出没。","detail":"捕捉等级需求：3-7","emoji":"🦌","name_en":"Deer Tower Insect Spot","desc_en":"Near the forest Deer Tower, where the Harlequin Ladybird, Bagworm Moth, Cuckoo Bee and more appear.","detail_en":"Catching Lv.3-7"},{"y":-701,"id":"insect-village","x":499,"category":"insect","insectIds":["豹纹蛱蝶","角甲虫","蓝盾蝽","蚂蚁","天蓝木蜂","西伯利亚蝗虫"],"name":"渔村捕虫区","desc":"渔村及周边，菜粉蝶、蚂蚁、角甲虫、豹纹蛱蝶等在此出没。","detail":"捕捉等级需求：1-7","emoji":"⚓","name_en":"Fisherman Village Insect Spot","desc_en":"In and around Fisherman Village, with Cabbage White, Ants, Horned Beetles, Leopard Butterflies and more.","detail_en":"Catching Lv.1-7"},{"y":-661,"id":"insect-forest-jump","x":789,"category":"insect","insectIds":["金宝石金龟","锹形虫"],"name":"跳跃谜题捕虫区","desc":"森林跳跃谜题一带，有金宝石金龟、锹形虫出没。","detail":"捕捉等级需求：4-5","emoji":"🪜","name_en":"Jump Puzzle Insect Spot","desc_en":"The forest jump-puzzle area, where the Golden Jewel Scarab and Stag Beetle appear.","detail_en":"Catching Lv.4-5"},{"y":-638,"id":"insect-flower","x":192,"category":"insect","insectIds":["毕加索蝽","芦笋甲虫","熊蜂","优雅花金龟","展足木蜂","螽斯","紫皇蛱蝶"],"name":"花田捕虫区","desc":"花田地区，熊蜂、芦笋甲虫、花金龟等多种昆虫在此出没。","detail":"捕捉等级需求：1-8 · 蝴蝶和蜜蜂居多","emoji":"🌷","name_en":"Flower Fields Insect Spot","desc_en":"The Flower Fields, with bumblebees, asparagus beetles, flower chafers and more.","detail_en":"Catching Lv.1-8 · mostly butterflies and bees"},{"y":-517,"id":"insect-home","x":512,"category":"insect","insectIds":["橙尖粉蝶","红颈鸟翼蝶","欧洲红蝽","普通蓝灰蝶","紫晶花金龟"],"name":"家园/岩石捕虫","desc":"家园和岩石周边的常见昆虫。","detail":"捕捉等级需求：1-3","emoji":"🏡","name_en":"Home \u0026 Rock Insect Spot","desc_en":"Common insects around your home and the rocks.","detail_en":"Catching Lv.1-3"},{"y":-498,"id":"insect-bait","x":502,"category":"insect","insectIds":["阿波罗绢蝶","白巫蛾","彩虹锹甲","粉色螽斯","栗虎蝶","苏氏闪蝶","邮差蝶"],"name":"诱饵活动捕虫","desc":"在诱饵活动与充气诱捕器中出现的特殊昆虫，例如阿波罗绢蝶、彩虹锹甲等。","detail":"仅活动/诱饵 · 稀有品种","emoji":"🪤","name_en":"Bait Event Insect Spot","desc_en":"Special insects that appear during bait events and in inflatable traps, such as the Apollo Butterfly and Rainbow Stag Beetle.","detail_en":"Event/trap only · rare species"},{"y":-498,"id":"insect-unknown","x":501,"category":"insect","insectIds":["海伦娜闪蝶","日落闪蝶"],"name":"稀有/未知来源","desc":"来源不详的稀有昆虫，可能要满足特定条件才会碰到。","detail":"出现条件不明 · 需自行探索","emoji":"❓","name_en":"Rare / Unknown Source","desc_en":"Rare insects of unknown origin that may only appear under specific conditions.","detail_en":"Unknown spawn conditions · explore to find"},{"y":-582,"id":"insect-suburbs","x":398,"category":"insect","insectIds":["大斑翅蝗","彗星蛾","绿鸟翼蝶","小月蛾"],"name":"郊区捕虫区","desc":"郊区与农地，粉蝶、瓢虫、月蛾、鸟翼蝶等在此出没。","detail":"捕捉等级需求：1-8","emoji":"🌻","name_en":"Suburbs Insect Spot","desc_en":"The Suburbs and farmlands, with brimstones, ladybugs, moon moths, birdwings and more.","detail_en":"Catching Lv.1-8"},{"y":-229,"id":"insect-onsen","x":509,"category":"insect","insectIds":["赤色沼泽蜻","地中海螳螂","黄缘蛱蝶","火色甲虫","金蝗虫","绿虎甲"],"name":"温泉山捕虫区","desc":"温泉山一带，螳螂、虎甲、金蝗虫、绿虎甲等在此出没。","detail":"捕捉等级需求：3-7 · 螳螂和甲虫居多","emoji":"♨️","name_en":"Onsen Mountain Insect Spot","desc_en":"The Onsen Mountain area, with mantises, tiger beetles, gold grasshoppers, green tiger beetles and more.","detail_en":"Catching Lv.3-7 · mostly mantises and beetles"},{"y":-379,"id":"insect-waterside","x":548,"category":"insect","insectIds":["丽色蟌","普通白尾蜻","四斑蜻蜓"],"name":"水边捕虫区","desc":"水边与河边，蜻蜓、豆娘、蟌等水边昆虫在此出没。","detail":"捕捉等级需求：2-5 · 蜻蜓居多","emoji":"💧","name_en":"Waterside Insect Spot","desc_en":"Along the water and riverbanks, with dragonflies and damselflies and other waterside insects.","detail_en":"Catching Lv.2-5 · mostly dragonflies"},{"y":-188,"id":"insect-ruins","x":299,"category":"insect","insectIds":["大刀螳","牛头甲虫","四星瓢虫","银宝石金龟"],"name":"遗迹捕虫区","desc":"火山口湖和遗迹一带的高地昆虫。","detail":"捕捉等级需求：5-8 · 稀有甲虫","emoji":"🏛️","name_en":"Ruins Insect Spot","desc_en":"Highland insects of the crater lake and Ruins area.","detail_en":"Catching Lv.5-8 · rare beetles"},{"y":-528,"id":"rosy-river-fish","x":531,"category":"fishing","fishIds":["鲤鱼","淡水鳚","施氏鲈"],"name":"Rosy河","desc":"Rosy 河的钓点，鲤鱼、淡水鳚、施氏鲈在这里出没。","detail":"鱼种：鲤鱼/淡水鳚/施氏鲈","emoji":"🌊","name_en":"Rosy River","desc_en":"A fishing spot on the Rosy River where Carp, Freshwater Blenny and Streber appear.","detail_en":"Fish: Carp · Freshwater Blenny · Streber"},{"y":-701,"id":"zephyr-sea-fish","x":698,"category":"fishing","fishIds":["带鱼","黑斑鲷","大西洋侏儒章鱼","欧洲龙虾","海鲷","大西洋鲭鱼"],"name":"Zephyr海","desc":"Zephyr 海的钓点，海鲷、龙虾、带鱼等海鱼在此出没。","detail":"鱼种：海鲷/带鱼/龙虾/章鱼","emoji":"🌅","name_en":"Zephyr Sea","desc_en":"A fishing spot in Zephyr Sea with Seabream, Lobster, Beltfish and other saltwater species.","detail_en":"Fish: Seabream · Beltfish · Lobster · Octopus"},{"y":-701,"id":"east-sea-fish","x":649,"category":"fishing","fishIds":["虾虎鱼","普通虾","黑线鳕","翻车鱼","寄居蟹","鲂鱼"],"name":"东海","desc":"东海的钓点，虾虎鱼、虾、黑线鳕、翻车鱼等在此出没。","detail":"鱼种：虾虎鱼/普通虾/黑线鳕/翻车鱼","emoji":"🌄","name_en":"East Sea","desc_en":"A fishing spot in the East Sea where Goby, Shrimp, Haddock, Ocean Sunfish and more appear.","detail_en":"Fish: Goby · Shrimp · Haddock · Ocean Sunfish"},{"y":-433,"id":"upper-forest-lake-fish","x":775,"category":"fishing","fishIds":[],"name":"上森林湖","desc":"上森林湖的钓点，是一片藏在密林深处的高地湖泊。","detail":"森林高地 · 湖泊钓点","emoji":"🏞️","name_en":"Upper Forest Lake","desc_en":"A fishing spot on Upper Forest Lake, a highland lake tucked deep in the forest.","detail_en":"Highland forest lake fishing spot"},{"y":-802,"id":"ocean-fishing","x":599,"category":"fishing","fishIds":["兔子鱼","沙丁鱼","海鲈鱼","鲣鱼"],"name":"远洋活动区","desc":"远洋钓点，兔子鱼、沙丁鱼、海鲈鱼、鲣鱼在此出没，属于海上钓鱼活动区域。","detail":"鱼种：兔子鱼/沙丁鱼/海鲈鱼/鲣鱼","emoji":"🚢","name_en":"Ocean Event Area","desc_en":"An ocean fishing point where Rabbitfish, Sardine, Sea Bass and Skipjack Tuna appear, part of the offshore fishing event area.","detail_en":"Fish: Rabbitfish · Sardine · Sea Bass · Skipjack Tuna"},{"id":"the-ruins","y":-183,"desc":"古老遗迹一带，水豚、火山湖就在旁边，适合探索和观鸟。","emoji":"🏛️","category":"location","name":"遗迹","x":290,"detail":"遗迹 · 水豚/火山湖","name_en":"The Ruins","desc_en":"An ancient ruin site near the capybara and Volcano Lake — a good spot for exploring and birdwatching.","detail_en":"Ruins · capybara \u0026 Volcano Lake"},{"id":"east-pontoon","y":-672,"desc":"东边的浮桥，是连接河两岸的重要通路。","emoji":"🌉","category":"location","name":"东浮桥","x":449,"detail":"浮桥 · 跨河通道","name_en":"East Pontoon","desc_en":"A pontoon bridge in the east that serves as an important crossing between the river banks.","detail_en":"Pontoon bridge · river crossing"},{"id":"upper-forest-lake-loc","y":-433,"desc":"密林深处的高地湖泊，环境安静，适合钓鱼和观鸟。","emoji":"🏞️","category":"location","name":"上森林湖","x":776,"detail":"森林高地 · 湖泊区","name_en":"Upper Forest Lake","desc_en":"A quiet highland lake deep in the forest, suited to fishing and birdwatching.","detail_en":"Forest highland · lake"},{"id":"ancient-sea","y":-70,"desc":"地图最北端的一片古老海域，小丑鱼、欧洲鳗鱼等鱼类在这里游动。","emoji":"🏛️","category":"location","name":"古海","x":496,"detail":"北部海域 · 古海钓鱼区","name_en":"Ancient Sea","desc_en":"An ancient sea at the far north of the map, home to Clownfish, European Eel and more.","detail_en":"Northern sea · Ancient Sea fishing"},{"id":"whale-sea","y":-532,"desc":"西边的鲸鱼海，海马、帝王蟹、竹荚鱼等在此出没。","emoji":"🐋","category":"location","name":"鲸鱼海","x":94,"detail":"西部海域 · 鲸鱼海钓鱼区","name_en":"Whale Sea","desc_en":"Whale Sea in the west, where Seahorse, King Crab, Horse Mackerel and more appear.","detail_en":"Western sea · Whale Sea fishing"},{"id":"rosy-river","y":-529,"desc":"Rosy 河流经城镇中心附近，是鲤鱼和淡水鳚的主要栖息地。","emoji":"🌸","category":"location","name":"Rosy河","x":531,"detail":"河道 · Rosy 河钓鱼区","name_en":"Rosy River","desc_en":"The Rosy River runs near Town Center and is the main home of Carp and Freshwater Blenny.","detail_en":"River · Rosy River fishing"}];
+
+var INLINE_BIRD_DATA = [{"name":"奥氏鸥","enName":"audouinsGull","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"鲸海（海岸和沙滩）","rarity":2},{"name":"白鹡鸰","enName":"whiteWagtail","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"紫光海滩","rarity":2},{"name":"白头硬尾鸭","enName":"whiteHeadedDuck","season":"全年","weather":"雨、彩虹","time":"全天","location":"温泉山湖","rarity":5},{"name":"白燕鸥","enName":"whiteTern","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"东海","rarity":3},{"name":"白腰朱顶雀","enName":"redpoll","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林（灵橡松林）","rarity":4},{"name":"斑皇鸠","enName":"piedImperialPigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"渔村","rarity":1},{"name":"斑头秋沙鸭","enName":"smew","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林湖","rarity":2},{"name":"斑胸草雀","enName":"zebraFinch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":2},{"name":"北美黑啄木鸟","enName":"pileatedWoodpecker","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林","rarity":3},{"name":"苍头燕雀","enName":"eurasianChaffinch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田","rarity":1},{"name":"橙腹果鸠","enName":"orangeBelliedFruitDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田","rarity":3},{"name":"赤颈鸭","enName":"eurasianWigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"河流","rarity":1},{"name":"赤麻鸭","enName":"ruddyShelduck","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区湖","rarity":2},{"name":"大红鹳","enName":"greaterFlamingo","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"水边","rarity":1},{"name":"大山雀","enName":"greatTit","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"温泉山","rarity":1},{"name":"帝鸬鹚","enName":"imperialShag","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"东海/和风海","rarity":5},{"name":"东方蓝鸲","enName":"easternBluebird","season":"全年","weather":"雨、彩虹","time":"全天","location":"郊区","rarity":4},{"name":"非洲橄榄鸽","enName":"africanOlivePigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"温泉山（温泉）","rarity":3},{"name":"粉红鸽","enName":"pinkPigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田（鲸山）","rarity":4},{"name":"粉颈绿鸠","enName":"pinkNeckedGreenPigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田","rarity":1},{"name":"粉头果鸠","enName":"jambuFruitDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":4},{"name":"桂红地鸠","enName":"cinnamonGroundDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"渔村（东码头）","rarity":3},{"name":"褐燕鸥","enName":"brownNoddy","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"古海海边","rarity":3},{"name":"黑头鸥","enName":"blackHeadedGull","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"海边","rarity":1},{"name":"红腹灰雀","enName":"redBelliedBullfinch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林（灵橡树）","rarity":2},{"name":"红脚隼","enName":"redFootedFalcon","season":"全年","weather":"晴、彩虹","time":"全天","location":"森林","rarity":3},{"name":"红脸鸬鹚","enName":"redFacedCormorant","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"古海/鲸海","rarity":3},{"name":"红隼","enName":"commonKestrel","season":"全年","weather":"晴、彩虹","time":"全天","location":"森林（鹿塔）","rarity":4},{"name":"红隼(赤隼)","enName":"redFalcon","season":"全年","weather":"晴、彩虹","time":"全天","location":"森林（鹿塔）","rarity":4},{"name":"黄腹鹟","enName":"yellowBelliedFlycatcher","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"渔村（码头）","rarity":3},{"name":"黄喉蜂虎","enName":"europeanBeeEater","season":"全年","weather":"雨、彩虹","time":"全天","location":"温泉山湖岸","rarity":3},{"name":"黄眼鸽","enName":"yellowEyedPigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":3},{"name":"黄嘴朱顶雀","enName":"twite","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田","rarity":2},{"name":"灰斑鸠","enName":"collaredDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"家园","rarity":1},{"name":"灰冠红雀","enName":"greyCrestedCardinal","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":2},{"name":"灰蓝山雀","enName":"azureTit","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田（风车花田）","rarity":4},{"name":"灰头斑鸠","enName":"greyHeadedDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"家园","rarity":1},{"name":"鹪鹩","enName":"eurasianWren","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林","rarity":1},{"name":"金黄鹂","enName":"eurasianGoldenOriole","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"家园","rarity":2},{"name":"金色园丁鸟","enName":"goldenBowerbird","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林（灵橡松林）","rarity":3},{"name":"巨果鸠","enName":"wongaPigeon","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林","rarity":1},{"name":"蓝山雀","enName":"blueTit","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"花田","rarity":2},{"name":"林䳭伯劳","enName":"woodchatShrike","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":1},{"name":"绿头唐纳雀","enName":"greenHeadedTanager","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":3},{"name":"绿头鸭","enName":"mallard","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"湖泊","rarity":1},{"name":"美洲火烈鸟","enName":"americanFlamingo","season":"全年","weather":"彩虹","time":"全天","location":"花田","rarity":5},{"name":"欧鸽","enName":"stockDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"中心区域","rarity":1},{"name":"欧鸬鹚","enName":"europeanShag","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林岛下方/灯塔附近","rarity":2},{"name":"欧亚雕鸮","enName":"eurasianEagleOwl","season":"全年","weather":"晴、雨、彩虹","time":"夜间","location":"温泉山","rarity":3},{"name":"欧亚红腹灰雀","enName":"eurasianBullfinch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"郊区","rarity":1},{"name":"欧亚灰斑鸠","enName":"eurasianCollaredDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"家园","rarity":1},{"name":"欧亚鸲(知更鸟)","enName":"europeanRobin","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"中心区域","rarity":1},{"name":"欧亚䴓","enName":"eurasianNuthatch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"渔村","rarity":1},{"name":"普氏鸦雀","enName":"przevalskisParrotbill","season":"全年","weather":"晴、彩虹","time":"全天","location":"渔村广场","rarity":2},{"name":"摄政园丁鸟","enName":"regentBowerbird","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林（灵橡松林）","rarity":2},{"name":"双斑草雀","enName":"doubleBarredFinch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"渔村（灯塔）","rarity":2},{"name":"松雀","enName":"pineGrosbeak","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林岛","rarity":2},{"name":"天堂唐纳雀","enName":"paradiseTanager","season":"全年","weather":"任意","time":"全天","location":"郊区","rarity":5},{"name":"铜蓝鹟","enName":"verditerFlycatcher","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林","rarity":2},{"name":"王绒鸭","enName":"kingEider","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"河流","rarity":2},{"name":"文须雀","enName":"beardedReedling","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"温泉山","rarity":1},{"name":"锡嘴雀","enName":"hawfinch","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"温泉山（火山口湖）","rarity":3},{"name":"小红鹳","enName":"lesserFlamingo","season":"全年","weather":"雨、彩虹","time":"全天","location":"森林湖岸","rarity":3},{"name":"燕鸥","enName":"tern","season":"全年","weather":"彩虹","time":"全天","location":"东侧海边","rarity":4},{"name":"银喉山雀","enName":"silverThroatedTit","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"森林（跳跃谜题）","rarity":2},{"name":"银喉长尾山雀","enName":"longTailedTit","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"Blanc头顶","rarity":1},{"name":"游隼","enName":"peregrineFalcon","season":"全年","weather":"雨、彩虹","time":"全天","location":"温泉山（温泉）","rarity":4},{"name":"长耳鸮","enName":"longEaredOwl","season":"全年","weather":"晴、彩虹","time":"全天","location":"温泉山（石崖）","rarity":3},{"name":"珠颈斑鸠","enName":"spottedDove","season":"全年","weather":"晴、雨、彩虹","time":"全天","location":"中心区域","rarity":1}];
+
+var INLINE_FISH_DATA = [{"name":"鮟鱇鱼","enName":"anglerfish","season":"全年","weather":"任意","time":"全天","location":"Sea Fishing","sellPrice":750,"rarity":1},{"name":"鲃鱼","enName":"commonBarbel","season":"全年","weather":"任意","time":"全天","location":"Shallow River","sellPrice":100,"rarity":1},{"name":"白斑狗鱼","enName":"northernPike","season":"全年","weather":"雨、彩虹","time":"全天","location":"Suburban Lake","sellPrice":60,"rarity":5},{"name":"白鱼","enName":"commonWhitefish","season":"全年","weather":"任意","time":"全天","location":"Onsen Mountain Lake","sellPrice":120,"rarity":1},{"name":"斑杜父鱼","enName":"mottledSculpin","season":"全年","weather":"雨、彩虹","time":"白天、黄昏、傍晚","location":"Onsen Mountain Lake","sellPrice":50,"rarity":4},{"name":"北极红点鲑","enName":"arcticChar","season":"全年","weather":"雨、彩虹","time":"白天、傍晚","location":"Forest Lake","sellPrice":60,"rarity":5},{"name":"大口黑鲈","enName":"largemouthBass","season":"全年","weather":"晴、彩虹","time":"全天","location":"Forest Lake","sellPrice":120,"rarity":1},{"name":"大菱鲆","enName":"turbot","season":"全年","weather":"任意","time":"全天","location":"Sea Fishing","sellPrice":150,"rarity":2},{"name":"大西洋鲑鱼","enName":"atlanticSalmon","season":"全年","weather":"任意","time":"全天","location":"Whale Sea","sellPrice":150,"rarity":2},{"name":"大西洋鲭鱼","enName":"atlanticMackerel","season":"全年","weather":"晴、彩虹","time":"白天、傍晚","location":"Whale Sea","sellPrice":60,"rarity":3},{"name":"大西洋侏儒章鱼","enName":"atlanticPygmyOctopus","season":"全年","weather":"任意","time":"全天","location":"Zephyr Sea","sellPrice":60,"rarity":1},{"name":"大珍珠蚌","enName":"largePearlMussel","season":"全年","weather":"彩虹","time":"全天","location":"Forest Lake","sellPrice":120,"rarity":3},{"name":"带鱼","enName":"beltfish","season":"全年","weather":"任意","time":"全天","location":"Zephyr Sea","sellPrice":300,"rarity":1},{"name":"淡水鳚","enName":"freshwaterBlenny","season":"全年","weather":"任意","time":"全天","location":"Rosy River","sellPrice":40,"rarity":3},{"name":"地中海鳉鱼","enName":"mediterraneanKillifish","season":"全年","weather":"晴、彩虹","time":"全天","location":"Suburban Lake","sellPrice":50,"rarity":4},{"name":"帝王蟹","enName":"King Crab","season":"全年","weather":"任意","time":"全天","location":"海洋","sellPrice":535,"rarity":4,"note":"清蒸帝王蟹的食材","note_en":"Ingredient for Steamed King Crab.","cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"丁鱥","enName":"tench","season":"全年","weather":"任意","time":"全天","location":"Forest Lake","sellPrice":50,"rarity":1},{"name":"东方虾","enName":"orientalShrimp","season":"全年","weather":"任意","time":"全天","location":"River","sellPrice":40,"rarity":1},{"name":"多瑙哲罗鱼","enName":"huchen","season":"全年","weather":"彩虹","time":"全天","location":"Giantwood River","sellPrice":50,"rarity":5},{"name":"翻车鱼","enName":"oceanSunfish","season":"全年","weather":"任意","time":"全天","location":"East Sea","sellPrice":75,"rarity":5},{"name":"鲂鱼","enName":"tubGurnard","season":"全年","weather":"彩虹","time":"全天","location":"East Sea","sellPrice":150,"rarity":3},{"name":"狗鲑","enName":"chumSalmon","season":"全年","weather":"彩虹","time":"全天","location":"Tranquil River","sellPrice":40,"rarity":3},{"name":"鲑鱼","enName":"Salmon","season":"全年","weather":"任意","time":"全天","location":"河流、渔村","sellPrice":150,"rarity":2,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"海刺鱼","enName":"seaStickleback","season":"全年","weather":"任意","time":"全天","location":"Old Sea","sellPrice":60,"rarity":1},{"name":"海鲷","enName":"seabream","season":"全年","weather":"雨、彩虹","time":"夜间、傍晚","location":"Zephyr Sea","sellPrice":75,"rarity":5},{"name":"海鲈鱼","enName":"seaBass","season":"全年","weather":"任意","time":"全天","location":"Ocean","sellPrice":75,"rarity":1},{"name":"海马","enName":"seahorse","season":"全年","weather":"任意","time":"全天","location":"Whale Sea","sellPrice":60,"rarity":1},{"name":"河蚌","enName":"mussel","season":"全年","weather":"雨、彩虹","time":"全天","location":"Suburban Lake","sellPrice":50,"rarity":2},{"name":"河鲈","enName":"europeanPerch","season":"全年","weather":"任意","time":"全天","location":"River","sellPrice":100,"rarity":1},{"name":"河豚","enName":"Pufferfish","season":"全年","weather":"任意","time":"白天","location":"海洋","sellPrice":230,"rarity":4,"cookAdvice":"直接出售","cookAdvice_en":"Sell directly"},{"name":"河蟹","enName":"riverCrab","season":"全年","weather":"任意","time":"全天","location":"Suburban Lake","sellPrice":50,"rarity":2},{"name":"黑斑鲷","enName":"blackspotSeabream","season":"全年","weather":"雨、彩虹","time":"夜间、傍晚","location":"Zephyr Sea","sellPrice":150,"rarity":4},{"name":"黑线鳕","enName":"haddock","season":"全年","weather":"晴、彩虹","time":"全天","location":"East Sea","sellPrice":150,"rarity":4},{"name":"红腹食人鱼","enName":"redBelliedPiranha","season":"全年","weather":"任意","time":"全天","location":"Giantwood River","sellPrice":100,"rarity":2},{"name":"红眼鱼","enName":"commonRudd","season":"全年","weather":"任意","time":"全天","location":"Suburban Lake","sellPrice":120,"rarity":3},{"name":"虹鳟鱼","enName":"trout","season":"全年","weather":"晴、彩虹","time":"夜间、黄昏、傍晚","location":"Meadow Lake","sellPrice":120,"rarity":3},{"name":"胡瓜鱼","enName":"europeanSmelt","season":"全年","weather":"任意","time":"全天","location":"Meadow Lake","sellPrice":50,"rarity":1},{"name":"蝴蝶锦鲤","enName":"butterflyKoi","season":"全年","weather":"雨、彩虹","time":"全天","location":"Meadow Lake","sellPrice":240,"rarity":2},{"name":"护士鲨","enName":"nursehound","season":"全年","weather":"任意","time":"全天","location":"Sea Fishing","sellPrice":300,"rarity":3},{"name":"花鳅","enName":"spinedLoach","season":"全年","weather":"任意","time":"全天","location":"Giantwood River","sellPrice":40,"rarity":1},{"name":"皇带鱼","enName":"giantOarfish","season":"全年","weather":"任意","time":"白天、黄昏","location":"Sea Fishing","sellPrice":750,"rarity":4},{"name":"黄金帝王蟹","enName":"goldenKingCrab","season":"全年","weather":"彩虹","time":"全天","location":"Sea Fishing","sellPrice":750,"rarity":4},{"name":"茴鱼","enName":"grayling","season":"全年","weather":"任意","time":"全天","location":"Suburban Lake","sellPrice":50,"rarity":3},{"name":"寄居蟹","enName":"hermitCrab","season":"全年","weather":"任意","time":"全天","location":"East Sea","sellPrice":60,"rarity":2},{"name":"鲫鱼","enName":"Crucian Carp","season":"全年","weather":"任意","time":"全天","location":"河流","sellPrice":75,"rarity":1,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"鲣鱼","enName":"skipjackTuna","season":"全年","weather":"任意","time":"全天","location":"Ocean","sellPrice":300,"rarity":1},{"name":"江鱈","enName":"burbot","season":"全年","weather":"任意","time":"白天、傍晚","location":"Tranquil River","sellPrice":200,"rarity":2},{"name":"鳉鱼","enName":"minnow","season":"全年","weather":"任意","time":"全天","location":"Tranquil River","sellPrice":40,"rarity":1},{"name":"金枪鱼","enName":"Tuna","season":"全年","weather":"任意","time":"全天","location":"海洋","sellPrice":850,"rarity":3,"cookAdvice":"直接出售","cookAdvice_en":"Sell directly"},{"name":"金鱼","enName":"Goldfish","season":"全年","weather":"任意","time":"全天","location":"池塘、河流","sellPrice":250,"rarity":4,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"蝌蚪","enName":"tadpole","season":"全年","weather":"雨、彩虹","time":"全天","location":"Onsen Mountain Lake","sellPrice":50,"rarity":2},{"name":"蓝鳌虾","enName":"blueEroCrayfish","season":"全年","weather":"任意","time":"夜间、傍晚","location":"Forest Lake","sellPrice":50,"rarity":4},{"name":"蓝鳍金枪鱼","enName":"bluefinTuna","season":"全年","weather":"彩虹","time":"白天、黄昏","location":"Zephyr Sea","sellPrice":300,"rarity":5},{"name":"蓝鳃太阳鱼","enName":"bluegill","season":"全年","weather":"晴、彩虹","time":"夜间、傍晚","location":"Onsen Mountain Lake","sellPrice":60,"rarity":5},{"name":"鲤鱼","enName":"Carp","season":"全年","weather":"任意","time":"全天","location":"池塘","sellPrice":65,"rarity":1,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"鲈鱼","enName":"Bass","season":"全年","weather":"任意","time":"全天","location":"河流、海洋","sellPrice":75,"rarity":1,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"罗非鱼","enName":"tilapia","season":"全年","weather":"任意","time":"全天","location":"River","sellPrice":100,"rarity":2},{"name":"鳗鱼","enName":"Eel","season":"全年","weather":"雨","time":"夜间","location":"河流","sellPrice":380,"rarity":3,"cookAdvice":"直接出售","cookAdvice_en":"Sell directly"},{"name":"梅花鲈","enName":"ruffe","season":"全年","weather":"任意","time":"全天","location":"Onsen Mountain Lake","sellPrice":50,"rarity":2},{"name":"泥太阳鱼","enName":"mudSunfish","season":"全年","weather":"任意","time":"白天、黄昏、傍晚","location":"Forest Lake","sellPrice":50,"rarity":2},{"name":"鲶鱼","enName":"Catfish","season":"全年","weather":"雨","time":"夜间","location":"池塘","sellPrice":610,"rarity":2,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"欧鲌","enName":"commonBleak","season":"全年","weather":"任意","time":"全天","location":"Lake","sellPrice":60,"rarity":1},{"name":"欧鲽","enName":"europeanPlaice","season":"全年","weather":"任意","time":"夜间、黄昏、傍晚","location":"Old Sea","sellPrice":150,"rarity":2},{"name":"欧鲶","enName":"welsCatfish","season":"全年","weather":"晴、彩虹","time":"夜间、傍晚","location":"Meadow Lake","sellPrice":60,"rarity":5},{"name":"欧洲鳌虾","enName":"europeanCrayfish","season":"全年","weather":"任意","time":"夜间、黄昏、傍晚","location":"Forest Lake","sellPrice":50,"rarity":2},{"name":"欧洲飞鱿","enName":"europeanFlyingSquid","season":"全年","weather":"任意","time":"全天","location":"Sea Fishing","sellPrice":750,"rarity":3},{"name":"欧洲龙虾","enName":"europeanLobster","season":"全年","weather":"任意","time":"夜间、傍晚","location":"Zephyr Sea","sellPrice":150,"rarity":3},{"name":"欧洲鳗鱼","enName":"europeanEel","season":"全年","weather":"彩虹","time":"白天、黄昏、傍晚","location":"Old Sea","sellPrice":150,"rarity":4},{"name":"欧洲泥鳉","enName":"europeanMudminnow","season":"全年","weather":"晴、彩虹","time":"夜间、黄昏","location":"Suburban Lake","sellPrice":50,"rarity":4},{"name":"普通虾","enName":"commonShrimp","season":"全年","weather":"任意","time":"全天","location":"East Sea","sellPrice":60,"rarity":1},{"name":"普通章鱼","enName":"commonOctopus","season":"全年","weather":"任意","time":"全天","location":"Sea Fishing","sellPrice":150,"rarity":1},{"name":"三刺鱼","enName":"threeSpinedStickleback","season":"全年","weather":"雨、彩虹","time":"全天","location":"Shallow River","sellPrice":40,"rarity":4},{"name":"沙丁鱼","enName":"Sardine","season":"全年","weather":"任意","time":"白天","location":"海洋","sellPrice":50,"rarity":1,"cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"施氏鱥","enName":"schneider","season":"全年","weather":"任意","time":"全天","location":"Suburban Lake","sellPrice":50,"rarity":1},{"name":"施氏鲈","enName":"streber","season":"全年","weather":"任意","time":"全天","location":"Rosy River","sellPrice":40,"rarity":2},{"name":"食用蛙","enName":"edibleFrog","season":"全年","weather":"任意","time":"全天","location":"Lake","sellPrice":60,"rarity":2},{"name":"梭鲈","enName":"zander","season":"全年","weather":"晴、彩虹","time":"全天","location":"Giantwood River","sellPrice":100,"rarity":2},{"name":"太阳鱼","enName":"pumpkinseed","season":"全年","weather":"晴、彩虹","time":"全天","location":"Onsen Mountain Lake","sellPrice":50,"rarity":5},{"name":"条鳅","enName":"stoneLoach","season":"全年","weather":"任意","time":"全天","location":"Suburban Lake","sellPrice":50,"rarity":1},{"name":"条纹绯鲤","enName":"stripedRedMullet","season":"全年","weather":"任意","time":"全天","location":"Sea Fishing","sellPrice":750,"rarity":1},{"name":"兔子鱼","enName":"rabbitFish","season":"全年","weather":"任意","time":"全天","location":"Ocean","sellPrice":150,"rarity":2},{"name":"伪竹荚鱼","enName":"falseScad","season":"全年","weather":"任意","time":"全天","location":"Zephyr Sea","sellPrice":150,"rarity":1},{"name":"虾虎鱼","enName":"goby","season":"全年","weather":"任意","time":"白天、黄昏、傍晚","location":"East Sea","sellPrice":60,"rarity":2},{"name":"小丑鱼","enName":"clownfish","season":"全年","weather":"任意","time":"全天","location":"Old Sea","sellPrice":75,"rarity":2},{"name":"小龙虾","enName":"Crayfish","season":"全年","weather":"任意","time":"全天","location":"河流","sellPrice":100,"rarity":1,"note":"小龙虾刺身的食材","note_en":"Ingredient for Crayfish Sashimi.","cookAdvice":"烹饪","cookAdvice_en":"Cook"},{"name":"圆鳍雅罗鱼","enName":"commonChub","season":"全年","weather":"任意","time":"全天","location":"Lake","sellPrice":120,"rarity":1},{"name":"月鱼","enName":"moonfish","season":"全年","weather":"任意","time":"夜间、傍晚","location":"Sea Fishing","sellPrice":750,"rarity":5},{"name":"竹荚鱼","enName":"horseMackerel","season":"全年","weather":"任意","time":"全天","location":"Whale Sea","sellPrice":60,"rarity":1},{"name":"鳟鱼","enName":"Rainbow Trout","season":"全年","weather":"任意","time":"白天","location":"山湖","sellPrice":230,"rarity":3,"note":"价值高，建议直接出售","note_en":"High value — better sold than cooked.","cookAdvice":"直接出售","cookAdvice_en":"Sell directly"}];
+
+var INLINE_INSECT_DATA = [{"name":"阿波罗绢蝶","enName":"apollo","season":"春、夏","weather":"晴、雨、彩虹","time":"全天","location":"诱饵活动","sellPrice":0,"rarity":1,"note":"仅在诱饵活动中出现","note_en":"Only appears during bait events."},{"name":"白巫蛾","enName":"whiteWitch","season":"夏、秋","weather":"晴、彩虹","time":"全天","location":"诱饵活动","sellPrice":0,"rarity":1,"note":"仅在诱饵活动中出现","note_en":"Only appears during bait events."},{"name":"豹纹蛱蝶","enName":"beautifulLeopard","season":"夏、秋","weather":"雨、彩虹","time":"夜间、黎明、黄昏","location":"渔村（码头）","sellPrice":0,"rarity":1},{"name":"毕加索蝽","enName":"picassoBug","season":"夏、秋","weather":"晴、彩虹","time":"夜间、黄昏","location":"花田（紫光海滩）","sellPrice":0,"rarity":1},{"name":"彩虹锹甲","enName":"rainbowStagBeetle","season":"夏","weather":"晴、雨、彩虹","time":"全天","location":"诱饵活动（遗迹）","sellPrice":0,"rarity":1,"note":"诱饵活动限定，仅彩虹天气出现","note_en":"Bait-event only, and only in rainbow weather."},{"name":"菜粉蝶","enName":"Cabbage White","season":"春、夏、秋","weather":"任意","time":"全天","location":"渔村","sellPrice":25,"rarity":1,"note":"常见蝴蝶","note_en":"A common butterfly."},{"name":"蝉","enName":"Cicada","season":"夏","weather":"任意","time":"白天","location":"森林","sellPrice":55,"rarity":2,"note":"夏季鸣叫的蝉","note_en":"A summer cicada."},{"name":"橙尖粉蝶","enName":"orangeTip","season":"春、夏","weather":"晴、雨、彩虹","time":"全天","location":"中心区域","sellPrice":0,"rarity":1},{"name":"赤色沼泽蜻","enName":"crimsonMarshGlider","season":"夏、秋","weather":"彩虹","time":"夜间、白天、黄昏","location":"温泉山","sellPrice":0,"rarity":1,"note":"仅在彩虹天气出现","note_en":"Only appears in rainbow weather."},{"name":"大斑翅蝗","enName":"largeBandedGrasshopper","season":"夏、秋","weather":"晴、彩虹","time":"黄昏、夜间","location":"郊区","sellPrice":0,"rarity":1},{"name":"大刀螳","enName":"giantAsianMantis","season":"夏、秋","weather":"晴、彩虹","time":"全天","location":"温泉山（遗迹）","sellPrice":0,"rarity":1},{"name":"大红蜻蛉","enName":"Large Red Damselfly","season":"夏、秋","weather":"任意","time":"全天","location":"水边（河流、池塘）","sellPrice":30,"rarity":1},{"name":"地中海螳螂","enName":"mediterraneanMantis","season":"夏","weather":"晴、彩虹","time":"白天、黄昏、夜间","location":"温泉山（石崖）","sellPrice":0,"rarity":1},{"name":"独角仙","enName":"Hercules Beetle","season":"夏","weather":"任意","time":"夜间","location":"森林","sellPrice":400,"rarity":4,"note":"稀有甲虫，夏季夜间出没","note_en":"A rare beetle that appears on summer nights."},{"name":"粉色螽斯","enName":"pinkKatydid","season":"夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"诱饵活动","sellPrice":0,"rarity":1,"note":"仅在诱饵活动中出现","note_en":"Only appears during bait events."},{"name":"蜂形天牛","enName":"waspBeetle","season":"夏","weather":"晴、雨、彩虹","time":"全天","location":"森林","sellPrice":0,"rarity":1},{"name":"高山天牛","enName":"alpineLonghornBeetle","season":"夏","weather":"彩虹","time":"全天","location":"森林岛","sellPrice":0,"rarity":1,"note":"仅在彩虹天气出现","note_en":"Only appears in rainbow weather."},{"name":"鬼面天蛾","enName":"Death's-head Hawkmoth","season":"夏、秋","weather":"任意","time":"夜间","location":"森林","sellPrice":150,"rarity":3,"note":"夜间出没的稀有蛾类","note_en":"A rare moth that appears at night."},{"name":"海伦娜闪蝶","enName":"morphoHelena","season":"夏","weather":"未知","time":"未知","location":"未知","sellPrice":0,"rarity":1,"note":"极稀有蝴蝶，出现条件仍待确认","note_en":"An extremely rare butterfly; spawn conditions still unconfirmed."},{"name":"红颈鸟翼蝶","enName":"rajahBrookesBirdwing","season":"春、夏","weather":"晴、雨、彩虹","time":"夜间、黎明、黄昏","location":"家园","sellPrice":0,"rarity":1},{"name":"黄缘蛱蝶","enName":"mourningCloak","season":"春、夏、秋","weather":"晴、彩虹","time":"夜间、黎明、白天","location":"温泉山（温泉）","sellPrice":0,"rarity":1},{"name":"彗星蛾","enName":"cometMoth","season":"夏、秋","weather":"晴、彩虹","time":"黄昏、夜间","location":"郊区","sellPrice":0,"rarity":1},{"name":"火色甲虫","enName":"fireColoredBeetle","season":"夏","weather":"晴、雨、彩虹","time":"全天","location":"温泉山（温泉）","sellPrice":0,"rarity":1},{"name":"角甲虫","enName":"hornedBeetle","season":"夏、秋","weather":"晴、彩虹","time":"夜间、黄昏","location":"渔村（东码头）","sellPrice":0,"rarity":1},{"name":"金宝石金龟","enName":"goldenJewelScarab","season":"夏","weather":"晴、彩虹","time":"白天、黄昏","location":"森林（跳跃谜题）","sellPrice":0,"rarity":1},{"name":"金蝗虫","enName":"goldGrasshopper","season":"夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"温泉山","sellPrice":0,"rarity":1},{"name":"金锹甲","enName":"goldenStagBeetle","season":"夏","weather":"雨、彩虹","time":"夜间、黄昏","location":"森林（灵橡树）","sellPrice":0,"rarity":1},{"name":"旧世界凤蝶","enName":"Old World Swallowtail","season":"春、夏","weather":"任意","time":"白天","location":"森林（灵橡松林）","sellPrice":80,"rarity":2},{"name":"孔雀蛱蝶","enName":"peacockButterfly","season":"春、夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"花田（风车）","sellPrice":0,"rarity":1},{"name":"蓝盾蝽","enName":"blueShieldbug","season":"夏、秋","weather":"晴、雨、彩虹","time":"黎明、白天","location":"渔村（灯塔）","sellPrice":0,"rarity":1},{"name":"蓝色闪蝶","enName":"Blue Morpho","season":"夏","weather":"晴","time":"白天","location":"森林","sellPrice":300,"rarity":4,"note":"稀有蝴蝶，晴天白天出没","note_en":"A rare butterfly seen on clear days."},{"name":"丽色蟌","enName":"beautifulDemoiselle","season":"夏、秋","weather":"雨、彩虹","time":"全天","location":"森林湖岸","sellPrice":0,"rarity":1},{"name":"栗虎蝶","enName":"chestnutTiger","season":"春、夏","weather":"晴、雨、彩虹","time":"全天","location":"诱饵活动","sellPrice":0,"rarity":1,"note":"仅在诱饵活动中出现","note_en":"Only appears during bait events."},{"name":"芦笋甲虫","enName":"asparagusBeetle","season":"夏","weather":"晴、雨、彩虹","time":"全天","location":"花田","sellPrice":0,"rarity":1},{"name":"绿虎甲","enName":"greenTigerBeetle","season":"夏","weather":"晴、雨、彩虹","time":"全天","location":"温泉山","sellPrice":0,"rarity":1},{"name":"绿鸟翼蝶","enName":"greenBirdwing","season":"春、夏、秋","weather":"晴、雨、彩虹","time":"黎明、白天、黄昏","location":"郊区","sellPrice":0,"rarity":1},{"name":"蚂蚁","enName":"ant","season":"春、夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"渔村（广场）","sellPrice":0,"rarity":1},{"name":"蜜蜂","enName":"Honeybee","season":"春、夏、秋","weather":"晴","time":"白天","location":"花园、花丛","sellPrice":35,"rarity":1,"note":"晴天白天出没，比较常见","note_en":"Common on clear days."},{"name":"牛头甲虫","enName":"minotaurBeetle","season":"夏","weather":"晴、雨、彩虹","time":"夜间、黎明、白天","location":"温泉山（遗迹）","sellPrice":0,"rarity":1},{"name":"欧洲红蝽","enName":"europeanFirebug","season":"夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"家园（岩石）","sellPrice":0,"rarity":1},{"name":"普通白尾蜻","enName":"commonWhitetail","season":"夏、秋","weather":"雨、彩虹","time":"全天","location":"河岸","sellPrice":0,"rarity":1},{"name":"普通粉蝶","enName":"Common Brimstone","season":"春、夏、秋","weather":"任意","time":"全天","location":"郊区","sellPrice":25,"rarity":1,"note":"常见蝴蝶","note_en":"A common butterfly."},{"name":"普通蓝灰蝶","enName":"commonBlueButterfly","season":"春、夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"中心区域","sellPrice":0,"rarity":1},{"name":"七星瓢虫","enName":"Ladybug","season":"春、夏、秋","weather":"任意","time":"白天","location":"花园、草地","sellPrice":20,"rarity":1,"note":"常见的益虫","note_en":"A common beneficial insect."},{"name":"锹形虫","enName":"stagBeetle","season":"夏","weather":"雨、彩虹","time":"黎明、白天、黄昏","location":"森林（跳跃谜题）","sellPrice":0,"rarity":1},{"name":"日落闪蝶","enName":"sunsetMorpho","season":"夏","weather":"未知","time":"未知","location":"未知","sellPrice":0,"rarity":1,"note":"极稀有蝴蝶，出现条件仍待确认","note_en":"An extremely rare butterfly; spawn conditions still unconfirmed."},{"name":"四斑蜻蜓","enName":"fourSpottedSkimmer","season":"夏、秋","weather":"雨、彩虹","time":"全天","location":"郊区湖岸","sellPrice":0,"rarity":1},{"name":"四星瓢虫","enName":"fourSpottedLadybug","season":"春、夏、秋","weather":"雨、彩虹","time":"全天","location":"温泉山（火山口湖）","sellPrice":0,"rarity":1},{"name":"苏氏闪蝶","enName":"sulkowskysMorpho","season":"夏","weather":"晴、雨、彩虹","time":"全天","location":"充气诱捕器","sellPrice":0,"rarity":1,"note":"仅能通过诱捕器获得","note_en":"Only obtainable from traps."},{"name":"蓑蛾","enName":"bagwormMoth","season":"夏、秋","weather":"晴、彩虹","time":"夜间、黄昏","location":"森林（鹿塔）","sellPrice":0,"rarity":1},{"name":"螳螂","enName":"Mantis","season":"夏、秋","weather":"任意","time":"白天","location":"花园","sellPrice":70,"rarity":2},{"name":"天蓝木蜂","enName":"ceruleanCarpenter","season":"夏","weather":"彩虹","time":"夜间、黄昏","location":"渔村（广场）","sellPrice":0,"rarity":1,"note":"仅在彩虹天气出现","note_en":"Only appears in rainbow weather."},{"name":"瓦鲁纳杜鹃蜂","enName":"waroonaCuckooBee","season":"春、夏","weather":"晴、雨、彩虹","time":"全天","location":"森林（鹿塔）","sellPrice":0,"rarity":1},{"name":"西班牙月蛾","enName":"spanishMoonMoth","season":"夏、秋","weather":"晴、彩虹","time":"白天、黄昏","location":"森林（灵橡树）","sellPrice":0,"rarity":1},{"name":"西伯利亚蝗虫","enName":"siberianGrasshopper","season":"夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"渔村","sellPrice":0,"rarity":1},{"name":"小月蛾","enName":"miniMoonMoth","season":"夏、秋","weather":"晴、彩虹","time":"黎明、白天、黄昏","location":"郊区","sellPrice":0,"rarity":1},{"name":"熊蜂","enName":"bumblebee","season":"春、夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"花田","sellPrice":0,"rarity":1},{"name":"异色瓢虫","enName":"asianLadyBeetle","season":"春、夏、秋","weather":"雨、彩虹","time":"白天、黄昏、夜间","location":"森林（鹿塔）","sellPrice":0,"rarity":1},{"name":"银宝石金龟","enName":"silverJewelScarab","season":"夏","weather":"晴、彩虹","time":"夜间、黎明、白天","location":"温泉（石崖）","sellPrice":0,"rarity":1},{"name":"萤火虫","enName":"Firefly","season":"夏","weather":"任意","time":"夜间","location":"森林、河边","sellPrice":60,"rarity":2,"note":"夜间发光，很有观赏性","note_en":"Glows at night — lovely to watch."},{"name":"优雅花金龟","enName":"elegantFlowerBeetle","season":"夏","weather":"雨、彩虹","time":"黎明、白天","location":"花田（鲸山）","sellPrice":0,"rarity":1},{"name":"邮差蝶","enName":"postmanButterfly","season":"春、夏","weather":"晴、雨、彩虹","time":"全天","location":"诱饵活动","sellPrice":0,"rarity":1,"note":"仅在诱饵活动中出现","note_en":"Only appears during bait events."},{"name":"展足木蜂","enName":"splayFootedCarpenter","season":"夏","weather":"晴、彩虹","time":"全天","location":"花田（鲸山）","sellPrice":0,"rarity":1},{"name":"珍珠蝶","enName":"motherOfPearl","season":"夏、秋","weather":"雨、彩虹","time":"夜间、黎明","location":"花田（风车）","sellPrice":0,"rarity":1},{"name":"螽斯","enName":"katydid","season":"夏、秋","weather":"晴、雨、彩虹","time":"全天","location":"花田（紫光海滩）","sellPrice":0,"rarity":1},{"name":"紫皇蛱蝶","enName":"purpleEmperor","season":"春、夏、秋","weather":"晴、彩虹","time":"夜间、白天、黄昏","location":"花田（鲸山）","sellPrice":0,"rarity":1},{"name":"紫晶花金龟","enName":"amethystFlowerBeetle","season":"夏","weather":"雨、彩虹","time":"全天","location":"家园（岩石）","sellPrice":0,"rarity":1}];
+</script>
+<script>
+(function() {
+  'use strict';
+
+  var I18N = window.I18N || {};
+  function _t(key, params) { return I18N.t ? I18N.t(key, params) : key; }
+  function _L(v) { return I18N.L ? I18N.L(v) : v; }
+  function _name(item) { return I18N.nameFor ? I18N.nameFor(item) : (item && item.name) || ''; }
+  // Pick a bilingual field (e.g. "desc") for the current language:
+  // English prefers "desc_en" (original content), then falls back to the
+  // legacy dict translation of "desc" until _en is populated; Chinese reads "desc".
+  function _pick(item, field) {
+    if (!item) return '';
+    var isEn = !(I18N && I18N.getLang) || I18N.getLang() !== 'zh';
+    var base = item[field];
+    var en = item[field + '_en'];
+    if (isEn) {
+      if (en !== undefined && en !== null && en !== '') return en;
+      return _L(base);
+    }
+    return (base !== undefined && base !== null) ? base : (en || '');
+  }
+  function catLabel(cat) {
+    if (cat === 'custom' || cat === 'route') return _t('map.customCategory');
+    return _t('map.cat.' + cat);
+  }
+  function subLabel(sub) { return _t('map.sub.' + sub) || sub; }
+
+  // ==========================================================
+  // Category config
+  // ==========================================================
+  const CATEGORIES = {
+    npc:      { name: 'NPC / Characters',   emoji: '👤', color: '#DF7560', cssVar: '--coral' },
+    resource: { name: 'Resource Points',    emoji: '🌿', color: '#6E9E70', cssVar: '--green' },
+    fishing:  { name: 'Fishing Spots',      emoji: '🎣', color: '#3E737A', cssVar: '--teal' },
+    shop:     { name: 'Shops',          emoji: '🛒', color: '#E9B040', cssVar: '--gold' },
+    insect:   { name: 'Insect Locations',      emoji: '🦋', color: '#9B8EC4', cssVar: '--lavender' },
+    bird:     { name: 'Birdwatching Spots',      emoji: '🐦', color: '#7BA89E', cssVar: '' },
+    animal:   { name: 'Animals',          emoji: '🐾', color: '#C9956B', cssVar: '' },
+    location: { name: 'Locations / Landmarks',     emoji: '📍', color: '#8C9898', cssVar: '' },
+    bus:      { name: 'Bus Stops',        emoji: '🚌', color: '#C75E4A', cssVar: '' }
+  };
+
+  const RESOURCE_SUBS = ['berry', 'fruit', 'mushroom', 'stone', 'tree', 'other'];
+
+  // ==========================================================
+  // State
+  // ==========================================================
+  let map, markersData = [], fishData = [], insectData = [], birdData = [];
+  let markerLayers = {};       // { category: L.layerGroup }
+  let allMarkers = [];         // L.marker instances
+  let customMarkers = [];      // from localStorage
+  let customLayer;
+  let routeVisible = false;
+  let routeLayer;
+
+  let selectedEmoji = '📍';
+  let categoryVisible = {};    // { category: bool }
+  let resourceSubVisible = {}; // { sub: bool }
+  let mapBounds = { w: 1000, h: 1000 };  // image dimensions for coord scaling
+  let scaleX = 1, scaleY = 1;             // coordinate scaling factors
+
+  // Set default visibility
+  Object.keys(CATEGORIES).forEach(c => categoryVisible[c] = true);
+  RESOURCE_SUBS.forEach(s => resourceSubVisible[s] = true);
+
+  // ==========================================================
+  // DOM refs
+  // ==========================================================
+  const mapContainer = document.getElementById('map-container');
+  const sidebar = document.getElementById('map-sidebar');
+  const sidebarCats = document.getElementById('sidebar-cats');
+  const searchInput = document.getElementById('map-search');
+  const searchClear = document.getElementById('search-clear');
+  const searchResults = document.getElementById('search-results');
+  const zoomLevel = document.getElementById('zoom-level');
+  const mapPopup = document.getElementById('map-popup');
+  const popupTitle = document.getElementById('popup-title');
+  const popupBody = document.getElementById('popup-body');
+  const popupClose = document.getElementById('popup-close');
+  const customForm = document.getElementById('custom-form');
+  const loadingEl = document.getElementById('map-loading');
+
+  // ==========================================================
+  // MAP INITIALIZATION
+  // ==========================================================
+  function initMap() {
+    // Original illustrated base map (self-drawn, no official game assets)
+    var mapImageUrl = 'images/map-base.svg';
+
+    var img = new Image();
+    img.onload = function() {
+      // Use the real image dimensions for accurate map bounds
+      setupLeafletMap(mapImageUrl, img.naturalWidth, img.naturalHeight);
+      loadingEl.classList.add('hidden');
+    };
+    img.onerror = function() {
+      // Fallback: colored background with default bounds
+      setupLeafletMap(null, 1000, 1000);
+      loadingEl.classList.add('hidden');
+    };
+    img.src = mapImageUrl;
+  }
+
+  function setupLeafletMap(imageUrl, imgW, imgH) {
+    // Use the real game map coordinate system (1000x1000).
+    // Marker coordinates from live map data are placed directly.
+    const bounds = [[-1000, 0], [0, 1000]];
+    mapBounds.w = 1000; mapBounds.h = 1000;
+    scaleX = 1; scaleY = 1;
+
+    map = L.map('map-container', {
+      crs: L.CRS.Simple,
+      minZoom: -1,
+      maxZoom: 3,
+      zoom: 0,
+      center: [-500, 500],
+      maxBounds: [[-1100, -100], [100, 1100]],
+      maxBoundsViscosity: 1.0,
+      zoomSnap: 0,
+      zoomControl: false,
+      attributionControl: false
+    });
+
+    if (imageUrl) {
+      L.imageOverlay(imageUrl, bounds).addTo(map);
+    } else {
+      // Fallback: colored background
+      mapContainer.style.background = 'linear-gradient(135deg, #C5DDE8, #A3C4D6)';
+    }
+
+    // Start with a moderate zoom — town center visible but full island in reach
+    map.setView([-500, 500], 0);
+
+    // Create layer groups per category
+    Object.keys(CATEGORIES).forEach(cat => {
+      markerLayers[cat] = L.layerGroup().addTo(map);
+    });
+    customLayer = L.layerGroup().addTo(map);
+    routeLayer = L.layerGroup().addTo(map);
+
+    // Update zoom level display
+    map.on('zoom', updateZoomLabel);
+    updateZoomLabel();
+
+    // Context menu for custom markers
+    mapContainer.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      if (e.target.closest('.leaflet-control') || e.target.closest('.map-zoom-ctrl') ||
+          e.target.closest('.map-float-btn') || e.target.closest('.map-mobile-bar')) return;
+      const rect = mapContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      openCustomForm(x, y);
+    });
+
+    // Long-press for mobile custom markers
+    let longPressTimer;
+    mapContainer.addEventListener('touchstart', function(e) {
+      if (e.target.closest('.leaflet-control') || e.target.closest('.map-zoom-ctrl') ||
+          e.target.closest('.map-float-btn') || e.target.closest('.map-mobile-bar') ||
+          e.target.closest('.custom-marker-form')) return;
+      const touch = e.touches[0];
+      longPressTimer = setTimeout(() => {
+        const rect = mapContainer.getBoundingClientRect();
+        openCustomForm(touch.clientX - rect.left, touch.clientY - rect.top);
+      }, 800);
+    }, { passive: true });
+    mapContainer.addEventListener('touchend', () => clearTimeout(longPressTimer));
+    mapContainer.addEventListener('touchmove', () => clearTimeout(longPressTimer));
+
+    // Load data
+    loadMarkerData();
+  }
+
+  function updateZoomLabel() {
+    if (!map) return;
+    const z = map.getZoom();
+    let label;
+    if (z <= -1.5) label = '0.3×';
+    else if (z <= -1) label = '0.4×';
+    else if (z <= -0.5) label = '0.6×';
+    else if (z <= 0) label = '0.8×';
+    else if (z <= 0.5) label = '1×';
+    else if (z <= 1) label = '1.5×';
+    else if (z <= 1.5) label = '2×';
+    else label = '3×';
+    zoomLevel.textContent = label;
+  }
+
+  // ==========================================================
+  // DATA LOADING
+  // ==========================================================
+  async function loadMarkerData() {
+    // Load markers from inline data (always available, no fetch needed)
+    if (typeof INLINE_MAP_MARKERS !== 'undefined') {
+      markersData = INLINE_MAP_MARKERS;
+    } else {
+      // Fallback to fetch if inline data not available
+      try {
+        const res = await fetch('data/map-markers.json');
+        if (res.ok) markersData = await res.json();
+      } catch(e) { console.warn('Failed to load marker data', e); }
+    }
+
+    // Load fish & insect data from inline or fetch
+    if (typeof INLINE_FISH_DATA !== 'undefined') {
+      fishData = INLINE_FISH_DATA;
+    } else {
+      try { const res = await fetch('data/fish.json'); if (res.ok) fishData = await res.json(); } catch(e) {}
+    }
+    if (typeof INLINE_INSECT_DATA !== 'undefined') {
+      insectData = INLINE_INSECT_DATA;
+    } else {
+      try { const res = await fetch('data/insects.json'); if (res.ok) insectData = await res.json(); } catch(e) {}
+    }
+
+    // Load bird data from inline or fetch
+    if (typeof INLINE_BIRD_DATA !== 'undefined') {
+      birdData = INLINE_BIRD_DATA;
+    } else {
+      try { const res = await fetch('data/birds.json'); if (res.ok) birdData = await res.json(); } catch(e) {}
+    }
+
+    // Load custom markers
+    try {
+      customMarkers = JSON.parse(localStorage.getItem('heartopia-custom-markers') || '[]');
+    } catch(e) { customMarkers = []; }
+
+    renderAllMarkers();
+    buildSidebar();
+    renderCustomMarkers();
+  }
+
+  // ==========================================================
+  // MARKER CREATION
+  // ==========================================================
+  function createDivIcon(emoji, color, size) {
+    size = size || 32;
+    return L.divIcon({
+      className: 'custom-div-icon',
+      html: `<div style="
+        width:${size}px;height:${size}px;border-radius:50%;
+        background:${color};display:flex;align-items:center;justify-content:center;
+        font-size:${size*0.5}px;box-shadow:0 2px 6px rgba(61,50,45,0.3);
+        border:2px solid rgba(255,255,255,0.5);transition:transform 0.2s;
+      ">${emoji}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2],
+      popupAnchor: [0, -size/2]
+    });
+  }
+
+  function createMarker(data) {
+    const catConfig = CATEGORIES[data.category] || CATEGORIES.location;
+    const color = data.color || catConfig.color;
+    const icon = createDivIcon(data.emoji, color);
+
+    const marker = L.marker([data.y, data.x], { icon: icon });
+    marker._markerData = data;
+
+    marker.bindTooltip(_pick(data, 'name'), {
+      direction: 'top',
+      offset: [0, -18],
+      opacity: 0.9
+    });
+
+    marker.on('click', function() {
+      flyToMarker(marker);
+      showMapPopup(data, marker);
+    });
+
+    // Hover effects
+    marker.on('mouseover', function() {
+      const el = marker.getElement();
+      if (el) {
+        const div = el.querySelector('div');
+        if (div) { div.style.transform = 'scale(1.25)'; div.style.boxShadow = '0 4px 12px rgba(61,50,45,0.4)'; }
+      }
+    });
+    marker.on('mouseout', function() {
+      const el = marker.getElement();
+      if (el) {
+        const div = el.querySelector('div');
+        if (div) { div.style.transform = ''; div.style.boxShadow = ''; }
+      }
+    });
+
+    return marker;
+  }
+
+  function renderAllMarkers() {
+    // Clear existing
+    Object.values(markerLayers).forEach(lg => lg.clearLayers());
+    allMarkers = [];
+
+    markersData.forEach(data => {
+      const marker = createMarker(data);
+      const layer = markerLayers[data.category];
+      if (layer) {
+        marker.addTo(layer);
+        allMarkers.push(marker);
+      }
+    });
+
+    applyVisibility();
+  }
+
+  function renderCustomMarkers() {
+    customLayer.clearLayers();
+    // Remove old custom entries from allMarkers
+    allMarkers = allMarkers.filter(m => !m._markerData || m._markerData.category !== 'custom');
+    customMarkers.forEach(cm => {
+      const icon = createDivIcon(cm.emoji, '#E9B040', 30);
+      const marker = L.marker([cm.y, cm.x], { icon: icon });
+      marker._markerData = {
+        id: cm.id, name: cm.name, emoji: cm.emoji,
+        category: 'custom', desc: cm.note || _t('map.customMarker'),
+        detail: _t('map.customCreate'), x: cm.x, y: cm.y
+      };
+      marker.bindTooltip(cm.name, { direction: 'top', offset: [0, -16] });
+      marker.on('click', function() {
+        flyToMarker(marker);
+        showMapPopup(marker._markerData, marker);
+      });
+      marker.addTo(customLayer);
+      allMarkers.push(marker);
+    });
+  }
+
+  function applyVisibility() {
+    Object.keys(markerLayers).forEach(cat => {
+      const layer = markerLayers[cat];
+      const vis = categoryVisible[cat];
+      if (cat === 'resource') {
+        // Per-subcategory visibility
+        layer.eachLayer(marker => {
+          const sub = marker._markerData && marker._markerData.subcategory;
+          const subVis = sub ? resourceSubVisible[sub] : true;
+          if (vis && subVis) {
+            if (marker.getElement()) marker.getElement().style.display = '';
+          } else {
+            if (marker.getElement()) marker.getElement().style.display = 'none';
+          }
+        });
+      } else {
+        if (vis) {
+          layer.eachLayer(marker => {
+            if (marker.getElement()) marker.getElement().style.display = '';
+          });
+        } else {
+          layer.eachLayer(marker => {
+            if (marker.getElement()) marker.getElement().style.display = 'none';
+          });
+        }
+      }
+    });
+  }
+
+  // ==========================================================
+  // SIDEBAR
+  // ==========================================================
+  function buildSidebar() {
+    sidebarCats.innerHTML = '';
+
+    Object.keys(CATEGORIES).forEach(cat => {
+      const catMarkers = markersData.filter(m => m.category === cat);
+      if (catMarkers.length === 0) return;
+      const catConfig = CATEGORIES[cat];
+
+      const section = document.createElement('div');
+      section.className = 'cat-section';
+      section.dataset.cat = cat;
+
+      section.innerHTML = `
+        <div class="cat-header">
+          <span class="cat-dot" style="background:${catConfig.color}"></span>
+          <span class="cat-name">${catConfig.emoji} ${catLabel(cat)}</span>
+          <span class="cat-count">${catMarkers.length}</span>
+          <span class="cat-toggle" title="Show/hide this category">👁</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-items">
+          ${catMarkers.map(m => `
+            <div class="cat-item" data-id="${m.id}" data-cat="${cat}">
+              <span class="ci-emoji">${m.emoji}</span>
+              <span class="ci-name">${_pick(m, 'name')}</span>
+            </div>
+          `).join('')}
+          ${cat === 'resource' ? `
+            <div class="subfilter-row">
+              <span class="subfilter-chip ${resourceSubVisible['berry'] ? 'active' : ''}" data-sub="berry">🫐 ${_t('map.sub.berry')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['fruit'] ? 'active' : ''}" data-sub="fruit">🍎 ${_t('map.sub.fruit')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['mushroom'] ? 'active' : ''}" data-sub="mushroom">🍄 ${_t('map.sub.mushroom')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['stone'] ? 'active' : ''}" data-sub="stone">⛏️ ${_t('map.sub.stone')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['tree'] ? 'active' : ''}" data-sub="tree">🪵 ${_t('map.sub.tree')}</span>
+              <span class="subfilter-chip ${resourceSubVisible['other'] ? 'active' : ''}" data-sub="other">✨ ${_t('map.sub.other')}</span>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      sidebarCats.appendChild(section);
+
+      // Category header click → toggle collapse
+      section.querySelector('.cat-header').addEventListener('click', function(e) {
+        if (e.target.closest('.cat-count')) return;
+        section.classList.toggle('collapsed');
+      });
+
+      // Category header double-click or click on dot → toggle visibility
+      section.querySelector('.cat-header').addEventListener('dblclick', function() {
+        categoryVisible[cat] = !categoryVisible[cat];
+        section.classList.toggle('hidden-all', !categoryVisible[cat]);
+        const toggle = section.querySelector('.cat-toggle');
+        if (toggle) toggle.textContent = categoryVisible[cat] ? '👁' : '👁‍🗨';
+        applyVisibility();
+      });
+
+      // Category toggle button → toggle visibility (per-category show/hide all)
+      section.querySelector('.cat-toggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        categoryVisible[cat] = !categoryVisible[cat];
+        section.classList.toggle('hidden-all', !categoryVisible[cat]);
+        this.textContent = categoryVisible[cat] ? '👁' : '👁‍🗨';
+        applyVisibility();
+      });
+
+      // Item click → fly to marker + open info
+      section.querySelectorAll('.cat-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const id = this.dataset.id;
+          const data = markersData.find(m => m.id === id);
+          if (!data) return;
+
+          // Highlight active
+          sidebarCats.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+
+          // Find and fly to marker
+          const marker = allMarkers.find(m => m._markerData && m._markerData.id === id);
+          if (marker) {
+            flyToMarker(marker);
+            highlightMarker(marker);
+            showMapPopup(data, marker);
+          }
+        });
+      });
+
+      // Sub-filter chips
+      if (cat === 'resource') {
+        section.querySelectorAll('.subfilter-chip').forEach(chip => {
+          chip.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const sub = this.dataset.sub;
+            resourceSubVisible[sub] = !resourceSubVisible[sub];
+            this.classList.toggle('active', resourceSubVisible[sub]);
+            applyVisibility();
+          });
+        });
+      }
+    });
+
+    // Restore visual state after rebuild
+    syncSidebarState();
+
+    // Custom markers section
+    if (customMarkers.length > 0) {
+      const customSection = document.createElement('div');
+      customSection.className = 'cat-section';
+      customSection.innerHTML = `
+        <div class="cat-header" style="border-left-color:#E9B040">
+          <span class="cat-dot" style="background:#E9B040"></span>
+          <span class="cat-name">📌 ${_t('map.customMarkers')}</span>
+          <span class="cat-count">${customMarkers.length}</span>
+          <span class="cat-arrow">▼</span>
+        </div>
+        <div class="cat-items">
+          ${customMarkers.map(cm => `
+            <div class="cat-item" data-custom-id="${cm.id}">
+              <span class="ci-emoji">${cm.emoji}</span>
+              <span class="ci-name">${cm.name}</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;font-size:0.65rem;padding:2px 6px" data-delete="${cm.id}">🗑</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      sidebarCats.appendChild(customSection);
+
+      customSection.querySelector('.cat-header').addEventListener('click', function() {
+        customSection.classList.toggle('collapsed');
+      });
+
+      customSection.querySelectorAll('.cat-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (e.target.closest('[data-delete]')) {
+            const id = e.target.closest('[data-delete]').dataset.delete;
+            deleteCustomMarker(id);
+            return;
+          }
+          const id = this.dataset.customId;
+          const marker = allMarkers.find(m => m._markerData && m._markerData.id === id);
+          if (marker) {
+            flyToMarker(marker);
+            highlightMarker(marker);
+            showMapPopup(marker._markerData, marker);
+          }
+        });
+      });
+    }
+  }
+
+  function syncSidebarState() {
+    // Sync category visibility classes after sidebar rebuild
+    sidebarCats.querySelectorAll('.cat-section').forEach(section => {
+      const cat = section.dataset.cat;
+      if (cat && categoryVisible.hasOwnProperty(cat)) {
+        section.classList.toggle('hidden-all', !categoryVisible[cat]);
+      }
+      // Sync toggle icon
+      const toggle = section.querySelector('.cat-toggle');
+      if (toggle && cat && categoryVisible.hasOwnProperty(cat)) {
+        toggle.textContent = categoryVisible[cat] ? '👁' : '👁‍🗨';
+      }
+    });
+    // Sync resource subfilter chips
+    sidebarCats.querySelectorAll('.subfilter-chip').forEach(chip => {
+      const sub = chip.dataset.sub;
+      if (sub && resourceSubVisible.hasOwnProperty(sub)) {
+        chip.classList.toggle('active', resourceSubVisible[sub]);
+      }
+    });
+  }
+
+  // ==========================================================
+  // SEARCH
+  // ==========================================================
+  let searchDebounce;
+  searchInput.addEventListener('input', function() {
+    const val = this.value.trim();
+    searchClear.classList.toggle('visible', val.length > 0);
+
+    clearTimeout(searchDebounce);
+    if (val.length < 1) {
+      searchResults.classList.remove('show');
+      resetAllMarkerVisibility();
+      return;
+    }
+    searchDebounce = setTimeout(() => performSearch(val), 200);
+  });
+
+  searchClear.addEventListener('click', function() {
+    searchInput.value = '';
+    searchClear.classList.remove('visible');
+    searchResults.classList.remove('show');
+    resetAllMarkerVisibility();
+    searchInput.focus();
+  });
+
+  function performSearch(query) {
+    const q = query.toLowerCase();
+    const results = [];
+
+    markersData.forEach(m => {
+      if ((m.name && m.name.toLowerCase().includes(q)) ||
+          (m.name_en && m.name_en.toLowerCase().includes(q)) ||
+          (m.desc && m.desc.toLowerCase().includes(q)) ||
+          (m.desc_en && m.desc_en.toLowerCase().includes(q)) ||
+          (m.detail && m.detail.toLowerCase().includes(q)) ||
+          (m.detail_en && m.detail_en.toLowerCase().includes(q)) ||
+          (m.subcategory && m.subcategory.toLowerCase().includes(q)) ||
+          (CATEGORIES[m.category] && (CATEGORIES[m.category].name.toLowerCase().includes(q) || catLabel(m.category).toLowerCase().includes(q)))) {
+        results.push(m);
+      }
+    });
+
+    // Also search custom markers
+    customMarkers.forEach(cm => {
+      if (cm.name.toLowerCase().includes(q) || (cm.note && cm.note.toLowerCase().includes(q))) {
+        results.push({
+          id: cm.id, name: cm.name, emoji: cm.emoji,
+          category: 'custom', desc: cm.note || '',
+          detail: _t('map.customMarker'), x: cm.x, y: cm.y
+        });
+      }
+    });
+
+    // Render dropdown
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div style="padding:12px 14px;font-size:0.8rem;color:var(--text-dim)">' + _t('map.searchEmpty') + '</div>';
+    } else {
+      // Group by category
+      const grouped = {};
+      results.forEach(r => {
+        const cat = r.category;
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(r);
+      });
+
+      searchResults.innerHTML = Object.keys(grouped).map(cat => {
+        const catConfig = CATEGORIES[cat] || { name: 'Custom', emoji: '📌', color: '#E9B040' };
+        return `
+          <div class="search-result-group">${catConfig.emoji} ${catLabel(cat)} (${grouped[cat].length})</div>
+          ${grouped[cat].map(r => `
+            <div class="search-result-item" data-id="${r.id}" data-cat="${cat}">
+              <span class="sri-icon">${r.emoji}</span>
+              <span class="sri-name">${_pick(r, 'name')}</span>
+              <span class="sri-cat">${catLabel(cat)}</span>
+            </div>
+          `).join('')}
+        `;
+      }).join('');
+    }
+
+    searchResults.classList.add('show');
+
+    // Click handlers
+    searchResults.querySelectorAll('.search-result-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const id = this.dataset.id;
+        const cat = this.dataset.cat;
+
+        const data = (cat === 'custom')
+          ? customMarkers.find(c => c.id === id)
+          : markersData.find(m => m.id === id);
+        if (data) {
+          // Normalize for showMapPopup
+          const infoData = (cat === 'custom')
+            ? { id: data.id, name: data.name, emoji: data.emoji, category: 'custom', desc: data.note || '', detail: _t('map.customMarker') }
+            : data;
+          const marker = allMarkers.find(m => m._markerData && m._markerData.id === id);
+          if (marker) {
+            flyToMarker(marker);
+            highlightMarker(marker);
+            showMapPopup(infoData, marker);
+          }
+        }
+
+        searchResults.classList.remove('show');
+        searchInput.value = '';
+        searchClear.classList.remove('visible');
+        resetAllMarkerVisibility();
+      });
+    });
+
+    // Dim non-matching markers on map
+    dimNonMatchingMarkers(results.map(r => r.id));
+  }
+
+  function dimNonMatchingMarkers(matchingIds) {
+    allMarkers.forEach(marker => {
+      const el = marker.getElement();
+      if (!el) return;
+      const id = marker._markerData && marker._markerData.id;
+      if (matchingIds.includes(id)) {
+        el.style.opacity = '1';
+        el.style.filter = '';
+      } else {
+        el.style.opacity = '0.2';
+        el.style.filter = 'grayscale(0.8)';
+      }
+    });
+  }
+
+  function resetAllMarkerVisibility() {
+    allMarkers.forEach(marker => {
+      const el = marker.getElement();
+      if (el) { el.style.opacity = ''; el.style.filter = ''; }
+    });
+    applyVisibility();
+  }
+
+  // Close search results when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.sidebar-search') && !e.target.closest('.search-results')) {
+      searchResults.classList.remove('show');
+    }
+  });
+
+  // ==========================================================
+  // MAP INTERACTIONS
+  // ==========================================================
+let _isFlyingTo = false;
+  function flyToMarker(marker) {
+    const latlng = marker.getLatLng();
+    _isFlyingTo = true;
+    map.flyTo(latlng, 1.5, { duration: 1.2 });
+    map.once('moveend', function() { _isFlyingTo = false; });
+  }
+
+  function highlightMarker(marker) {
+    const el = marker.getElement();
+    if (!el) return;
+    const div = el.querySelector('div');
+    if (!div) return;
+    div.classList.add('marker-highlight');
+    setTimeout(() => div.classList.remove('marker-highlight'), 600);
+  }
+
+  // ==========================================================
+  // MAP POPUP BUBBLE (replaces slide-in info panel)
+  // ==========================================================
+  let popupMarker = null;
+
+  function showMapPopup(data, marker) {
+    const catConfig = CATEGORIES[data.category] || { name: 'Custom', color: '#E9B040' };
+    const categoryName = data.category === 'custom' ? _t('map.customMarker') : catLabel(data.category);
+
+    let badgeClass = 'badge-coral';
+    if (data.category === 'resource') badgeClass = 'badge-green';
+    else if (data.category === 'fishing') badgeClass = 'badge-teal';
+    else if (data.category === 'shop') badgeClass = 'badge-gold';
+    else if (data.category === 'insect' || data.category === 'bird') badgeClass = 'badge-lavender';
+    else if (data.category === 'animal') badgeClass = 'badge-lavender';
+    else if (data.category === 'location' || data.category === 'bus') badgeClass = 'badge-teal';
+    else if (data.category === 'route') badgeClass = 'badge-teal';
+
+    popupTitle.innerHTML = `${data.emoji} ${_pick(data, 'name')} <span class="badge ${badgeClass}" style="font-size:0.7rem;vertical-align:middle">${categoryName}</span>`;
+
+    let bodyHTML = `
+      <div class="popup-meta">
+        <span class="badge ${badgeClass}">${categoryName}</span>
+        ${data.subcategory ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">${subLabel(data.subcategory)}</span>` : ''}
+        ${data.schedule ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">🕐 ${_L(data.schedule)}</span>` : ''}
+        ${data.season ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">📅 ${_L(data.season)}</span>` : ''}
+        ${data.unlockDg ? `<span class="badge" style="background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75)">🔓 DG Lv.${data.unlockDg}</span>` : ''}
+      </div>
+      <p class="popup-desc">${_pick(data, 'desc')}</p>
+      ${data.detail ? `<div class="popup-detail-box">📋 ${_pick(data, 'detail')}</div>` : ''}
+    `;
+
+    // Add fish table for fishing spots
+    if (data.fishIds && data.fishIds.length > 0 && fishData.length > 0) {
+      const fishList = fishData.filter(f => data.fishIds.includes(f.name));
+      if (fishList.length > 0) {
+        bodyHTML += `
+          <div class="popup-creatures">
+            <h4>${_t('map.fishTable', {n: fishList.length})}</h4>
+            <table class="popup-creature-table">
+              <thead><tr><th>${_t('map.thName')}</th><th>${_t('db.label.season')}</th><th>${_t('db.label.weather')}</th><th>${_t('db.label.time')}</th><th>${_t('map.thPrice')}</th></tr></thead>
+              <tbody>
+                ${fishList.map(f => `
+                  <tr>
+                    <td>${_name(f)}</td>
+                    <td>${_L(f.season)}</td>
+                    <td>${_L(f.weather)}</td>
+                    <td>${_L(f.time)}</td>
+                    <td style="font-weight:600">${f.sellPrice}g</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    // Add insect table for insect spots
+    if (data.insectIds && data.insectIds.length > 0 && insectData.length > 0) {
+      const insectList = insectData.filter(f => data.insectIds.includes(f.name));
+      if (insectList.length > 0) {
+        bodyHTML += `
+          <div class="popup-creatures">
+            <h4>${_t('map.insectTable', {n: insectList.length})}</h4>
+            <table class="popup-creature-table">
+              <thead><tr><th>${_t('map.thName')}</th><th>${_t('db.label.weather')}</th><th>${_t('db.label.time')}</th><th>${_t('map.thPrice')}</th></tr></thead>
+              <tbody>
+                ${insectList.map(f => `
+                  <tr>
+                    <td>${_name(f)}</td>
+                    <td>${_L(f.weather)}</td>
+                    <td>${_L(f.time)}</td>
+                    <td style="font-weight:600">${f.sellPrice}g</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    // Add bird table for bird-watching spots
+    if (data.birdIds && data.birdIds.length > 0 && birdData.length > 0) {
+      const birdList = birdData.filter(f => data.birdIds.includes(f.name));
+      if (birdList.length > 0) {
+        bodyHTML += `
+          <div class="popup-creatures">
+            <h4>${_t('map.birdTable', {n: birdList.length})}</h4>
+            <table class="popup-creature-table">
+              <thead><tr><th>${_t('map.thName')}</th><th>${_t('map.thLevel')}</th><th>${_t('db.label.weather')}</th><th>${_t('db.label.time')}</th></tr></thead>
+              <tbody>
+                ${birdList.map(f => `
+                  <tr>
+                    <td>${_name(f)}</td>
+                    <td style="font-weight:600">Lv.${f.birdLv || '?'}</td>
+                    <td>${_L(f.weather)}</td>
+                    <td>${_L(f.time)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+    }
+
+    popupBody.innerHTML = bodyHTML;
+    popupMarker = marker;
+
+    // Position the popup near the marker on screen
+    positionPopupAtMarker(marker);
+    mapPopup.classList.add('show');
+
+    // Update popup position when map moves/zooms
+    map.off('move zoom', positionPopupFromMarker);
+    map.on('move zoom', positionPopupFromMarker);
+  }
+
+	  function positionPopupAtMarker(marker) {
+	    if (!marker || !map) return;
+	    const point = map.latLngToContainerPoint(marker.getLatLng());
+	    const containerRect = mapContainer.getBoundingClientRect();
+	    // Account for map-container offset within .map-page (sidebar width on desktop)
+	    const offsetX = mapContainer.offsetLeft;
+	    const offsetY = mapContainer.offsetTop;
+
+	    // Position popup above the marker (popup is child of .map-page, adjust by offset)
+	    const popupW = mapPopup.offsetWidth || 320;
+	    const popupH = mapPopup.offsetHeight || 200;
+	    let left = offsetX + point.x - popupW / 2;
+	    let top = offsetY + point.y - popupH - 20;
+	    let isAbove = true; // popup above marker
+
+	    // Keep popup within .map-page bounds
+	    const pageRect = document.querySelector('.map-page').getBoundingClientRect();
+	    const pageW = pageRect.width;
+	    if (left < 8) left = 8;
+	    if (left + popupW > pageW - 8) left = pageW - popupW - 8;
+	    if (top < 8) { top = offsetY + point.y + 20; isAbove = false; } // Show below marker if not enough space above
+
+	    mapPopup.style.left = left + 'px';
+	    mapPopup.style.top = top + 'px';
+
+	    // Position arrow to point at the marker
+	    const arrow = document.getElementById('popup-arrow');
+	    if (arrow) {
+	      // Arrow horizontal center relative to the popup (7px = half arrow width)
+	      const arrowLeft = offsetX + point.x - left;
+	      arrow.style.left = Math.max(7, Math.min(arrowLeft, popupW - 21)) + 'px';
+
+	      // Arrow direction: down (popup above marker) or up (popup below marker)
+	      arrow.classList.toggle('arrow-down', isAbove);
+	      arrow.classList.toggle('arrow-up', !isAbove);
+	    }
+	  }
+
+  function positionPopupFromMarker() {
+    if (!popupMarker || !map) return;
+    const point = map.latLngToContainerPoint(popupMarker.getLatLng());
+    const containerRect = mapContainer.getBoundingClientRect();
+
+    // Hide popup if marker is far off screen (skip during flyTo animation)
+    if (!_isFlyingTo && (point.x < -100 || point.x > containerRect.width + 100 ||
+        point.y < -100 || point.y > containerRect.height + 100)) {
+      hideMapPopup();
+      return;
+    }
+    positionPopupAtMarker(popupMarker);
+  }
+
+  function hideMapPopup() {
+    mapPopup.classList.remove('show');
+    popupMarker = null;
+    map.off('move zoom', positionPopupFromMarker);
+  }
+
+  popupClose.addEventListener('click', hideMapPopup);
+
+  // Close popup when clicking on empty map area
+  mapContainer.addEventListener('click', function(e) {
+    if (e.target === mapContainer || e.target.closest('.leaflet-container') === mapContainer.querySelector('.leaflet-container')) {
+      // Clicked on the map background, not on a marker or popup
+      if (!e.target.closest('.map-popup-bubble') && !e.target.closest('.leaflet-marker-icon') && !e.target.closest('.leaflet-tooltip')) {
+        hideMapPopup();
+      }
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mapPopup.classList.contains('show')) hideMapPopup();
+  });
+
+  // ==========================================================
+  // CUSTOM MARKERS
+  // ==========================================================
+  function openCustomForm(x, y) {
+    customForm.style.left = x + 'px';
+    customForm.style.top = y + 'px';
+    customForm.classList.add('show');
+    document.getElementById('custom-name').focus();
+    buildEmojiGrid();
+  }
+
+  function closeCustomForm() {
+    customForm.classList.remove('show');
+    document.getElementById('custom-name').value = '';
+  }
+
+  const EMOJI_OPTIONS = ['📍','⭐','❤️','🏴','❗','❓','💎','🎯','🏠','🌟','🔥','💧','🌿','⚡','🎵','🔑','💀','👑','💰','🎁'];
+
+  function buildEmojiGrid() {
+    const grid = document.getElementById('emoji-grid');
+    grid.innerHTML = EMOJI_OPTIONS.map(e =>
+      `<button class="${e === selectedEmoji ? 'selected' : ''}" data-emoji="${e}">${e}</button>`
+    ).join('');
+
+    grid.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        selectedEmoji = this.dataset.emoji;
+        grid.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+  }
+
+  document.getElementById('custom-save').addEventListener('click', function() {
+    const name = document.getElementById('custom-name').value.trim();
+    if (!name) { document.getElementById('custom-name').focus(); return; }
+
+    const rect = mapContainer.getBoundingClientRect();
+    const formRect = customForm.getBoundingClientRect();
+    const centerX = formRect.left + formRect.width/2 - rect.left;
+    const centerY = formRect.top + formRect.height/2 - rect.top;
+    const latlng = map.containerPointToLatLng([centerX, centerY]);
+
+    const newMarker = {
+      id: 'custom-' + Date.now(),
+      emoji: selectedEmoji,
+      name: name,
+      note: '',
+      x: Math.round(latlng.lng),
+      y: Math.round(latlng.lat)
+    };
+
+    customMarkers.push(newMarker);
+    saveCustomMarkers();
+    renderCustomMarkers();
+    closeCustomForm();
+    buildSidebar(); // Refresh sidebar
+  });
+
+  document.getElementById('custom-cancel').addEventListener('click', closeCustomForm);
+
+  function deleteCustomMarker(id) {
+    customMarkers = customMarkers.filter(c => c.id !== id);
+    saveCustomMarkers();
+    renderCustomMarkers();
+    buildSidebar();
+    hideMapPopup();
+  }
+
+  function saveCustomMarkers() {
+    localStorage.setItem('heartopia-custom-markers', JSON.stringify(customMarkers));
+  }
+
+  // ==========================================================
+  // ROUTE
+  // ==========================================================
+  function toggleRoute() {
+    routeVisible = !routeVisible;
+    document.getElementById('btn-route').classList.toggle('active', routeVisible);
+
+    if (routeVisible) {
+      drawRoute();
+    } else {
+      routeLayer.clearLayers();
+    }
+  }
+
+  function drawRoute() {
+    routeLayer.clearLayers();
+
+    const routePoints = [
+      { lat: -510, lng: 510, label: _t('map.route.step1.label'), desc: _t('map.route.step1.desc') },
+      { lat: -536, lng: 232, label: _t('map.route.step2.label'), desc: _t('map.route.step2.desc') },
+      { lat: -472, lng: 495, label: _t('map.route.step3.label'), desc: _t('map.route.step3.desc') },
+      { lat: -692, lng: 506, label: _t('map.route.step4.label'), desc: _t('map.route.step4.desc') },
+      { lat: -510, lng: 510, label: _t('map.route.step5.label'), desc: _t('map.route.step5.desc') }
+    ];
+
+    // Draw path
+    const latlngs = routePoints.map(p => [p.lat, p.lng]);
+    const polyline = L.polyline(latlngs, {
+      color: '#3E737A',
+      weight: 4,
+      opacity: 0.7,
+      dashArray: '10 6',
+      lineCap: 'round',
+      lineJoin: 'round'
+    }).addTo(routeLayer);
+
+    // Draw step markers
+    routePoints.forEach((p, i) => {
+      const isLast = i === routePoints.length - 1;
+      const icon = L.divIcon({
+        className: 'route-div-icon',
+        html: `<div style="
+          width:32px;height:32px;border-radius:50%;
+          background:${isLast ? '#2F5B61' : '#3E737A'};color:#fff;
+          display:flex;align-items:center;justify-content:center;
+          font-size:13px;font-weight:700;box-shadow:0 2px 6px rgba(61,50,45,0.3);
+          border:2px solid rgba(255,255,255,0.6);
+        ">${i+1}</div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const marker = L.marker([p.lat, p.lng], { icon: icon }).addTo(routeLayer);
+      marker.bindTooltip(p.label, { direction: 'bottom', offset: [0, 20], permanent: true,
+        className: 'route-tooltip' });
+
+      marker.on('click', function() {
+        map.flyTo([p.lat, p.lng], 1.5, { duration: 1 });
+        showMapPopup({
+          id: 'route-' + i, name: '🚶 ' + p.label, emoji: '🚶',
+          category: 'route', desc: p.desc,
+          detail: _t('map.route.detail', {n: (i+1)}),
+        }, marker);
+      });
+    });
+  }
+
+  document.getElementById('btn-route').addEventListener('click', toggleRoute);
+
+  // ==========================================================
+  // ZOOM CONTROLS
+  // ==========================================================
+  document.getElementById('zoom-in').addEventListener('click', () => map.zoomIn());
+  document.getElementById('zoom-out').addEventListener('click', () => map.zoomOut());
+
+  // ==========================================================
+  // OTHER BUTTONS
+  // ==========================================================
+  document.getElementById('btn-locate').addEventListener('click', () => {
+    map.setView([-500, 500], 0);
+    updateZoomLabel();
+    hideMapPopup();
+  });
+
+  // ==========================================================
+  // SIDEBAR — always visible, no toggle
+  // ==========================================================
+
+  // Mobile bar buttons
+  document.getElementById('mbtn-search')?.addEventListener('click', () => {
+    searchInput.focus();
+  });
+  document.getElementById('mbtn-route')?.addEventListener('click', toggleRoute);
+
+  // ==========================================================
+  // KEYBOARD SHORTCUTS
+  // ==========================================================
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === '+' || e.key === '=') { e.preventDefault(); map.zoomIn(); }
+    if (e.key === '-') { e.preventDefault(); map.zoomOut(); }
+    if (e.key === '0') { e.preventDefault(); map.setView([-500, 500], 0); updateZoomLabel(); }
+    if (e.key === 'r' || e.key === 'R') { e.preventDefault(); toggleRoute(); }
+    if (e.key === 'f' || e.key === 'F') { e.preventDefault(); searchInput.focus(); }
+  });
+
+  // ==========================================================
+  // LANGUAGE CHANGE — re-render all dynamic content
+  // ==========================================================
+  window.addEventListener('langchange', function() {
+    if (!map) return;
+    var activePopupId = popupMarker && popupMarker._markerData && popupMarker._markerData.id;
+    renderAllMarkers();
+    renderCustomMarkers();
+    buildSidebar();
+    if (activePopupId) {
+      var m = allMarkers.find(function(x) { return x._markerData && x._markerData.id === activePopupId; });
+      if (m) showMapPopup(m._markerData, m);
+      else hideMapPopup();
+    }
+    var q = searchInput.value.trim();
+    if (q) performSearch(q);
+    if (routeVisible) drawRoute();
+  });
+
+  // ==========================================================
+  // INIT
+  // ==========================================================
+  initMap();
+
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<section id="map-static" class="db-static">
+  <h2>Map Marker Directory</h2>
+  <p>139 locations, NPCs, fishing spots, shops, wildlife and landmarks across the island.</p>
+  <ul class="static-list">
+    <li><strong>🎣 Vanya</strong> <span>(NPC)</span> &mdash; Your guide to fishing. Once your DG reaches Lv.2 she stops by your home with a free rod and unlocks the hobby, after which you can cast a line in any river, lake or stretch of sea on the island.</li>
+    <li><strong>🌱 Blanc</strong> <span>(NPC)</span> &mdash; Your gardening mentor. Talk to him at DG Lv.3 to unlock gardening. Start with potatoes — they return roughly three times what tomatoes do, the best early-game crop by value.</li>
+    <li><strong>🍳 Massimo</strong> <span>(NPC)</span> &mdash; The cooking mentor who works out of the caf&#233;. Once you hold a Hobby Expansion Ticket at DG Lv.5, cooking is a strong first pick — it turns your catches and harvests into 2–5x the profit.</li>
+    <li><strong>🦋 Naniwa</strong> <span>(NPC)</span> &mdash; Your insect-catching mentor. She sells inflatable insect traps and bug nets, and is also where you can buy the 16 Dream Puzzles used to level up Dream.</li>
+    <li><strong>🔭 Bailey J</strong> <span>(NPC)</span> &mdash; Your birdwatching mentor. A handy leveling tip: photographing the same bird repeatedly still fills the progress bar, so you never have to chase new species across the map.</li>
+    <li><strong>🐱 Mrs. Joan</strong> <span>(NPC)</span> &mdash; Runs the pet adoption center. Cat care opens at DG Lv.12. Note that before you can own a dog, you must finish the basic cat-care tutorial first — it is a hard prerequisite.</li>
+    <li><strong>💰 Albert Jr.</strong> <span>(NPC)</span> &mdash; A wandering merchant with no fixed stall who roams the island at random. He pays more for items than the shops do, and long-pressing an item lets you sell it in bulk. Watch for him on your daily rounds.</li>
+    <li><strong>🎒 Ka Ching</strong> <span>(NPC)</span> &mdash; Handles backpack and storage upgrades. The first five expansions cost only 10 Wish Stars (normally 25), so it pays to max out those discounted slots first. You also get free expansions at DG Lv.2/7/13/17/19.</li>
+    <li><strong>💤 Annie</strong> <span>(NPC)</span> &mdash; Unlocks the Dream feature once you reach DG Lv.16. If she does not appear, just log back in. The quickest way to level Dream is to buy all 16 Dream Puzzles from the bug shop.</li>
+    <li><strong>👗 Dorothy</strong> <span>(NPC)</span> &mdash; Posts the daily food quest and also owns the clothing shop. She is always inside the clothing store, so you can find her any time.</li>
+    <li><strong>🏪 Bob</strong> <span>(NPC)</span> &mdash; The general-store owner on the main shopping street, selling a range of basic supplies.</li>
+    <li><strong>📋 Atara</strong> <span>(NPC)</span> &mdash; Handles event and weekly quests. Clearing the weekly quests earns you extra rewards.</li>
+    <li><strong>🗃️ Collector</strong> <span>(NPC)</span> &mdash; Exchanges collectibles for rewards — bring the items you have gathered to trade them in.</li>
+    <li><strong>🔧 Andrew</strong> <span>(NPC)</span> &mdash; A specialist NPC on the east side of town who handles tool services.</li>
+    <li><strong>👤 Eric</strong> <span>(NPC)</span> &mdash; A resident who lives around Onsen Mountain.</li>
+    <li><strong>👤 Will</strong> <span>(NPC)</span> &mdash; A resident of the southwest coast who built the Lighthouse.</li>
+    <li><strong>👤 Patti</strong> <span>(NPC)</span> &mdash; A forest ranger stationed near the Deer Tower at the forest entrance.</li>
+    <li><strong>👤 Vernie</strong> <span>(NPC)</span> &mdash; The flower-field caretaker who camps on the hill by the windmill.</li>
+    <li><strong>🎣 Bill</strong> <span>(NPC)</span> &mdash; An event NPC found around Fisherman Village.</li>
+    <li><strong>👤 Doris</strong> <span>(NPC)</span> &mdash; A specialist NPC near Arts Street.</li>
+    <li><strong>🪨 Fluorite Mine</strong> <span>(Resource)</span> &mdash; Respawns once a day and yields fluorite for building, found at the stone formation near Onsen Mountain / Volcano Lake.</li>
+    <li><strong>🌳 Big Tree Spot</strong> <span>(Resource)</span> &mdash; A large tree resource that respawns daily, giving wood and a few special materials.</li>
+    <li><strong>⛏️ Ore Deposit</strong> <span>(Resource)</span> &mdash; Yields stone and ore that respawn daily, used for building and crafting.</li>
+    <li><strong>⛏️ Ore Deposit</strong> <span>(Resource)</span> &mdash; A spot for stone and ore, located near the Ruins.</li>
+    <li><strong>⛏️ Ore Deposit</strong> <span>(Resource)</span> &mdash; A spot for stone and ore, located in the forest.</li>
+    <li><strong>🍄 Mushroom Patch</strong> <span>(Resource)</span> &mdash; A mushroom cluster in the forest that peaks in autumn. These free ingredients make roast mushrooms an almost zero-cost earner, so it is worth grabbing a handful on your daily rounds.</li>
+    <li><strong>🍄 Mushroom Patch</strong> <span>(Resource)</span> &mdash; A mushroom cluster deep in the forest that peaks in autumn.</li>
+    <li><strong>🍄 Mushroom Patch</strong> <span>(Resource)</span> &mdash; A waterside mushroom patch that appears more often after rain.</li>
+    <li><strong>🫐 Berry Bush</strong> <span>(Resource)</span> &mdash; Scattered all over the map. These free fruit sell for 170 gold when four are made into jam, and a single daily loop clears them all.</li>
+    <li><strong>🫐 Berry Bush</strong> <span>(Resource)</span> &mdash; A berry bush near the Flower Fields you can pick on your way to quests.</li>
+    <li><strong>🫐 Berry Bush</strong> <span>(Resource)</span> &mdash; A berry bush near town you can pick on your way to quests.</li>
+    <li><strong>🫐 Berry Bush</strong> <span>(Resource)</span> &mdash; A berry bush in the Suburbs that respawns very often.</li>
+    <li><strong>🫐 Berry Bush</strong> <span>(Resource)</span> &mdash; A berry bush across the river that is easy to miss but respawns a generous amount.</li>
+    <li><strong>🍎 Fruit Grove</strong> <span>(Resource)</span> &mdash; A grove at the forest edge. Shake each tree once to pick fruit; it refreshes in about 2 minutes. Note that the first shake always drops fruit, while the next two only give wood.</li>
+    <li><strong>🍊 Fruit Grove</strong> <span>(Resource)</span> &mdash; Fruit trees on the south edge of the forest — shake each once to pick fruit.</li>
+    <li><strong>🍋 Fruit Tree</strong> <span>(Resource)</span> &mdash; A lemon tree by the road; lemons are an ingredient in several recipes.</li>
+    <li><strong>🍑 Fruit Grove</strong> <span>(Resource)</span> &mdash; Wild fruit trees near Forest Lake.</li>
+    <li><strong>✨ Golden Bubble</strong> <span>(Resource)</span> &mdash; Appears at random across the map and can hold energy, materials, clothing and more. Always pick these up as you pass — they are a key free source of rare items.</li>
+    <li><strong>✨ Golden Bubble</strong> <span>(Resource)</span> &mdash; Appears at random across the map with energy, materials, clothing and other rewards — grab them as you pass.</li>
+    <li><strong>✨ Golden Bubble</strong> <span>(Resource)</span> &mdash; Appears at random across the map with energy, materials, clothing and other rewards — grab them as you pass.</li>
+    <li><strong>🏞️ Meadow Lake</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on Meadow Lake where Butterfly Koi, Smelt and Goldfish turn up. It can be fished all year, all day, making it the most convenient daily spot for beginners.</li>
+    <li><strong>🌲 Forest Lake</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on Forest Lake where Bass, Crayfish and Char appear, next to a mushroom-picking area.</li>
+    <li><strong>🏘️ Suburban Lake</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on Suburban Lake with Crucian Carp, Seabream and Whitefish. Right next to the farm fields, so it is an easy stop after your daily gathering.</li>
+    <li><strong>♨️ Onsen Mountain Lake</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on Onsen Mountain Lake with Bluegill and Sculpin. A little out of the way, but the species are distinctive.</li>
+    <li><strong>🌋 Volcano Lake</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on Volcano Lake with some unique species — a must if you want a complete collection log.</li>
+    <li><strong>🌌 Aurora River</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot along the Aurora River.</li>
+    <li><strong>🏖️ Shallow River</strong> <span>(Fishing Spot)</span> &mdash; A stretch of the Shallow River where Barbel appear.</li>
+    <li><strong>🍃 Tranquil River</strong> <span>(Fishing Spot)</span> &mdash; A stretch of the Tranquil River with Burbot and Salmon. Work your way along the bank and you will haul them in fast.</li>
+    <li><strong>🌳 Giant Tree River</strong> <span>(Fishing Spot)</span> &mdash; A stretch of the Giant Tree River where Huchen appear.</li>
+    <li><strong>⛵ Fisherman Village Dock</strong> <span>(Fishing Spot)</span> &mdash; A sea-fishing spot at the Fisherman Village dock where you can catch Salmon and Sardine all year, all day. Right next to the tackle shop for easy resupply, it is the go-to spot for daily sea fishing.</li>
+    <li><strong>🚢 East Dock</strong> <span>(Fishing Spot)</span> &mdash; A sea-fishing spot at the East Dock with a variety of saltwater fish.</li>
+    <li><strong>🐋 Whale Sea</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot in Whale Sea where Mackerel and Atlantic Salmon appear.</li>
+    <li><strong>🏛️ Ancient Sea</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot in the Ancient Sea.</li>
+    <li><strong>🌊 Calm Sea</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot in the Calm Sea.</li>
+    <li><strong>🎣 Ocean Event Area</strong> <span>(Fishing Spot)</span> &mdash; A dedicated zone for the ocean fishing event, yielding Tuna (summer), King Crab (winter) and Moonfish (night). Note that repeat entries in the same week cost progressively more.</li>
+    <li><strong>👚 Dorothy&#39;s Clothing Shop</strong> <span>(Shop)</span> &mdash; The clothing shop in Town Center with a stock that refreshes daily. Dorothy also posts the daily food quest from here.</li>
+    <li><strong>🏠 Furniture Market</strong> <span>(Shop)</span> &mdash; Boasts 2,000+ interactive pieces organized into themes like Modern, Countryside, Ocean and Fairy Tale. Your DG level decides which categories unlock, and DG Lv.15 opens the advanced build mode.</li>
+    <li><strong>🐾 Pet Shop</strong> <span>(Shop)</span> &mdash; Sells pet supplies and sits right next to the pet adoption center.</li>
+    <li><strong>📚 Bookstore</strong> <span>(Shop)</span> &mdash; Sells blueprints and recipe books; some rare blueprints only unlock at certain DG levels.</li>
+    <li><strong>🏪 Central Shopping Street</strong> <span>(Shop)</span> &mdash; The main street in Town Center, home to the clothing, furniture and general stores. Stock refreshes daily, so it is worth a visit every day.</li>
+    <li><strong>☕ Massimo&#39;s Caf&#233;</strong> <span>(Shop)</span> &mdash; Sells meat, cheese, cream, butter and other cooking ingredients. Winter exclusive: the Penguin Stove — essential for iced drinks, since a normal stove cannot make iced coffee.</li>
+    <li><strong>🦋 Bug Shop</strong> <span>(Shop)</span> &mdash; Run by Naniwa. Sells inflatable insect traps and bug nets, and is also where you can buy the 16 Dream Puzzles used to level up Dream.</li>
+    <li><strong>🎣 Tackle Shop</strong> <span>(Shop)</span> &mdash; In the Fisherman Village area, selling bait and repair tools. During ocean fishing events it also stocks limited-time items.</li>
+    <li><strong>🎪 Gilded Acorn Exhibition</strong> <span>(Shop)</span> &mdash; A gacha-style draw system. Exhibition tickets carry over between pools, so do not spend them in a hurry — save up and pull in bulk once an item you want rotates in. It is the source of precision instruments and rare furniture.</li>
+    <li><strong>🏘️ Central Plaza</strong> <span>(Location)</span> &mdash; The heart of the island, home to the shopping street, caf&#233; and plaza. Most NPCs hang around here.</li>
+    <li><strong>🌲 Oak Pine Forest</strong> <span>(Location)</span> &mdash; The eastern forest, a main source of insects, mushrooms and wood, and a key area for both insect catching and birdwatching.</li>
+    <li><strong>⚓ Fisherman Village</strong> <span>(Location)</span> &mdash; A village in the south with a tackle shop and dock. It is the top choice for sea fishing, available all year, all day.</li>
+    <li><strong>🌷 Flower Fields</strong> <span>(Location)</span> &mdash; A flower-filled area in the northwest with many bloom varieties, great for insect catching and birdwatching.</li>
+    <li><strong>♨️ Onsen Mountain</strong> <span>(Location)</span> &mdash; A hot-spring mountain in the northeast, home to the mountain lake. The wide-open view overlooks the whole island.</li>
+    <li><strong>🐋 Whale Mountain</strong> <span>(Location)</span> &mdash; A mountainous area in the north.</li>
+    <li><strong>🪨 Rocky Cliff</strong> <span>(Location)</span> &mdash; A cliff along the east coast with distinctive scenery.</li>
+    <li><strong>⚓ The Pier</strong> <span>(Location)</span> &mdash; A pier on the west side of the island.</li>
+    <li><strong>🔦 Lighthouse</strong> <span>(Location)</span> &mdash; A lighthouse on the southwest coast with lovely views — a great photo spot.</li>
+    <li><strong>🌾 Suburbs</strong> <span>(Location)</span> &mdash; The western Suburbs, where you can grow crops. Ka Ching&#39;s storage-upgrade shop is here too.</li>
+    <li><strong>🏝️ Forest Island</strong> <span>(Location)</span> &mdash; A forested offshore island to the east.</li>
+    <li><strong>🏖️ Violet Beach</strong> <span>(Location)</span> &mdash; A stretch of beach.</li>
+    <li><strong>🎨 Arts Street</strong> <span>(Location)</span> &mdash; An arts district.</li>
+    <li><strong>🌻 Garden Street</strong> <span>(Location)</span> &mdash; A garden district where Blanc lives nearby, with insects and birds often about.</li>
+    <li><strong>🏠 Townsfolk Street</strong> <span>(Location)</span> &mdash; A residential street that is home to several NPCs.</li>
+    <li><strong>🤿 Diving Board</strong> <span>(Location)</span> &mdash; A diving spot, right near the panda.</li>
+    <li><strong>🚢 East Dock</strong> <span>(Location)</span> &mdash; A large dock on the east side, the starting point for sea fishing and boat trips.</li>
+    <li><strong>🏡 Player Home</strong> <span>(Location)</span> &mdash; Your home! Farming, cooking and building all happen here, and it is where every run around the map starts and ends.</li>
+    <li><strong>🌾 Windmill Flower Fields</strong> <span>(Location)</span> &mdash; A scenic area made up of windmills and flower fields.</li>
+    <li><strong>🚌 Bus Stop &#183; Central Plaza</strong> <span>(Bus Stop)</span> &mdash; The Central Plaza bus stop, which lets you fast-travel to the other stops.</li>
+    <li><strong>🚌 Bus Stop &#183; Fisherman Village</strong> <span>(Bus Stop)</span> &mdash; The Fisherman Village bus stop, a quick ride from town to the village.</li>
+    <li><strong>🚌 Bus Stop &#183; Suburbs</strong> <span>(Bus Stop)</span> &mdash; A bus stop in the western Suburbs, right by the farm fields.</li>
+    <li><strong>🚌 Bus Stop &#183; Flower Fields</strong> <span>(Bus Stop)</span> &mdash; A bus stop at the Flower Fields.</li>
+    <li><strong>🚌 Bus Stop &#183; Forest</strong> <span>(Bus Stop)</span> &mdash; A bus stop in the forest, near the entrance to Oak Pine Forest.</li>
+    <li><strong>🚌 Bus Stop &#183; Onsen Mountain</strong> <span>(Bus Stop)</span> &mdash; A bus stop on Onsen Mountain, the starting point for mountain-lake fishing.</li>
+    <li><strong>🚌 Bus Stop &#183; North Suburbs</strong> <span>(Bus Stop)</span> &mdash; A bus stop in the north suburbs.</li>
+    <li><strong>🚌 Bus Stop &#183; Suburb Village</strong> <span>(Bus Stop)</span> &mdash; A bus stop in the suburb village.</li>
+    <li><strong>🐰 Rabbit</strong> <span>(Animal)</span> &mdash; Appears near the Suburbs and farm fields, most active at dawn and dusk.</li>
+    <li><strong>🦊 Fox</strong> <span>(Animal)</span> &mdash; Appears near the Flower Fields; a rare wild animal.</li>
+    <li><strong>🦌 Deer</strong> <span>(Animal)</span> &mdash; Occasionally appears deep in the forest. It is skittish and bolts if you get too close.</li>
+    <li><strong>🐼 Panda</strong> <span>(Animal)</span> &mdash; Appears in the southern bamboo grove, right by the jump-puzzle staircase; feed it bamboo to interact.</li>
+    <li><strong>🦫 Capybara</strong> <span>(Animal)</span> &mdash; Appears around the Ruins.</li>
+    <li><strong>🦦 Sea Otter</strong> <span>(Animal)</span> &mdash; Appears in the waters near Fisherman Village.</li>
+    <li><strong>🦡 Ferret</strong> <span>(Animal)</span> &mdash; Only appears in specific areas and is very rare.</li>
+    <li><strong>🦙 Llama</strong> <span>(Animal)</span> &mdash; Appears near Violet Beach.</li>
+    <li><strong>🎪 Event Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Rare birds such as peacocks and macaws that only show up during special events like the Hundred-Nest event.</li>
+    <li><strong>💧 Waterside Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Water birds that live along rivers and lakes, mostly ducks, flamingos and similar.</li>
+    <li><strong>🌷 Flower Fields Birdwatching</strong> <span>(Bird Watching)</span> &mdash; A bird-rich area in the Flower Fields, with flamingos, fruit doves and more.</li>
+    <li><strong>⚓ Fisherman Village Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Sea and waterside birds around Fisherman Village, the lighthouse and the dock.</li>
+    <li><strong>🌊 Open Ocean Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Rare sea birds of the open ocean and islands, including cormorants and terns.</li>
+    <li><strong>🌲 Oak Pine Forest Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds of the core Oak Pine Forest, including woodpeckers and bowerbirds.</li>
+    <li><strong>🌋 Crater Lake Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Highland birds of the crater lake and Ruins area.</li>
+    <li><strong>🌾 Windmill Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds unique to the windmill flower fields and the Whale Mountain area.</li>
+    <li><strong>🌻 Suburbs Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds of the Suburbs and farmlands, including bluebirds and redpolls — the most diverse birdwatching area.</li>
+    <li><strong>🏡 Home &amp; Center Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Common birds around your home and Central Plaza — the best place for beginners to start.</li>
+    <li><strong>🏝️ Forest Island Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds found only on Forest Island.</li>
+    <li><strong>🏖️ Coast Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Sea birds along the beach and shore, including gulls and terns.</li>
+    <li><strong>♨️ Onsen Mountain Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds of the Onsen Mountain area, including tits and eagle-owls.</li>
+    <li><strong>🦌 Deer Tower Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds of prey and unique species near the forest Deer Tower.</li>
+    <li><strong>🪜 Jump Puzzle Birdwatching</strong> <span>(Bird Watching)</span> &mdash; Birds near the forest jump puzzle and diving board.</li>
+    <li><strong>🌾 Windmill Flower Fields Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The windmill flower fields, where Mother-of-Pearl, Peacock Butterfly and Splay-footed Carpenter Bee appear.</li>
+    <li><strong>🏝️ Forest Island Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The Alpine Longhorn Beetle on Forest Island, which only shows up in rainbow weather.</li>
+    <li><strong>🌲 Oak Pine Forest Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The core Oak Pine Forest, home to rare morpho butterflies, stag beetles and swallowtails.</li>
+    <li><strong>🦌 Deer Tower Insect Spot</strong> <span>(Insect Spot)</span> &mdash; Near the forest Deer Tower, where the Harlequin Ladybird, Bagworm Moth, Cuckoo Bee and more appear.</li>
+    <li><strong>⚓ Fisherman Village Insect Spot</strong> <span>(Insect Spot)</span> &mdash; In and around Fisherman Village, with Cabbage White, Ants, Horned Beetles, Leopard Butterflies and more.</li>
+    <li><strong>🪜 Jump Puzzle Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The forest jump-puzzle area, where the Golden Jewel Scarab and Stag Beetle appear.</li>
+    <li><strong>🌷 Flower Fields Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The Flower Fields, with bumblebees, asparagus beetles, flower chafers and more.</li>
+    <li><strong>🏡 Home &amp; Rock Insect Spot</strong> <span>(Insect Spot)</span> &mdash; Common insects around your home and the rocks.</li>
+    <li><strong>🪤 Bait Event Insect Spot</strong> <span>(Insect Spot)</span> &mdash; Special insects that appear during bait events and in inflatable traps, such as the Apollo Butterfly and Rainbow Stag Beetle.</li>
+    <li><strong>❓ Rare / Unknown Source</strong> <span>(Insect Spot)</span> &mdash; Rare insects of unknown origin that may only appear under specific conditions.</li>
+    <li><strong>🌻 Suburbs Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The Suburbs and farmlands, with brimstones, ladybugs, moon moths, birdwings and more.</li>
+    <li><strong>♨️ Onsen Mountain Insect Spot</strong> <span>(Insect Spot)</span> &mdash; The Onsen Mountain area, with mantises, tiger beetles, gold grasshoppers, green tiger beetles and more.</li>
+    <li><strong>💧 Waterside Insect Spot</strong> <span>(Insect Spot)</span> &mdash; Along the water and riverbanks, with dragonflies and damselflies and other waterside insects.</li>
+    <li><strong>🏛️ Ruins Insect Spot</strong> <span>(Insect Spot)</span> &mdash; Highland insects of the crater lake and Ruins area.</li>
+    <li><strong>🌊 Rosy River</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on the Rosy River where Carp, Freshwater Blenny and Streber appear.</li>
+    <li><strong>🌅 Zephyr Sea</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot in Zephyr Sea with Seabream, Lobster, Beltfish and other saltwater species.</li>
+    <li><strong>🌄 East Sea</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot in the East Sea where Goby, Shrimp, Haddock, Ocean Sunfish and more appear.</li>
+    <li><strong>🏞️ Upper Forest Lake</strong> <span>(Fishing Spot)</span> &mdash; A fishing spot on Upper Forest Lake, a highland lake tucked deep in the forest.</li>
+    <li><strong>🚢 Ocean Event Area</strong> <span>(Fishing Spot)</span> &mdash; An ocean fishing point where Rabbitfish, Sardine, Sea Bass and Skipjack Tuna appear, part of the offshore fishing event area.</li>
+    <li><strong>🏛️ The Ruins</strong> <span>(Location)</span> &mdash; An ancient ruin site near the capybara and Volcano Lake — a good spot for exploring and birdwatching.</li>
+    <li><strong>🌉 East Pontoon</strong> <span>(Location)</span> &mdash; A pontoon bridge in the east that serves as an important crossing between the river banks.</li>
+    <li><strong>🏞️ Upper Forest Lake</strong> <span>(Location)</span> &mdash; A quiet highland lake deep in the forest, suited to fishing and birdwatching.</li>
+    <li><strong>🏛️ Ancient Sea</strong> <span>(Location)</span> &mdash; An ancient sea at the far north of the map, home to Clownfish, European Eel and more.</li>
+    <li><strong>🐋 Whale Sea</strong> <span>(Location)</span> &mdash; Whale Sea in the west, where Seahorse, King Crab, Horse Mackerel and more appear.</li>
+    <li><strong>🌸 Rosy River</strong> <span>(Location)</span> &mdash; The Rosy River runs near Town Center and is the main home of Carp and Freshwater Blenny.</li>
+  </ul>
+</section>
