@@ -836,7 +836,7 @@ function renderCard(tab, item) {
         '<div class="fish-card-body">' +
           '<div class="fish-detail-grid recipe-detail-grid">' +
             // Row 1: Ingredients (full width)
-            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">📋</span><span class="fi-label">' + _t('db.label.ingredients') + '</span><span class="fi-val recipe-ingredients-text">' + _L(item.ingredients) + '</span></div>' +
+            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">📋</span><span class="fi-label">' + _t('db.label.ingredients') + '</span><span class="fi-val recipe-ingredients-text">' + _pick(item, 'ingredients') + '</span></div>' +
             // Row 2: Energy / Sell Price
             '<div class="fish-detail-cell"><span class="fi-icon">⚡</span><span class="fi-label">' + _t('db.label.energy') + '</span><span class="fi-val">+' + item.energy + '</span></div>' +
             '<div class="fish-detail-cell"><span class="fi-icon">💰</span><span class="fi-label">' + _t('db.label.basePrice') + '</span><span class="fi-val" style="color:var(--coral);font-weight:700">' + item.sellPrice + ' G</span></div>' +
@@ -846,12 +846,12 @@ function renderCard(tab, item) {
           '</div>' +
         '</div>' +
         // ── Profit highlight strip ──
-        '<div class="fish-note-strip recipe-profit-strip">📈 ' + _t('db.profitAnalysis') + ': ' + _L(item.profit) + ' <span style="font-size:0.7rem;opacity:0.8">(★★' + _t('db.multiplier') + ' ×' + profitRatio + ')</span></div>' +
+        '<div class="fish-note-strip recipe-profit-strip">📈 ' + _t('db.profitAnalysis') + ': ' + _pick(item, 'profit') + ' <span style="font-size:0.7rem;opacity:0.8">(★★' + _t('db.multiplier') + ' ×' + profitRatio + ')</span></div>' +
         // ── Footer: unlock ──
         '<div class="card-footer">' +
           '<div class="fish-card-footer-left">' +
             '<span style="font-size:0.75rem;color:var(--text-dim)">🔓</span>' +
-            '<span style="font-size:0.78rem;color:var(--text-muted)">' + _L(item.unlock) + '</span>' +
+            '<span style="font-size:0.78rem;color:var(--text-muted)">' + _pick(item, 'unlock') + '</span>' +
           '</div>' +
           '<div class="fish-card-footer-right">' +
             '<span style="font-weight:700;color:var(--coral)">' + item.sellPrice + ' G</span>' +
@@ -928,7 +928,7 @@ function renderCard(tab, item) {
             '<span class="card-name">' + _name(item) + '</span>' +
             _sub(item) +
             '<div class="fish-card-tags-row">' +
-              '<span class="badge badge-coral" style="font-size:0.68rem;padding:2px 8px;">' + _L(item.role) + '</span>' +
+              '<span class="badge badge-coral" style="font-size:0.68rem;padding:2px 8px;">' + _pick(item, 'role') + '</span>' +
               '<span class="badge" style="font-size:0.66rem;padding:1px 7px;background:var(--surface);color:var(--text-dim);border:1px solid var(--border)">' + _L(ne.label) + '</span>' +
             '</div>' +
           '</div>' +
@@ -937,10 +937,10 @@ function renderCard(tab, item) {
         '<div class="fish-card-body">' +
           '<div class="fish-detail-grid npc-detail-grid">' +
             // Row 1: Location / Schedule
-            '<div class="fish-detail-cell"><span class="fi-icon">📍</span><span class="fi-label">' + _t('db.label.location') + '</span><span class="fish-location-pill npc-location-pill">' + _L(item.location || '未知') + '</span></div>' +
-            '<div class="fish-detail-cell"><span class="fi-icon">🕐</span><span class="fi-label">' + _t('db.label.schedule') + '</span><span class="fi-val">' + _L(item.schedule || '全天') + '</span></div>' +
+            '<div class="fish-detail-cell"><span class="fi-icon">📍</span><span class="fi-label">' + _t('db.label.location') + '</span><span class="fish-location-pill npc-location-pill">' + (_pick(item, 'location') || _L('未知')) + '</span></div>' +
+            '<div class="fish-detail-cell"><span class="fi-icon">🕐</span><span class="fi-label">' + _t('db.label.schedule') + '</span><span class="fi-val">' + (_pick(item, 'schedule') || _L('全天')) + '</span></div>' +
             // Row 2: Unlock (full width)
-            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">🔓</span><span class="fi-label">' + _t('db.label.unlock') + '</span><span class="fi-val">' + _L(item.unlock || '未知') + '</span></div>' +
+            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">🔓</span><span class="fi-label">' + _t('db.label.unlock') + '</span><span class="fi-val">' + (_pick(item, 'unlock') || _L('未知')) + '</span></div>' +
           '</div>' +
         '</div>' +
         // ── Favorite gifts strip ──
@@ -974,10 +974,10 @@ function renderCard(tab, item) {
         '<div class="fish-card-body">' +
           '<div class="fish-detail-grid achievement-detail-grid">' +
             // Row 1: Description (full width)
-            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">📋</span><span class="fi-label">' + _t('db.label.description') + '</span><span class="fi-val">' + _L(item.description) + '</span></div>' +
+            '<div class="fish-detail-cell" style="grid-column:1/-1"><span class="fi-icon">📋</span><span class="fi-label">' + _t('db.label.description') + '</span><span class="fi-val">' + _pick(item, 'description') + '</span></div>' +
             // Row 2: Unlock / Reward
-            '<div class="fish-detail-cell"><span class="fi-icon">🔓</span><span class="fi-label">' + _t('db.label.unlock') + '</span><span class="fi-val">' + _L(item.unlock) + '</span></div>' +
-            '<div class="fish-detail-cell"><span class="fi-icon">🎁</span><span class="fi-label">' + _t('db.label.reward') + '</span><span class="fi-val" style="' + (hasTitle ? 'color:var(--coral);font-weight:700' : 'color:var(--gold);font-weight:700') + '">' + _L(item.reward) + '</span></div>' +
+            '<div class="fish-detail-cell"><span class="fi-icon">🔓</span><span class="fi-label">' + _t('db.label.unlock') + '</span><span class="fi-val">' + _pick(item, 'unlock') + '</span></div>' +
+            '<div class="fish-detail-cell"><span class="fi-icon">🎁</span><span class="fi-label">' + _t('db.label.reward') + '</span><span class="fi-val" style="' + (hasTitle ? 'color:var(--coral);font-weight:700' : 'color:var(--gold);font-weight:700') + '">' + _pick(item, 'reward') + '</span></div>' +
           '</div>' +
         '</div>' +
         // ── Tips strip (if present) ──

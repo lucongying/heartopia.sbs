@@ -8,6 +8,8 @@
   if (!window.I18N || !window.I18N.registerDataEn) return;
 
   var D = {
+    // ---- Extra enum tokens (EN default) ----
+    '通用': 'General', '季节': 'Seasonal', '特产': 'Specialty', '香草': 'Herb', '动漫': 'Anime', '琵琶': 'Pipa',
     // ---- Season / Weather / Time tokens ----
     '全年': 'All year', '春': 'Spring', '夏': 'Summer', '秋': 'Autumn', '冬': 'Winter',
     '任意': 'Any', '晴': 'Clear', '雨': 'Rain', '彩虹': 'Rainbow', '彩虹天气': 'Rainbow weather', '未知': 'Unknown',
@@ -771,8 +773,8 @@
 
   // ---- Redeem codes (redeem-code.html) ----
   var Redeem = {
-    '40 月光水晶 + 20 许愿星 + 3 稀有木材 + 2 无瑕萤石 + 5 修复包 + 3 优质肥料 + 人鱼诱饵 + 人鱼香水 + 20000 金币': '40 Moonlight Crystals + 20 Wishing Stars + 3 Rare Wood + 2 Flawless Fluorite + 5 Repair Kits + 3 Quality Fertilizer + Mermaid Bait + Mermaid Perfume + 20,000 Gold',
-    '30 月光水晶 + 10 许愿星 + 2 稀有木材 + 2 无瑕萤石 + 3 修复包 + 2 优质肥料 + 人鱼诱饵 + 人鱼香水 + 10000 金币': '30 Moonlight Crystals + 10 Wishing Stars + 2 Rare Wood + 2 Flawless Fluorite + 3 Repair Kits + 2 Quality Fertilizer + Mermaid Bait + Mermaid Perfume + 10,000 Gold',
+    '40 月光水晶 + 20 许愿星 + 3 稀有木材 + 2 无瑕萤石 + 5 修复包 + 3 优质肥料 + 人鱼诱饵 + 人鱼香水 + 20000 金币': '40 Moonlight Crystals + 20 Wishing Stars + 3 Rare Timber + 2 Flawless Fluorite + 5 Repair Kits + 3 Quality Fertilizer + Mermaid Fish Attractor + Mermaid Perfume + 20,000 Gold',
+    '30 月光水晶 + 10 许愿星 + 2 稀有木材 + 2 无瑕萤石 + 3 修复包 + 2 优质肥料 + 人鱼诱饵 + 人鱼香水 + 10000 金币': '30 Moonlight Crystals + 10 Wishing Stars + 2 Rare Timber + 2 Flawless Fluorite + 3 Repair Kits + 2 Quality Fertilizer + Mermaid Fish Attractor + Mermaid Perfume + 10,000 Gold',
     '月光水晶 + 许愿星 + 材料礼包': 'Moonlight Crystals + Wishing Stars + Material Pack',
     '100 月光水晶': '100 Moonlight Crystals',
     '10 肉 + 10 红豆 + 3 稻种 + 15 许愿星': '10 Meat + 10 Red Beans + 3 Rice Seeds + 15 Wishing Stars',
@@ -792,7 +794,7 @@
     '10 许愿星': '10 Wishing Stars',
     '限定表情动作': 'Exclusive Emote',
     '10 木材 + 2 厨师特制沙拉 + 20 树枝': '10 Wood + 2 Chef\'s Special Salad + 20 Branches',
-    '2 无瑕萤石 + 6 稀有木材 + 10 石头': '2 Flawless Fluorite + 6 Rare Wood + 10 Stones',
+    '2 无瑕萤石 + 6 稀有木材 + 10 石头': '2 Flawless Fluorite + 6 Rare Timber + 10 Stones',
     '萤石 + 溜溜木 + 材料': 'Fluorite + Rolling Wood + Materials',
     '2026通用常驻礼包': '2026 Universal Permanent Gift Pack',
     '常驻通用礼包': 'Permanent Universal Gift Pack',
