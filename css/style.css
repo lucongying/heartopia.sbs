@@ -1929,8 +1929,10 @@ a:focus-visible, button:focus-visible, .filter-chip:focus-visible,
   .lang-toggle { font-size: 0.75rem; padding: 4px 10px; }
 }
 
-/* ----- i18n FOUC guard ----- */
-html.js.i18n-pending body { visibility: hidden; }
+/* ----- i18n -----
+   The body paints immediately because English lives in the static HTML.
+   There is no visibility:hidden gate, so LCP is not blocked by the i18n JS
+   bundle. Chinese is applied on switch via dict.zh (js/i18n-zh.js). */
 
 /* Static (no-JS) fallback content for crawlers and search engines */
 #db-static { margin-top: 20px; }

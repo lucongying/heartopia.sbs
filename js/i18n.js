@@ -18,10 +18,12 @@
   var zhLoaded = false;
 
   // ---- UI dictionary ----
-  // Page content uses English-only here (Chinese is kept in the HTML as the
-  // no-JS/SEO fallback and restored on switch to zh). JS-generated strings
-  // (nav/footer labels, database/search labels) also carry a zh entry because
-  // they have no DOM fallback text.
+  // English now lives in the static HTML (rendered without JS, crawlable).
+  // dict.en is still required for strings that have NO HTML fallback — the
+  // JS-generated UI (database/search/tab labels resolved via t()) — and as the
+  // canonical English source. Chinese lives in dict.zh (js/i18n-zh.js,
+  // lazy-loaded) and is applied only on switch. An existing body visibility
+  // gate was removed so the English HTML paints immediately (LCP).
   var dict = {
     en: {
       // Nav
@@ -2771,8 +2773,10 @@
   // ---- Init ----
   function init() {
     currentLang = getStoredLang();
-    injectNav();
-    injectFooter();
+    // Nav/footer are rendered statically in each page's HTML (English, so the
+    // page is crawlable and paints without JS). We do NOT inject Chinese over
+    // them here — that would flash Chinese before zh is applied. Chinese is
+    // applied on switch via dict.zh (lazy-loaded i18n-zh.js).
     if (currentLang === 'zh' && !dict.zh) {
       loadZh(function () { applyLanguage('zh'); });
     } else {
